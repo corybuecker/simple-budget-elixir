@@ -1,0 +1,29 @@
+<h1>
+  Editing <%= @goal.name %>
+</h1>
+<%= @changeset |> inspect() %>
+<.form let={f} for={@changeset} phx-change="validate" phx-submit="save">
+  <div>
+    <%= label(:goal, :name, "Name") %>
+    <%= text_input f, :name %>
+  </div>
+
+  <div>
+    <%= label(:goal, :amount, "Amount") %>
+    <%= number_input f, :amount %>
+  </div>
+
+  <div>
+    <%= label(:goal, :recurrance, "Recurrance") %>
+    <%= select f, :recurrance, @recurrance_mappings %>
+  </div>
+
+  <div>
+    <%= label(:goal, :target_date, "Target date") %>
+    <%= date_input f, :target_date %>
+  </div>
+
+  <div>
+    <%= submit "Save", disabled: !@changeset.valid? %>
+  </div>
+</.form>

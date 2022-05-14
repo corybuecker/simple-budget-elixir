@@ -10,20 +10,34 @@ defmodule SimpleBudgetWeb.Router do
     plug :put_secure_browser_headers
   end
 
-  pipeline :api do
-    plug :accepts, ["json"]
+  pipeline :authorized do
+    plug SimpleBudgetWeb.Plugs.AuthenticatedUser
   end
 
   scope "/", SimpleBudgetWeb do
-    pipe_through :browser
+    pipe_through [:browser, :authorized]
 
-    get "/", PageController, :index
+    get "/", DashboardController, :show
+
+    live "/accounts", AccountLive.Index
+    live "/accounts/new", AccountLive.Edit
+    live "/accounts/:id", AccountLive.Edit
+
+    live "/goals", GoalLive.Index
+    live "/goals/new", GoalLive.Edit
+    live "/goals/:id", GoalLive.Edit
+
+    live "/savings", SavingLive.Index
+    live "/savings/new", SavingLive.Edit
+    live "/savings/:id", SavingLive.Edit
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", SimpleBudgetWeb do
-  #   pipe_through :api
-  # end
+  scope "/login", SimpleBudgetWeb do
+    pipe_through [:browser]
+
+    get "/", LoginController, :new
+    get "/callback", CallbackController, :new
+  end
 
   # Enables LiveDashboard only for development
   #

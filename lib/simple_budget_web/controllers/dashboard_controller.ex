@@ -1,0 +1,34 @@
+defmodule SimpleBudgetWeb.DashboardController do
+  alias SimpleBudget.{Accounts, Goals, Savings, Account, Goal, Saving}
+  require Logger
+  use SimpleBudgetWeb, :controller
+
+  def show(conn, _params) do
+    records =
+      Accounts.all(get_session(conn)) ++
+        Goals.all(get_session(conn)) ++ Savings.all(get_session(conn))
+
+    conn
+    |> render("show.html", %{
+      total:
+        Enum.reduce(
+          records,
+          Decimal.new("0"),
+          fn
+            %Account{debt: false} = account, acc ->
+              Decimal.add(account.balance, acc)
+
+            %Account{debt: true} = account, acc ->
+              Decimal.sub(acc, account.balance)
+
+            %Goal{} = goal, acc ->
+              Logger.debug(goal |> inspect())
+              Decimal.sub(acc, Goal.amortized_amount(goal))
+
+            %Saving{} = saving, acc ->
+              Decimal.sub(acc, saving.amount)
+          end
+        )
+    })
+  end
+end

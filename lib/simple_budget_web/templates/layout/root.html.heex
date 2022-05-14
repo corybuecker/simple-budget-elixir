@@ -5,26 +5,38 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="csrf-token" content={csrf_token_value()}>
-    <%= live_title_tag assigns[:page_title] || "SimpleBudget", suffix: " · Phoenix Framework" %>
+
+    <%= live_title_tag assigns[:page_title] || "SimpleBudget" %>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Material+Icons|Roboto+Slab">
+    <link href="https://unpkg.com/material-components-web@v13.0.0/dist/material-components-web.min.css" rel="stylesheet">
+
     <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/app.css")}/>
     <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js")}></script>
   </head>
   <body>
-    <header>
-      <section class="container">
-        <nav>
-          <ul>
-            <li><a href="https://hexdocs.pm/phoenix/overview.html">Get Started</a></li>
-            <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
-              <li><%= link "LiveDashboard", to: Routes.live_dashboard_path(@conn, :home) %></li>
-            <% end %>
-          </ul>
-        </nav>
-        <a href="https://phoenixframework.org/" class="phx-logo">
-          <img src={Routes.static_path(@conn, "/images/phoenix.png")} alt="Phoenix Framework Logo"/>
-        </a>
-      </section>
-    </header>
-    <%= @inner_content %>
+    <div class="flex flex-col-reverse md:flex-row">
+      <nav class="flex md:block">
+        <%= link to: "/", class: "w-[72px] h-[72px] pt-[14px] pb-[16px] hover:text-indigo-500 text-center" do %>
+          <span class="block material-icons">dashboard</span>
+          <div class="text-sm leading-none">Reports</div>
+        <% end %>
+        <%= link to: "/accounts", class: "w-[72px] h-[72px] pt-[14px] pb-[16px] hover:text-indigo-500 text-center" do %>
+          <span class="block material-icons">account_balance</span>
+          <div class="text-sm leading-none">Accounts</div>
+        <% end %>
+        <%= link to: "/savings", class: "w-[72px] h-[72px] pt-[14px] pb-[16px] hover:text-indigo-500 text-center" do %>
+          <span class="block material-icons">savings</span>
+          <div class="text-sm leading-none">Savings</div>
+        <% end %>
+        <%= link to: "/goals", class: "w-[72px] h-[72px] pt-[14px] pb-[16px] hover:text-indigo-500 text-center" do %>
+          <span class="block material-icons">sports_score</span>
+          <div class="text-sm leading-none">Goals</div>
+        <% end %>
+      </nav>
+      <main class="px-8 pt-8">
+        <%= @inner_content %>
+      </main>
+    </div>
   </body>
 </html>

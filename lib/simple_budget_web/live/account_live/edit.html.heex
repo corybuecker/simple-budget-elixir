@@ -1,0 +1,24 @@
+<h1>
+  Editing <%= @account.name %>
+</h1>
+<%= @changeset |> inspect() %>
+<.form let={f} for={@changeset} phx-change="validate" phx-submit="save">
+  <div>
+    <%= label(:account, :name, "Name") %>
+    <%= text_input f, :name %>
+  </div>
+
+  <div>
+    <%= label(:account, :balance, "Balance") %>
+    <%= number_input f, :balance %>
+  </div>
+
+  <div>
+    <%= label(:account, :debt, "Debt?") %>
+    <%= checkbox f, :debt %>
+  </div>
+
+  <div>
+    <%= submit "Save", disabled: !@changeset.valid? %>
+  </div>
+</.form>
