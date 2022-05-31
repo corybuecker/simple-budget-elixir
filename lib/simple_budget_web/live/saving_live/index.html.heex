@@ -1,0 +1,10 @@
+<h1>Savings</h1>
+<%= live_patch "New", to: Routes.live_path(@socket, SimpleBudgetWeb.SavingLive.Edit) %>
+
+<%= for saving <- @savings do %>
+  <div id={"saving-#{saving.id}"}>
+    <%= saving.name %>
+    <%= live_patch "Edit", to: Routes.live_path(@socket, SimpleBudgetWeb.SavingLive.Edit, saving.id) %>
+    <button phx-click="delete" phx-value-id={saving.id}>Delete</button>
+  </div>
+<% end %>

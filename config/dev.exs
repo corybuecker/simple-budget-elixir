@@ -26,7 +26,8 @@ config :simple_budget, SimpleBudgetWeb.Endpoint,
   secret_key_base: "U9BVlDBoAu7pab3jvLG25c1KJ1nU9FomcF6iZV1x2oBVOJs1pb+jTTzY6U7v5yMH",
   watchers: [
     # Start the esbuild watcher by calling Esbuild.install_and_run(:default, args)
-    esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]}
+    esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]},
+    tailwind: {Tailwind, :install_and_run, [:default, ~w(--watch)]}
   ]
 
 # ## SSL Support
