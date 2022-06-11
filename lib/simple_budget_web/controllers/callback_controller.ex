@@ -27,7 +27,7 @@ defmodule SimpleBudgetWeb.CallbackController do
       client_id: System.get_env("GOOGLE_CLIENT_ID"),
       client_secret: System.get_env("GOOGLE_CLIENT_SECRET"),
       http_adapter: Assent.HTTPAdapter.Mint,
-      redirect_uri: "http://localhost:4000/login/callback",
+      redirect_uri: System.get_env("GOOGLE_CALLBACK_URL"),
       authorization_params: [scope: "openid email"]
     ]
   end
