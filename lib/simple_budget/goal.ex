@@ -46,6 +46,14 @@ defmodule SimpleBudget.Goal do
     )
   end
 
+  def next_target_date(%SimpleBudget.Goal{recurrance: :never} = goal) do
+    goal.target_date
+  end
+
+  def next_target_date(%SimpleBudget.Goal{} = goal) do
+    Date.add(goal.target_date, duration_days(goal))
+  end
+
   defp duration_days(%Goal{recurrance: recurrance}) do
     case recurrance do
       :daily -> 1
