@@ -1,11 +1,10 @@
 <!--
   JSPM Generator Import Map
-  Edit URL: https://generator.jspm.io/#Y2NhYGCVD87MLchJdSpNSU8tYUjLyS9PyixJdTDUM9EzZyjIyE/Ny6wA8sz0DA1g3PiMktwcB2M9Iz2EUE5mWWp8WWZquYOBnqE5SHFJfkFSYhFQK1AAANxwuq1qAA
+  Edit URL: https://generator.jspm.io/#Y2NnYGDhD87MLchJdSpNSU8tYSjIyE/Ny6xwMNQz0zM0gHHjM0pycxyM9Yz0EEI5mWWp8WWZqeUOBnqG5iDFJfkFSYlFQK1AAQCCGmOAWwA
 -->
 <script type="importmap">
 {
   "imports": {
-    "flowbite": "https://ga.jspm.io/npm:flowbite@1.4.7/dist/flowbite.js",
     "phoenix": "https://ga.jspm.io/npm:phoenix@1.6.10/priv/static/phoenix.mjs",
     "phoenix_html": "https://ga.jspm.io/npm:phoenix_html@3.2.0/priv/static/phoenix_html.js",
     "phoenix_live_view": "https://ga.jspm.io/npm:phoenix_live_view@0.17.10/priv/static/phoenix_live_view.esm.js",
@@ -15,4 +14,9 @@
 </script>
 
 <!-- ES Module Shims: Import maps polyfill for modules browsers without import maps support (all except Chrome 89+) -->
-<script async src="https://ga.jspm.io/npm:es-module-shims@1.5.1/dist/es-module-shims.js" crossorigin="anonymous"></script>
+<script async src="https://ga.jspm.io/npm:es-module-shims@1.5.1/dist/es-module-shims.js" integrity="sha384-ZGtUNdKMtA2sSrO9dN9d2TOeiSlXlDSrOrasgO9YoKR4LsDV7RLdUvvX1M0gCkl2" crossorigin="anonymous"></script>
+
+<link rel="modulepreload" href="https://ga.jspm.io/npm:phoenix@1.6.10/priv/static/phoenix.mjs" integrity="sha384-LPbq4cqOaUqbH5KLyEtKaw3iVFzIVv6KNdMwVcZyJbHkH0vRkvkAPFoim4vsRUjl"/>
+<link rel="modulepreload" href="https://ga.jspm.io/npm:phoenix_html@3.2.0/priv/static/phoenix_html.js" integrity="sha384-VcIuhw8GKFO3n8JPVEVokHPNysNuFBRxm5foAvqNUb3JL/Q79W/WcDBteGRg1uTS"/>
+<link rel="modulepreload" href="https://ga.jspm.io/npm:phoenix_live_view@0.17.10/priv/static/phoenix_live_view.esm.js" integrity="sha384-S/TSJZiX99omIQuxVuLx+++KIJMISGsL9MWoeas2bRpJ7wzgDv2ARJFiZbTMGc8m"/>
+<link rel="modulepreload" href="https://ga.jspm.io/npm:topbar@1.0.1/topbar.min.js" integrity="sha384-l1cjM0tO4hPqfMMG3rMHKfAeI2qT0l7ZkU/AkMHNRWb7FwDJvDD6uKAHQgEsgO/T"/>

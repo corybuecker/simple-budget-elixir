@@ -15,7 +15,8 @@ defmodule SimpleBudget.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: SimpleBudget.PubSub},
       # Start the Endpoint (http/https)
-      SimpleBudgetWeb.Endpoint
+      SimpleBudgetWeb.Endpoint,
+      SimpleBudget.GoalConversionServer
       # Start a worker by calling: SimpleBudget.Worker.start_link(arg)
       # {SimpleBudget.Worker, arg}
     ]

@@ -10,8 +10,8 @@ defmodule SimpleBudget.Saving do
     timestamps()
   end
 
-  def changeset(goal, params \\ %{}) do
-    goal
+  def changeset(saving, params \\ %{}) do
+    saving
     |> cast(params, [:name, :amount])
     |> validate_required([:name, :amount, :user_id])
   end
