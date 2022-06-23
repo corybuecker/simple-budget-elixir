@@ -31,7 +31,7 @@ config :swoosh, :api_client, false
 
 # Configure esbuild (the version is required)
 config :esbuild,
-  version: "0.14.41",
+  version: "0.14.53",
   default: [
     args: ~w(js/app.js --format=esm --outdir=../priv/static/assets),
     cd: Path.expand("../assets", __DIR__),
@@ -39,7 +39,7 @@ config :esbuild,
   ]
 
 config :tailwind,
-  version: "3.1.2",
+  version: "3.1.8",
   default: [
     args: ~w(
       --config=tailwind.config.js
