@@ -43,6 +43,7 @@ defmodule SimpleBudgetWeb.GoalLive.Edit do
         {:noreply, socket |> assign(:changeset, changeset)}
 
       true ->
+        Logger.info("saving changeset: #{changeset |> inspect()}")
         SimpleBudget.Goals.save(changeset)
         {:noreply, socket |> redirect(to: "/goals")}
     end

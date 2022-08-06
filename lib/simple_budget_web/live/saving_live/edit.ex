@@ -29,6 +29,7 @@ defmodule SimpleBudgetWeb.SavingLive.Edit do
         {:noreply, socket |> assign(:changeset, changeset)}
 
       true ->
+        Logger.info("saving changeset: #{changeset |> inspect()}")
         SimpleBudget.Savings.save(changeset)
         {:noreply, socket |> redirect(to: "/savings")}
     end
