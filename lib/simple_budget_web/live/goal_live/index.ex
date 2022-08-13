@@ -6,6 +6,7 @@ defmodule SimpleBudgetWeb.GoalLive.Index do
   def mount(_params, session, socket) do
     {:ok,
      socket
+     |> assign(%{page_title: "Goals | Simple Budget"})
      |> assign(%{goals: Goals.all(session), identity: session["identity"]})}
   end
 

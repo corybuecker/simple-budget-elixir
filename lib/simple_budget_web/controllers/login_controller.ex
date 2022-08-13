@@ -18,10 +18,10 @@ defmodule SimpleBudgetWeb.LoginController do
 
   defp config() do
     [
+      authorization_params: [scope: "openid email"],
       client_id: System.get_env("GOOGLE_CLIENT_ID"),
       http_adapter: Assent.HTTPAdapter.Mint,
-      redirect_uri: System.get_env("GOOGLE_CALLBACK_URL"),
-      authorization_params: [scope: "openid email"]
+      redirect_uri: System.get_env("GOOGLE_CALLBACK_URL")
     ]
   end
 end

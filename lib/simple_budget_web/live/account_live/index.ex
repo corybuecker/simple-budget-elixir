@@ -5,6 +5,7 @@ defmodule SimpleBudgetWeb.AccountLive.Index do
   def mount(_params, session, socket) do
     {:ok,
      socket
+     |> assign(%{page_title: "Accounts | Simple Budget"})
      |> assign(%{accounts: SimpleBudget.Accounts.all(session), identity: session["identity"]})}
   end
 

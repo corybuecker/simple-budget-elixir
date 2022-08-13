@@ -1,19 +1,19 @@
 defmodule SimpleBudget.GoalConversionServer do
   alias SimpleBudget.{Goal, Repo, Saving}
-  use GenServer
   require Logger
-  # Callbacks
+  use GenServer
+
   def start_link(_) do
     GenServer.start_link(SimpleBudget.GoalConversionServer, [])
   end
 
-  @impl true
+  @impl GenServer
   def init(_) do
     schedule()
     {:ok, []}
   end
 
-  @impl true
+  @impl GenServer
   def handle_info(:work, state) do
     schedule()
     {:noreply, state}

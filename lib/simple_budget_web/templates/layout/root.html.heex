@@ -1,42 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta name="csrf-token" content={csrf_token_value()}>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="csrf-token" content={csrf_token_value()} />
 
-    <%= live_title_tag assigns[:page_title] || "SimpleBudget" %>
+    <.live_title>
+      <%= assigns[:page_title] || "Simple Budget" %>
+    </.live_title>
 
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Material+Icons|Roboto+Slab">
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto|Material+Icons|Roboto+Slab"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.2.0/dist/css/datepicker.min.css"
+    />
 
-    <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/app.css")}/>
+    <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/app.css")} />
   </head>
   <body>
-    <nav class="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-800">
-      <div class="flex flex-wrap justify-between items-center">
-        <div class="block w-auto">
-          <ul class="flex flex-row space-x-8 mt-0 text-sm font-medium">
-            <li>
-              <a href="/" class="block rounded bg-transparent text-blue-700 p-0 dark:text-white">Dash</a>
-            </li>
-            <li>
-              <a href="/accounts" class="block hover:bg-gray-50 hover:bg-transparent border-0 hover:text-blue-700 p-0 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white dark:hover:bg-transparent dark:border-gray-700">Accounts</a>
-            </li>
-            <li>
-              <a href="/goals" class="block hover:bg-gray-50 hover:bg-transparent border-0 hover:text-blue-700 p-0 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white dark:hover:bg-transparent dark:border-gray-700">Goals</a>
-            </li>
-            <li>
-              <a href="/savings" class="block hover:bg-gray-50 hover:bg-transparent border-0 hover:text-blue-700 p-0 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white dark:hover:bg-transparent dark:border-gray-700">Savings</a>
-            </li>
-          </ul>
-        </div>
-      </div>
+    <nav>
+      <ul>
+        <li>
+          <%= link("Dashboard", to: Routes.dashboard_path(SimpleBudgetWeb.Endpoint, :show)) %>
+        </li>
+        <li>
+          <%= link("Accounts",
+            to: Routes.live_path(SimpleBudgetWeb.Endpoint, SimpleBudgetWeb.AccountLive.Index)
+          ) %>
+        </li>
+        <li>
+          <%= link("Savings",
+            to: Routes.live_path(SimpleBudgetWeb.Endpoint, SimpleBudgetWeb.SavingLive.Index)
+          ) %>
+        </li>
+        <li>
+          <%= link("Goals",
+            to: Routes.live_path(SimpleBudgetWeb.Endpoint, SimpleBudgetWeb.GoalLive.Index)
+          ) %>
+        </li>
+      </ul>
     </nav>
-    <main class="px-8 pt-8">
+    <main>
       <%= @inner_content %>
     </main>
-    <%= render SimpleBudgetWeb.SharedView, "importmap.html" %>
-    <script type="module" phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js")}></script>
+    <%= render(SimpleBudgetWeb.SharedView, "importmap.html") %>
+    <script
+      type="module"
+      phx-track-static
+      type="text/javascript"
+      src={Routes.static_path(@conn, "/assets/app.js")}
+    >
+    </script>
   </body>
 </html>
