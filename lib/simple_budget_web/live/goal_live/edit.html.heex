@@ -5,12 +5,12 @@
 <.form let={f} for={@changeset} phx-change="validate" phx-submit="save">
   <div>
     <%= label(:goal, :name, "Name") %>
-    <%= text_input f, :name %>
+    <%= text_input f, :name, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" %>
   </div>
 
   <div>
     <%= label(:goal, :amount, "Amount") %>
-    <%= number_input f, :amount %>
+    <%= number_input f, :amount, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" %>
   </div>
 
   <div>
@@ -20,7 +20,7 @@
 
   <div>
     <%= label(:goal, :target_date, "Target date") %>
-    <%= date_input f, :target_date %>
+    <%= text_input f, :target_date, "phx-hook": "DatePicker" %>
   </div>
 
   <div>

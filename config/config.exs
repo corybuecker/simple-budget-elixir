@@ -33,7 +33,8 @@ config :swoosh, :api_client, false
 config :esbuild,
   version: "0.14.53",
   default: [
-    args: ~w(js/app.js --format=esm --outdir=../priv/static/assets),
+    args:
+      ~w(js/app.js --bundle --splitting --external:topbar --external:vanillajs-datepicker --format=esm --outdir=../priv/static/assets),
     cd: Path.expand("../assets", __DIR__),
     env: %{"NODE_PATH" => Path.expand("../deps", __DIR__)}
   ]
