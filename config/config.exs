@@ -31,7 +31,7 @@ config :swoosh, :api_client, false
 
 # Configure esbuild (the version is required)
 config :esbuild,
-  version: "0.14.53",
+  version: "0.15.2",
   default: [
     args:
       ~w(js/app.js --bundle --splitting --external:topbar --external:vanillajs-datepicker --format=esm --outdir=../priv/static/assets),
