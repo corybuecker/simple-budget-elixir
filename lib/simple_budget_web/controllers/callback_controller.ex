@@ -20,15 +20,21 @@ defmodule SimpleBudgetWeb.CallbackController do
     |> Assent.Config.merge(config())
     |> Assent.Config.put(:session_params, conn |> get_session(:google_session_params))
     |> Assent.Strategy.Google.callback(params)
+    |> log_passthrough()
   end
 
   defp config() do
     [
+      authorization_params: [scope: "openid email"],
       client_id: System.get_env("GOOGLE_CLIENT_ID"),
       client_secret: System.get_env("GOOGLE_CLIENT_SECRET"),
       http_adapter: Assent.HTTPAdapter.Mint,
-      redirect_uri: System.get_env("GOOGLE_CALLBACK_URL"),
-      authorization_params: [scope: "openid email"]
+      redirect_uri: System.get_env("GOOGLE_CALLBACK_URL")
     ]
+  end
+
+  def log_passthrough(anything) do
+    Logger.debug(anything |> inspect())
+    anything
   end
 end

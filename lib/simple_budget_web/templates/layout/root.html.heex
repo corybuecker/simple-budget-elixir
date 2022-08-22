@@ -6,9 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="csrf-token" content={csrf_token_value()}>
 
-    <%= live_title_tag assigns[:page_title] || "SimpleBudget" %>
+    <%= live_title_tag assigns[:page_title] || "Simple Budget" %>
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Material+Icons|Roboto+Slab">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanillajs-datepicker@1.2.0/dist/css/datepicker.min.css">
 
     <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/app.css")}/>
   </head>

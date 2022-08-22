@@ -39,7 +39,8 @@ defmodule SimpleBudgetWeb.DashboardController do
     conn
     |> render("show.html", %{
       total: total,
-      daily: daily
+      daily: daily,
+      page_title: "Dashboard | Simple Budget"
     })
   end
 end

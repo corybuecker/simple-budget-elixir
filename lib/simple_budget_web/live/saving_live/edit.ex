@@ -6,7 +6,10 @@ defmodule SimpleBudgetWeb.SavingLive.Edit do
     saving = SimpleBudget.Savings.get(session, params)
     changeset = SimpleBudget.Saving.changeset(saving)
 
-    {:ok, socket |> assign(%{changeset: changeset, saving: saving})}
+    {:ok,
+     socket
+     |> assign(%{page_title: "Savings | Simple Budget"})
+     |> assign(%{changeset: changeset, saving: saving})}
   end
 
   def mount(%{}, session, socket) do
