@@ -1,6 +1,6 @@
 <!--
   JSPM Generator Import Map
-  Edit URL: https://generator.jspm.io/#Y2NnYGDhD80rySzJSU1hKMjIT83LrHAw1DPTMzSEceMzSnJzHIz1jPQM4EI5mWWp8WWZqeUOBnqG5iDFJfkFSYlFQK1AAQCuAOHTVwA
+  Edit URL: https://generator.jspm.io/#Y2NnYGCVD80rySzJSU1hKMjIT83LrHAw1DPTMzSEceMzSnJzHIz1jPQM4EI5mWWp8WWZqeUOBnqG5iDFJfkFSYlFQK1AAYayxLzMnJzErGLdlMSS1ILM5OxUkBTQBACZ6wKecgA
 -->
 <script type="importmap">
 {
@@ -8,7 +8,8 @@
     "phoenix": "https://ga.jspm.io/npm:phoenix@1.6.11/priv/static/phoenix.mjs",
     "phoenix_html": "https://ga.jspm.io/npm:phoenix_html@3.2.0/priv/static/phoenix_html.js",
     "phoenix_live_view": "https://ga.jspm.io/npm:phoenix_live_view@0.17.11/priv/static/phoenix_live_view.esm.js",
-    "topbar": "https://ga.jspm.io/npm:topbar@1.0.1/topbar.min.js"
+    "topbar": "https://ga.jspm.io/npm:topbar@1.0.1/topbar.min.js",
+    "vanillajs-datepicker": "https://ga.jspm.io/npm:vanillajs-datepicker@1.2.0/js/main.js"
   }
 }
 </script>
@@ -20,3 +21,6 @@
 <link rel="modulepreload" href="https://ga.jspm.io/npm:phoenix_html@3.2.0/priv/static/phoenix_html.js" integrity="sha384-VcIuhw8GKFO3n8JPVEVokHPNysNuFBRxm5foAvqNUb3JL/Q79W/WcDBteGRg1uTS"/>
 <link rel="modulepreload" href="https://ga.jspm.io/npm:phoenix_live_view@0.17.11/priv/static/phoenix_live_view.esm.js" integrity="sha384-IJptt/WzCk4nENND1RGZqshcKRdvPjCqhNOI3eW7qqgY/9UmxciGdQ7xXqo/NC9l"/>
 <link rel="modulepreload" href="https://ga.jspm.io/npm:topbar@1.0.1/topbar.min.js" integrity="sha384-l1cjM0tO4hPqfMMG3rMHKfAeI2qT0l7ZkU/AkMHNRWb7FwDJvDD6uKAHQgEsgO/T"/>
+<link rel="modulepreload" href="https://ga.jspm.io/npm:vanillajs-datepicker@1.2.0/_/0c52f2bc.js" integrity="sha384-ATyU9eatszmp3OeLBNsDge5uH3bfGpbDkgyhwKl5yUb/k22mlKyRBoZBl+oucvJZ"/>
+<link rel="modulepreload" href="https://ga.jspm.io/npm:vanillajs-datepicker@1.2.0/js/DateRangePicker.js" integrity="sha384-80JNjBtUkqpGEHQhocdV2senuhnv2+HVisyYLgDB2NZLUXsomrXFaoGshzD/sy/X"/>
+<link rel="modulepreload" href="https://ga.jspm.io/npm:vanillajs-datepicker@1.2.0/js/main.js" integrity="sha384-iDe/PzyB4pRYoBB4yIjzEQCWnyax+VTRUhD3m8gofd1FH3UH8mPKsgPjOXHEe4hg"/>
