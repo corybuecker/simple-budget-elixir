@@ -2,18 +2,18 @@
   Editing <%= @saving.name %>
 </h1>
 <%= @changeset |> inspect() %>
-<.form let={f} for={@changeset} phx-change="validate" phx-submit="save">
+<.form :let={f} for={@changeset} phx-change="validate" phx-submit="save">
   <div>
     <%= label(:saving, :name, "Name") %>
-    <%= text_input f, :name %>
+    <%= text_input(f, :name) %>
   </div>
 
   <div>
     <%= label(:saving, :amount, "Amount") %>
-    <%= number_input f, :amount %>
+    <%= number_input(f, :amount) %>
   </div>
 
   <div>
-    <%= submit "Save", disabled: !@changeset.valid? %>
+    <%= submit("Save", disabled: !@changeset.valid?) %>
   </div>
 </.form>

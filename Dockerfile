@@ -1,4 +1,4 @@
-FROM elixir:1.13.4-alpine as deps
+FROM elixir:1.14.0-alpine as deps
 
 ENV MIX_ENV=prod
 COPY mix.lock mix.exs /src/
@@ -10,11 +10,11 @@ RUN mix local.rebar --force
 RUN mix deps.get
 RUN mix deps.compile
 
-COPY config /src/
+COPY config /src/config
 RUN mix esbuild.install
 RUN mix tailwind.install
 
-FROM elixir:1.13.4-alpine as builder
+FROM elixir:1.14.0-alpine as builder
 
 ENV MIX_ENV=prod
 
@@ -32,7 +32,7 @@ RUN mix tailwind default
 RUN mix phx.digest
 RUN mix release
 
-FROM elixir:1.13.4-alpine
+FROM elixir:1.14.0-alpine
 
 ENV MIX_ENV=prod
 COPY --from=builder /src/_build/prod/rel/simple_budget /app

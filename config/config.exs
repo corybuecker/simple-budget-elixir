@@ -7,6 +7,9 @@
 # General application configuration
 import Config
 
+config :tailwind, version: "3.1.8"
+config :esbuild, version: "0.15.9"
+
 config :simple_budget,
   ecto_repos: [SimpleBudget.Repo]
 
@@ -26,20 +29,21 @@ config :simple_budget, SimpleBudgetWeb.Endpoint,
 # at the `config/runtime.exs`.
 config :simple_budget, SimpleBudget.Mailer, adapter: Swoosh.Adapters.Local
 
+config :simple_budget, SimpleBudget.Goals, date_adapter: SimpleBudget.Utilities.Date
+
 # Swoosh API client is needed for adapters other than SMTP.
 config :swoosh, :api_client, false
 
 # Configure esbuild (the version is required)
 config :esbuild,
-  version: "0.14.53",
   default: [
-    args: ~w(js/app.js --format=esm --outdir=../priv/static/assets),
+    args:
+      ~w(js/app.js --bundle --splitting --external:topbar --external:vanillajs-datepicker --format=esm --outdir=../priv/static/assets),
     cd: Path.expand("../assets", __DIR__),
     env: %{"NODE_PATH" => Path.expand("../deps", __DIR__)}
   ]
 
 config :tailwind,
-  version: "3.1.8",
   default: [
     args: ~w(
       --config=tailwind.config.js

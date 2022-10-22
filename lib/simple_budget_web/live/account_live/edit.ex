@@ -6,7 +6,10 @@ defmodule SimpleBudgetWeb.AccountLive.Edit do
     account = SimpleBudget.Accounts.get(session, params)
     changeset = SimpleBudget.Account.changeset(account)
 
-    {:ok, socket |> assign(%{changeset: changeset, account: account})}
+    {:ok,
+     socket
+     |> assign(%{page_title: "Accounts | Simple Budget"})
+     |> assign(%{changeset: changeset, account: account})}
   end
 
   def handle_event("validate", %{"account" => params}, socket) do

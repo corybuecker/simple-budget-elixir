@@ -6,11 +6,12 @@ defmodule SimpleBudget.Goals do
 
   def all(%{"identity" => identity}) when is_bitstring(identity) do
     Repo.all(
-      from a in Goal,
+      from g in Goal,
         join: u in User,
-        on: u.id == a.user_id,
+        on: u.id == g.user_id,
         where: u.identity == ^identity,
-        select: a
+        select: g,
+        order_by: g.name
     )
   end
 

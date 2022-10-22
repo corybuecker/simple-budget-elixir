@@ -17,12 +17,12 @@ defmodule SimpleBudget.Goal do
   def changeset(goal, params \\ %{}) do
     goal
     |> cast(params, [:name, :amount, :recurrance, :target_date])
-    |> validate_required([:name, :amount, :recurrance, :target_date, :user_id])
+    |> validate_required([:name, :amount, :recurrance, :target_date, :user])
   end
 
   def amortized_amount(%SimpleBudget.Goal{recurrance: :never} = goal) do
-    diff = Date.diff(goal.target_date, Date.utc_today())
-    start_diff = -Date.diff(goal.inserted_at, Date.utc_today())
+    diff = Date.diff(goal.target_date, today())
+    start_diff = -Date.diff(goal.inserted_at, today())
 
     Decimal.max(
       0,
@@ -32,7 +32,7 @@ defmodule SimpleBudget.Goal do
 
   def amortized_amount(%SimpleBudget.Goal{} = goal) do
     start = Date.add(goal.target_date, -duration_days(goal))
-    start_diff = Date.diff(Date.utc_today(), start)
+    start_diff = Date.diff(today(), start)
 
     Decimal.min(
       Decimal.max(
@@ -62,5 +62,9 @@ defmodule SimpleBudget.Goal do
       :quarterly -> 90
       :yearly -> 365
     end
+  end
+
+  defp today() do
+    Application.get_env(SimpleBudget, :date_adapter).today()
   end
 end
