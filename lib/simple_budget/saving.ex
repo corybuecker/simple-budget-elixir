@@ -13,6 +13,6 @@ defmodule SimpleBudget.Saving do
   def changeset(saving, params \\ %{}) do
     saving
     |> cast(params, [:name, :amount])
-    |> validate_required([:name, :amount, :user])
+    |> validate_required([:name, :amount])
   end
 end
