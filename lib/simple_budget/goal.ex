@@ -17,7 +17,7 @@ defmodule SimpleBudget.Goal do
   def changeset(goal, params \\ %{}) do
     goal
     |> cast(params, [:name, :amount, :recurrance, :target_date])
-    |> validate_required([:name, :amount, :recurrance, :target_date, :user])
+    |> validate_required([:name, :amount, :recurrance, :target_date])
   end
 
   def amortized_amount(%SimpleBudget.Goal{recurrance: :never} = goal) do
@@ -65,6 +65,6 @@ defmodule SimpleBudget.Goal do
   end
 
   defp today() do
-    Application.get_env(SimpleBudget, :date_adapter).today()
+    Application.get_env(:simple_budget, SimpleBudget.Goals)[:date_adapter].today()
   end
 end
