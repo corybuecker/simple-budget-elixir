@@ -8,7 +8,7 @@ defmodule SimpleBudgetWeb.SavingLive.Edit do
 
     {:ok,
      socket
-     |> assign(%{page_title: "Savings | Simple Budget"})
+     |> assign(%{page_title: "Savings"})
      |> assign(%{changeset: changeset, saving: saving})}
   end
 

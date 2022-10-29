@@ -7,7 +7,7 @@ defmodule SimpleBudgetWeb.Endpoint do
   @session_options [
     store: :cookie,
     key: "_simple_budget_key",
-    signing_salt: "3u0S/2Bl"
+    signing_salt: "E09X7ccQ"
   ]
 
   socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]

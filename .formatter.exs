@@ -4,7 +4,7 @@
     "*.{ex,exs}",
     "priv/*/seeds.exs",
     "{config,lib,test}/**/*.{ex,exs}",
-    "*.{heex,ex,exs}",
+    "*.{heex,ex,eex,exs}",
     "priv/*/seeds.exs",
     "{config,lib,test}/**/*.{heex,ex,exs}"
   ],

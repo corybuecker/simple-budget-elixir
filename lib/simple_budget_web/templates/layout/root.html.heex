@@ -1,14 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="h-full bg-gray-100" lang="en">
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="csrf-token" content={csrf_token_value()} />
 
-    <.live_title>
-      <%= assigns[:page_title] || "Simple Budget" %>
-    </.live_title>
+    <%= live_title_tag(assigns[:page_title], suffix: " · Simple Budget") %>
 
     <link
       rel="stylesheet"
@@ -21,29 +19,9 @@
 
     <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/app.css")} />
   </head>
-  <body>
-    <nav>
-      <ul>
-        <li>
-          <%= link("Dashboard", to: Routes.dashboard_path(SimpleBudgetWeb.Endpoint, :show)) %>
-        </li>
-        <li>
-          <%= link("Accounts",
-            to: Routes.live_path(SimpleBudgetWeb.Endpoint, SimpleBudgetWeb.AccountLive.Index)
-          ) %>
-        </li>
-        <li>
-          <%= link("Savings",
-            to: Routes.live_path(SimpleBudgetWeb.Endpoint, SimpleBudgetWeb.SavingLive.Index)
-          ) %>
-        </li>
-        <li>
-          <%= link("Goals",
-            to: Routes.live_path(SimpleBudgetWeb.Endpoint, SimpleBudgetWeb.GoalLive.Index)
-          ) %>
-        </li>
-      </ul>
-    </nav>
+
+  <body class="h-full">
+    <%= render(SimpleBudgetWeb.SharedView, "navigation.html", page_title: @page_title) %>
     <main>
       <%= @inner_content %>
     </main>
