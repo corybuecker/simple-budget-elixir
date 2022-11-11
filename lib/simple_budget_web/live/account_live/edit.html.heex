@@ -1,7 +1,5 @@
-<h1>
-  Editing <%= @account.name %>
-</h1>
-<%= @changeset |> inspect() %>
+<div><%= @changeset |> inspect() %></div>
+<div><%= @spendable_today %></div>
 <.form :let={f} for={@changeset} phx-change="validate" phx-submit="save">
   <div>
     <%= label(:account, :name, "Name") %>

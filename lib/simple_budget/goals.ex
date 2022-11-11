@@ -1,8 +1,52 @@
 defmodule SimpleBudget.Goals do
-  alias SimpleBudget.{User, Users, Goal, Repo}
+  alias SimpleBudget.{User, Users, Goal, Repo, Account, Saving, Accounts, Goals, Savings}
   import Ecto, only: [build_assoc: 3]
   import Ecto.{Query}
   require Logger
+
+  def spendable(%{"identity" => identity}) do
+    records =
+      Accounts.all(%{"identity" => identity}) ++
+        Goals.all(%{"identity" => identity}) ++ Savings.all(%{"identity" => identity})
+
+    Enum.reduce(
+      records,
+      Decimal.new("0"),
+      fn
+        %Account{debt: false} = account, acc ->
+          Decimal.add(account.balance, acc)
+
+        %Account{debt: true} = account, acc ->
+          Decimal.sub(acc, account.balance)
+
+        %Goal{} = goal, acc ->
+          Logger.debug(goal |> inspect())
+          Decimal.sub(acc, Goal.amortized_amount(goal))
+
+        %Saving{} = saving, acc ->
+          Decimal.sub(acc, saving.amount)
+      end
+    )
+  end
+
+  def spendable_today(%{"identity" => identity}) do
+    total = spendable(%{"identity" => identity})
+    days = Date.diff(Date.end_of_month(Date.utc_today()), Date.utc_today())
+
+    case Kernel.max(days, 1) do
+      1 -> Decimal.div(total, 31)
+      _ -> Decimal.div(total, Kernel.max(days, 1))
+    end
+  end
+
+  def spendable_today(%{"identity" => identity}, total) do
+    days = Date.diff(Date.end_of_month(Date.utc_today()), Date.utc_today())
+
+    case Kernel.max(days, 1) do
+      1 -> Decimal.div(total, 31)
+      _ -> Decimal.div(total, Kernel.max(days, 1))
+    end
+  end
 
   def all(%{"identity" => identity}) when is_bitstring(identity) do
     Repo.all(

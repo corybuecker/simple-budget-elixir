@@ -10,7 +10,7 @@ defmodule SimpleBudgetWeb.GoalLive.Edit do
 
     {:ok,
      socket
-     |> assign(%{page_title: "Goals | Simple Budget"})
+     |> assign(%{page_title: "Goals"})
      |> assign(%{
        changeset: changeset,
        goal: goal,

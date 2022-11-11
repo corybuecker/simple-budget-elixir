@@ -8,13 +8,37 @@ defmodule SimpleBudgetWeb.AccountLive.Edit do
 
     {:ok,
      socket
-     |> assign(%{page_title: "Accounts | Simple Budget"})
-     |> assign(%{changeset: changeset, account: account})}
+     |> assign(%{page_title: "Accounts"})
+     |> assign(%{changeset: changeset, account: account, identity: session["identity"]})
+     |> assign(%{
+       spendable_today: SimpleBudget.Goals.spendable_today(%{"identity" => session["identity"]})
+     })}
   end
 
   def handle_event("validate", %{"account" => params}, socket) do
     changeset = SimpleBudget.Account.changeset(socket.assigns.account, params)
-    {:noreply, socket |> assign(:changeset, changeset)}
+    total = SimpleBudget.Goals.spendable(%{"identity" => socket.assigns.identity})
+
+    value =
+      case params["balance"] |> Decimal.parse() do
+        {decimal, ""} -> decimal
+        _ -> Decimal.new("0")
+      end
+
+    total =
+      case params["debt"] do
+        "true" -> Decimal.sub(total, value)
+        "false" -> Decimal.add(total, value)
+        _ -> total
+      end
+
+    {:noreply,
+     socket
+     |> assign(:changeset, changeset)
+     |> assign(
+       :spendable_today,
+       SimpleBudget.Goals.spendable_today(%{"identity" => socket.assigns.identity}, total)
+     )}
   end
 
   def handle_event("save", %{"account" => params}, socket) do

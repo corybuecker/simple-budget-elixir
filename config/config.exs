@@ -7,8 +7,8 @@
 # General application configuration
 import Config
 
-config :tailwind, version: "3.1.8"
-config :esbuild, version: "0.15.9"
+config :tailwind, version: "3.2.2"
+config :esbuild, version: "0.15.13"
 
 config :simple_budget,
   ecto_repos: [SimpleBudget.Repo]

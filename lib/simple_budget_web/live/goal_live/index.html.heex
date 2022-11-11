@@ -1,20 +1,36 @@
-<h1>Goals</h1>
-<%= live_patch("New", to: Routes.live_path(@socket, SimpleBudgetWeb.GoalLive.Edit)) %>
-
-<%= for goal <- @goals do %>
-  <div id={"goal-#{goal.id}"}>
-    <%= goal.name %> &nbsp;&mdash;&nbsp; <%= goal.amount %>
-    <%= live_patch to: Routes.live_path(@socket, SimpleBudgetWeb.GoalLive.Edit, goal.id) do %>
-      <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-        Edit
+<%= live_patch("New",
+  to: Routes.live_path(@socket, SimpleBudgetWeb.GoalLive.Edit),
+  class:
+    "inline-block py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+) %>
+<div class="grid grid-cols-5">
+  <div>Goal</div>
+  <div>Target amount</div>
+  <div>Target date</div>
+  <div>Amortized amount</div>
+  <div></div>
+  <%= for goal <- @goals do %>
+    <div>
+      <%= goal.name %>
+    </div>
+    <div><%= Number.Currency.number_to_currency(goal.amount) %></div>
+    <div><%= goal.target_date %></div>
+    <div>
+      <%= Number.Currency.number_to_currency(SimpleBudget.Goal.amortized_amount(goal)) %>
+    </div>
+    <div class="text-center">
+      <%= live_patch to: Routes.live_path(@socket, SimpleBudgetWeb.GoalLive.Edit, goal.id) do %>
+        <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+          Edit
+        </button>
+      <% end %>
+      <button
+        class="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+        phx-click="delete"
+        phx-value-id={goal.id}
+      >
+        Delete
       </button>
-    <% end %>
-    <button
-      class="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-      phx-click="delete"
-      phx-value-id={goal.id}
-    >
-      Delete
-    </button>
-  </div>
-<% end %>
+    </div>
+  <% end %>
+</div>
