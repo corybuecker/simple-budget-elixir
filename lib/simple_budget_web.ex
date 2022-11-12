@@ -45,7 +45,7 @@ defmodule SimpleBudgetWeb do
   def live_view do
     quote do
       use Phoenix.LiveView,
-        layout: {SimpleBudgetWeb.LayoutView, "live.html"}
+        layout: {SimpleBudgetWeb.LayoutView, :live}
 
       unquote(view_helpers())
     end
