@@ -24,4 +24,5 @@ jobs:
           cache-to: type=registry,ref=us-central1-docker.pkg.dev/bueckered-272522/github-actions-repo/simple-budget:buildcache,mode=max
   deploy:
     runs-on: self-hosted
-    - run: ./kubectl set image deployment/simple-budget simple-budget=us-central1-docker.pkg.dev/bueckered-272522/github-actions-repo/simple-budget:latest
+    steps:
+      - run: ./kubectl set image deployment/simple-budget simple-budget=us-central1-docker.pkg.dev/bueckered-272522/github-actions-repo/simple-budget:latest
