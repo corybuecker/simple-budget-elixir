@@ -22,7 +22,7 @@
 
   <body class="h-full">
     <%= render(SimpleBudgetWeb.SharedView, "navigation.html", page_title: @page_title) %>
-    <main>
+    <main class="px-4">
       <%= @inner_content %>
     </main>
     <%= render(SimpleBudgetWeb.SharedView, "importmap.html") %>
