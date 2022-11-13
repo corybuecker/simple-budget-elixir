@@ -1,6 +1,3 @@
-<h1>
-  Editing <%= @goal.name %>
-</h1>
 <%= @changeset |> inspect() %>
 <.form :let={f} for={@changeset} phx-change="validate" phx-submit="save">
   <div>
@@ -30,7 +27,7 @@
     <%= text_input(f, :target_date, "phx-hook": "DatePicker") %>
   </div>
 
-  <div>
+  <SimpleBudgetWeb.Button.render>
     <%= submit("Save", disabled: !@changeset.valid?) %>
-  </div>
+  </SimpleBudgetWeb.Button.render>
 </.form>
