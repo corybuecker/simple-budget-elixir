@@ -1,25 +1,23 @@
 <nav class="bg-gray-800">
-  <div class="max-w-7xl px-4 sm:px-6 lg:px-8">
-    <div class="flex h-16 items-center justify-between">
-      <div class="flex items-center">
-        <div class="flex items-baseline space-x-4">
-          <%= link("Dashboard",
-            to: Routes.dashboard_path(SimpleBudgetWeb.Endpoint, :show),
-            class: navigation_class("Dashboard", assigns)
-          ) %>
-          <%= link("Accounts",
-            to: Routes.live_path(SimpleBudgetWeb.Endpoint, SimpleBudgetWeb.AccountLive.Index),
-            class: navigation_class("Accounts", assigns)
-          ) %>
-          <%= link("Savings",
-            to: Routes.live_path(SimpleBudgetWeb.Endpoint, SimpleBudgetWeb.SavingLive.Index),
-            class: navigation_class("Savings", assigns)
-          ) %>
-          <%= link("Goals",
-            to: Routes.live_path(SimpleBudgetWeb.Endpoint, SimpleBudgetWeb.GoalLive.Index),
-            class: navigation_class("Goals", assigns)
-          ) %>
-        </div>
+  <div class="flex h-16 items-center justify-between">
+    <div class="flex items-center">
+      <div class="flex items-baseline space-x-4">
+        <%= link("Dashboard",
+          to: Routes.dashboard_path(SimpleBudgetWeb.Endpoint, :show),
+          class: navigation_class("Dashboard", assigns)
+        ) %>
+        <%= link("Accounts",
+          to: Routes.live_path(SimpleBudgetWeb.Endpoint, SimpleBudgetWeb.AccountLive.Index),
+          class: navigation_class("Accounts", assigns)
+        ) %>
+        <%= link("Savings",
+          to: Routes.live_path(SimpleBudgetWeb.Endpoint, SimpleBudgetWeb.SavingLive.Index),
+          class: navigation_class("Savings", assigns)
+        ) %>
+        <%= link("Goals",
+          to: Routes.live_path(SimpleBudgetWeb.Endpoint, SimpleBudgetWeb.GoalLive.Index),
+          class: navigation_class("Goals", assigns)
+        ) %>
       </div>
     </div>
   </div>
