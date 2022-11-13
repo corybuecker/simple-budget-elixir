@@ -1,5 +1,4 @@
 on:
-  workflow_dispatch:
   push:
     branches:
       - main
@@ -26,4 +25,4 @@ jobs:
     runs-on: self-hosted
     needs: build
     steps:
-      - run: /home/runner/kubectl set image deployment/simple-budget simple-budget=us-central1-docker.pkg.dev/bueckered-272522/github-actions-repo/simple-budget:latest
+      - run: /home/runner/kubectl set image deployment/simple-budget simple-budget=us-central1-docker.pkg.dev/bueckered-272522/github-actions-repo/simple-budget:${{ github.sha }}
