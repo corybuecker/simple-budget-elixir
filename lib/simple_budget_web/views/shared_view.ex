@@ -8,7 +8,7 @@ defmodule SimpleBudgetWeb.SharedView do
         "bg-slate-700 text-white px-3 py-2 rounded-md text-sm"
 
       _ ->
-        "text-black hover:bg-slate-700 hover:text-white px-3 py-2 rounded-md text-sm"
+        "text-black dark:text-white hover:bg-slate-700 hover:text-white px-3 py-2 rounded-md text-sm"
     end
   end
 end
