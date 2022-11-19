@@ -1,8 +1,6 @@
 <div class="flex">
   <SimpleBudgetWeb.Button.render>
-    <%= live_patch("New",
-      to: Routes.live_path(@socket, SimpleBudgetWeb.GoalLive.Edit)
-    ) %>
+    <.link navigate="/goals/new">New</.link>
   </SimpleBudgetWeb.Button.render>
 </div>
 <div class="grid grid-cols-5">
@@ -22,9 +20,7 @@
     </div>
     <div class="text-center">
       <SimpleBudgetWeb.Button.render>
-        <%= live_patch("Edit",
-          to: Routes.live_path(@socket, SimpleBudgetWeb.GoalLive.Edit, goal.id)
-        ) %>
+        <.link navigate={"/goals/#{goal.id}"}>Edit</.link>
       </SimpleBudgetWeb.Button.render>
       <SimpleBudgetWeb.Button.render phx-click="delete" phx-value-id={goal.id}>
         Delete

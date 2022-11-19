@@ -20,11 +20,8 @@
     <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/app.css")} />
   </head>
 
-  <body class="h-full">
-    <%= render(SimpleBudgetWeb.SharedView, "navigation.html", page_title: @page_title) %>
-    <main class="px-4">
-      <%= @inner_content %>
-    </main>
+  <body>
+    <%= @inner_content %>
     <%= render(SimpleBudgetWeb.SharedView, "importmap.html") %>
     <script
       type="module"

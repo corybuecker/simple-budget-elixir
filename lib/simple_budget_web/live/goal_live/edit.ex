@@ -4,26 +4,13 @@ defmodule SimpleBudgetWeb.GoalLive.Edit do
   require Logger
   use SimpleBudgetWeb, :live_view
 
-  def mount(%{"id" => id} = params, session, socket) when is_bitstring(id) do
+  def mount(params, session, socket) do
     goal = SimpleBudget.Goals.get(session, params)
     changeset = SimpleBudget.Goal.changeset(goal)
 
     {:ok,
      socket
      |> assign(%{page_title: "Goals"})
-     |> assign(%{
-       changeset: changeset,
-       goal: goal,
-       recurrance_mappings: mappings(Goal, :recurrance)
-     })}
-  end
-
-  def mount(%{}, session, socket) do
-    goal = SimpleBudget.Goals.new(session)
-    changeset = SimpleBudget.Goal.changeset(goal)
-
-    {:ok,
-     socket
      |> assign(%{
        changeset: changeset,
        goal: goal,

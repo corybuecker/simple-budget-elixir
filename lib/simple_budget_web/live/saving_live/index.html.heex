@@ -1,17 +1,13 @@
 <div class="flex">
   <SimpleBudgetWeb.Button.render>
-    <%= live_patch("New",
-      to: Routes.live_path(@socket, SimpleBudgetWeb.SavingLive.Edit)
-    ) %>
+    <.link navigate="/savings/new">New</.link>
   </SimpleBudgetWeb.Button.render>
 </div>
 <%= for saving <- @savings do %>
   <div id={"saving-#{saving.id}"}>
     <%= saving.name %> &nbsp;&mdash;&nbsp; <%= saving.amount %>
     <SimpleBudgetWeb.Button.render>
-      <%= live_patch("Edit",
-        to: Routes.live_path(@socket, SimpleBudgetWeb.SavingLive.Edit, saving.id)
-      ) %>
+      <.link navigate={"/savings/#{saving.id}"}>Edit</.link>
     </SimpleBudgetWeb.Button.render>
 
     <SimpleBudgetWeb.Button.render phx-click="delete" phx-value-id={saving.id}>

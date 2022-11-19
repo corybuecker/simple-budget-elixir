@@ -16,7 +16,10 @@ defmodule SimpleBudgetWeb.SavingLive.Edit do
     saving = SimpleBudget.Savings.new(session)
     changeset = SimpleBudget.Saving.changeset(saving)
 
-    {:ok, socket |> assign(%{changeset: changeset, saving: saving})}
+    {:ok,
+     socket
+     |> assign(%{page_title: "Savings"})
+     |> assign(%{changeset: changeset, saving: saving})}
   end
 
   def handle_event("validate", %{"saving" => params}, socket) do
