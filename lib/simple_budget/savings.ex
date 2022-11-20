@@ -37,10 +37,6 @@ defmodule SimpleBudget.Savings do
     Users.get_by_identity(identity) |> build_assoc(:savings, %{})
   end
 
-  def new(%{"identity" => identity}) do
-    Users.get_by_identity(identity) |> build_assoc(:savings, %{debt: false})
-  end
-
   def save(%Ecto.Changeset{data: %{id: nil}} = changeset) do
     Repo.insert!(changeset)
   end

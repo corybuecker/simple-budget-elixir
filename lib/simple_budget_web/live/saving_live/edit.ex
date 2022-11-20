@@ -2,8 +2,8 @@ defmodule SimpleBudgetWeb.SavingLive.Edit do
   use SimpleBudgetWeb, :live_view
   require Logger
 
-  def mount(%{}, session, socket) do
-    saving = SimpleBudget.Savings.new(session)
+  def mount(params, session, socket) do
+    saving = SimpleBudget.Savings.get(session, params)
     changeset = SimpleBudget.Saving.changeset(saving)
 
     {:ok,
