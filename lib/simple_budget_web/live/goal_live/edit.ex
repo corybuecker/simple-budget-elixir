@@ -33,7 +33,7 @@ defmodule SimpleBudgetWeb.GoalLive.Edit do
       true ->
         Logger.info("saving changeset: #{changeset |> inspect()}")
         SimpleBudget.Goals.save(changeset)
-        {:noreply, socket |> redirect(to: "/goals")}
+        {:noreply, socket |> push_navigate(to: "/goals")}
     end
   end
 end

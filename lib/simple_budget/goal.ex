@@ -20,6 +20,7 @@ defmodule SimpleBudget.Goal do
     |> validate_required([:name, :amount, :recurrance, :target_date])
   end
 
+  @spec amortized_amount(%SimpleBudget.Goal{recurrance: :never}) :: Decimal.t()
   def amortized_amount(%SimpleBudget.Goal{recurrance: :never} = goal) do
     diff = Date.diff(goal.target_date, today())
     start_diff = -Date.diff(goal.inserted_at, today())
@@ -30,6 +31,9 @@ defmodule SimpleBudget.Goal do
     )
   end
 
+  @spec amortized_amount(%SimpleBudget.Goal{
+          :recurrance => :daily | :monthly | :quarterly | :weekly | :yearly
+        }) :: Decimal.t()
   def amortized_amount(%SimpleBudget.Goal{} = goal) do
     start = Date.add(goal.target_date, -duration_days(goal))
     start_diff = Date.diff(today(), start)
@@ -46,6 +50,9 @@ defmodule SimpleBudget.Goal do
     )
   end
 
+  @spec next_target_date(%SimpleBudget.Goal{
+          :recurrance => :never
+        }) :: Date.t()
   def next_target_date(%SimpleBudget.Goal{recurrance: :never} = goal) do
     goal.target_date
   end

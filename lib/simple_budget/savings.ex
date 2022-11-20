@@ -33,6 +33,10 @@ defmodule SimpleBudget.Savings do
     )
   end
 
+  def get(%{"identity" => identity}, %{}) when is_bitstring(identity) do
+    Users.get_by_identity(identity) |> build_assoc(:savings, %{})
+  end
+
   def new(%{"identity" => identity}) do
     Users.get_by_identity(identity) |> build_assoc(:savings, %{debt: false})
   end
