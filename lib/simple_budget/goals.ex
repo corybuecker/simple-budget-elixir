@@ -31,19 +31,19 @@ defmodule SimpleBudget.Goals do
 
   def spendable_today(%{"identity" => identity}) do
     total = spendable(%{"identity" => identity})
-    days = Date.diff(Date.end_of_month(Date.utc_today()), Date.utc_today())
+    days = Date.diff(Date.end_of_month(today()), today())
 
-    case Kernel.max(days, 1) do
-      1 -> Decimal.div(total, 31)
+    case Kernel.max(days, 0) do
+      0 -> total
       _ -> Decimal.div(total, Kernel.max(days, 1))
     end
   end
 
   def spendable_today(%{"identity" => _identity}, total) do
-    days = Date.diff(Date.end_of_month(Date.utc_today()), Date.utc_today())
+    days = Date.diff(Date.end_of_month(today()), today())
 
-    case Kernel.max(days, 1) do
-      1 -> Decimal.div(total, 31)
+    case Kernel.max(days, 0) do
+      0 -> total
       _ -> Decimal.div(total, Kernel.max(days, 1))
     end
   end
@@ -82,16 +82,15 @@ defmodule SimpleBudget.Goals do
     Users.get_by_identity(identity) |> build_assoc(:goals, %{recurrance: :monthly})
   end
 
-  def new(%{"identity" => identity}) do
-    Users.get_by_identity(identity)
-    |> build_assoc(:goals, %{recurrance: "monthly", target_date: Date.utc_today() |> Date.add(31)})
-  end
-
   def save(%Ecto.Changeset{data: %{id: nil}} = changeset) do
     Repo.insert!(changeset)
   end
 
   def save(%Ecto.Changeset{} = changeset) do
     Repo.update!(changeset)
+  end
+
+  defp today() do
+    Application.get_env(:simple_budget, SimpleBudget.Goals)[:date_adapter].today()
   end
 end
