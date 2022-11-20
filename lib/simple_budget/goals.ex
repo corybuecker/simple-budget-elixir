@@ -39,7 +39,7 @@ defmodule SimpleBudget.Goals do
     end
   end
 
-  def spendable_today(%{"identity" => identity}, total) do
+  def spendable_today(%{"identity" => _identity}, total) do
     days = Date.diff(Date.end_of_month(Date.utc_today()), Date.utc_today())
 
     case Kernel.max(days, 1) do
@@ -76,6 +76,10 @@ defmodule SimpleBudget.Goals do
         where: u.identity == ^identity and a.id == ^id,
         select: a
     )
+  end
+
+  def get(%{"identity" => identity}, %{}) when is_bitstring(identity) do
+    Users.get_by_identity(identity) |> build_assoc(:goals, %{recurrance: :monthly})
   end
 
   def new(%{"identity" => identity}) do

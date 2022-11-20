@@ -5,7 +5,7 @@ defmodule SimpleBudget.MixProject do
     [
       app: :simple_budget,
       version: "0.1.0",
-      elixir: "1.14.1",
+      elixir: "1.14.2",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: Mix.compilers(),
       start_permanent: Mix.env() == :prod,
@@ -35,7 +35,7 @@ defmodule SimpleBudget.MixProject do
     [
       {:assent, "~> 0.2.0"},
       {:castore, "~> 0.1.0"},
-      {:dialyxir, "~> 1.0", only: [:dev], runtime: false},
+      {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
       {:ecto_sql, "~> 3.6"},
       {:esbuild, "~> 0.4", runtime: Mix.env() == :dev},
       {:floki, ">= 0.30.0", only: :test},
@@ -43,12 +43,12 @@ defmodule SimpleBudget.MixProject do
       {:jason, "~> 1.2"},
       {:mint, "~> 1.0"},
       {:number, "~> 1.0"},
-      {:phoenix, "~> 1.6.12"},
       {:phoenix_ecto, "~> 4.4"},
       {:phoenix_html, "~> 3.0"},
       {:phoenix_live_dashboard, "~> 0.7.0"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_view, "~> 0.18.0"},
+      {:phoenix, "~> 1.6.12"},
       {:plug_cowboy, "~> 2.5"},
       {:postgrex, ">= 0.0.0"},
       {:swoosh, "~> 1.3"},
@@ -66,11 +66,11 @@ defmodule SimpleBudget.MixProject do
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
     [
-      setup: ["deps.get", "ecto.setup"],
-      "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
+      "assets.deploy": ["esbuild default --minify", "phx.digest"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
-      test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
-      "assets.deploy": ["esbuild default --minify", "phx.digest"]
+      "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
+      setup: ["deps.get", "ecto.setup"],
+      test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"]
     ]
   end
 end
