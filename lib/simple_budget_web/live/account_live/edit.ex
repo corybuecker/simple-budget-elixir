@@ -51,7 +51,7 @@ defmodule SimpleBudgetWeb.AccountLive.Edit do
       true ->
         Logger.info("saving changeset: #{changeset |> inspect()}")
         SimpleBudget.Accounts.save(changeset)
-        {:noreply, socket |> redirect(to: "/accounts")}
+        {:noreply, socket |> push_navigate(to: "/accounts")}
     end
   end
 end
