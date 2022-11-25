@@ -4,11 +4,42 @@ defmodule SimpleBudget.Goals do
   import Ecto.{Query}
   require Logger
 
-  def spendable(%{"identity" => identity}) do
-    records =
-      Accounts.all(%{"identity" => identity}) ++
-        Goals.all(%{"identity" => identity}) ++ Savings.all(%{"identity" => identity})
+  def spendable(%{"identity" => identity, ignore_account_id: ignore_account_id}) do
+    spendable_records(identity)
+    |> Enum.reject(fn record ->
+      match?(%Account{id: ^ignore_account_id} when is_number(ignore_account_id), record)
+    end)
+    |> spendable_total()
+  end
 
+  def spendable(%{"identity" => identity, ignore_saving_id: ignore_saving_id}) do
+    spendable_records(identity)
+    |> Enum.reject(fn record ->
+      match?(%Saving{id: ^ignore_saving_id} when is_number(ignore_saving_id), record)
+    end)
+    |> spendable_total()
+  end
+
+  def spendable(%{"identity" => identity, ignore_goal_id: ignore_goal_id}) do
+    spendable_records(identity)
+    |> Enum.reject(fn record ->
+      match?(%Goal{id: ^ignore_goal_id} when is_number(ignore_goal_id), record)
+    end)
+    |> spendable_total()
+  end
+
+  def spendable(%{"identity" => identity}) do
+    (Accounts.all(%{"identity" => identity}) ++
+       Goals.all(%{"identity" => identity}) ++ Savings.all(%{"identity" => identity}))
+    |> spendable_total()
+  end
+
+  def spendable_records(identity) do
+    Accounts.all(%{"identity" => identity}) ++
+      Goals.all(%{"identity" => identity}) ++ Savings.all(%{"identity" => identity})
+  end
+
+  def spendable_total(records) do
     Enum.reduce(
       records,
       Decimal.new("0"),
@@ -20,7 +51,6 @@ defmodule SimpleBudget.Goals do
           Decimal.sub(acc, account.balance)
 
         %Goal{} = goal, acc ->
-          Logger.debug(goal |> inspect())
           Decimal.sub(acc, Goal.amortized_amount(goal))
 
         %Saving{} = saving, acc ->

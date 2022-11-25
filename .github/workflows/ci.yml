@@ -35,4 +35,3 @@ jobs:
       - run: mix ecto.setup
       - run: mix test
       - run: mix format --check-formatted
-      - run: mix dialyzer

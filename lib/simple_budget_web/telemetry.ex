@@ -29,7 +29,16 @@ defmodule SimpleBudgetWeb.Telemetry do
         tags: [:route],
         unit: {:native, :millisecond}
       ),
-
+      summary("phoenix.live_view.mount.stop.duration",
+        unit: {:native, :millisecond},
+        tags: [:view],
+        tag_values: &live_view_metric_tag_values/1
+      ),
+      summary("phoenix.live_view.handle_event.stop.duration",
+        unit: {:native, :millisecond},
+        tags: [:view],
+        tag_values: &live_view_metric_tag_values/1
+      ),
       # Database Metrics
       summary("simple_budget.repo.query.total_time",
         unit: {:native, :millisecond},
@@ -59,6 +68,10 @@ defmodule SimpleBudgetWeb.Telemetry do
       summary("vm.total_run_queue_lengths.cpu"),
       summary("vm.total_run_queue_lengths.io")
     ]
+  end
+
+  defp live_view_metric_tag_values(metadata) do
+    %{view: metadata.socket.view}
   end
 
   defp periodic_measurements do

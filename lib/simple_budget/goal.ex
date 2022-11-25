@@ -2,6 +2,7 @@ defmodule SimpleBudget.Goal do
   alias SimpleBudget.{Goal}
   use Ecto.Schema
   import Ecto.Changeset
+  require Logger
 
   schema "goals" do
     field :name, :string
@@ -35,6 +36,7 @@ defmodule SimpleBudget.Goal do
           :recurrance => :daily | :monthly | :quarterly | :weekly | :yearly
         }) :: Decimal.t()
   def amortized_amount(%SimpleBudget.Goal{} = goal) do
+    Logger.debug(goal)
     start = Date.add(goal.target_date, -duration_days(goal))
     start_diff = Date.diff(today(), start)
 
