@@ -3,14 +3,26 @@ defmodule SimpleBudget.MixProject do
 
   def project do
     [
+      aliases: aliases(),
       app: :simple_budget,
-      version: "0.1.0",
+      compilers: Mix.compilers(),
+      deps: deps(),
       elixir: "1.14.2",
       elixirc_paths: elixirc_paths(Mix.env()),
-      compilers: Mix.compilers(),
       start_permanent: Mix.env() == :prod,
-      aliases: aliases(),
-      deps: deps()
+      test_coverage: [
+        ignore_modules: [
+          SimpleBudget.DataCase,
+          SimpleBudgetWeb,
+          SimpleBudget.Application,
+          SimpleBudgetWeb.Gettext,
+          SimpleBudgetWeb.Router,
+          SimpleBudgetWeb.Telemetry,
+          SimpleBudgetWeb.ErrorHelpers,
+          SimpleBudget.Repo
+        ]
+      ],
+      version: "0.1.0"
     ]
   end
 
