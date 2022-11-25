@@ -53,6 +53,7 @@ defmodule SimpleBudget.MixProject do
       {:floki, ">= 0.30.0", only: :test},
       {:gettext, "~> 0.18"},
       {:jason, "~> 1.2"},
+      {:libcluster, "~> 3.3"},
       {:mint, "~> 1.0"},
       {:number, "~> 1.0"},
       {:phoenix_ecto, "~> 4.4"},
