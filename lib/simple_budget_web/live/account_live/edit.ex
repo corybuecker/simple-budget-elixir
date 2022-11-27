@@ -17,7 +17,12 @@ defmodule SimpleBudgetWeb.AccountLive.Edit do
 
   def handle_event("validate", %{"account" => params}, socket) do
     changeset = SimpleBudget.Account.changeset(socket.assigns.account, params)
-    total = SimpleBudget.Goals.spendable(%{"identity" => socket.assigns.identity})
+
+    total =
+      SimpleBudget.Goals.spendable(%{
+        "identity" => socket.assigns.identity,
+        ignore_account_id: socket.assigns.account.id
+      })
 
     value =
       case params["balance"] |> Decimal.parse() do

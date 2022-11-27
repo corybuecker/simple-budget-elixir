@@ -14,13 +14,18 @@ defmodule SimpleBudgetWeb.GoalLive.Edit do
      |> assign(%{
        changeset: changeset,
        goal: goal,
+       identity: session["identity"],
        recurrance_mappings: mappings(Goal, :recurrance)
+     })
+     |> assign(%{
+       spendable_today: SimpleBudget.Goals.spendable(%{"identity" => session["identity"]})
      })}
   end
 
   def handle_event("validate", %{"goal" => params}, socket) do
     changeset = SimpleBudget.Goal.changeset(socket.assigns.goal, params)
-    {:noreply, socket |> assign(:changeset, changeset)}
+
+    {:noreply, socket |> assign(%{changeset: changeset})}
   end
 
   def handle_event("save", %{"goal" => params}, socket) do
@@ -31,7 +36,6 @@ defmodule SimpleBudgetWeb.GoalLive.Edit do
         {:noreply, socket |> assign(:changeset, changeset)}
 
       true ->
-        Logger.info("saving changeset: #{changeset |> inspect()}")
         SimpleBudget.Goals.save(changeset)
         {:noreply, socket |> push_navigate(to: "/goals")}
     end
