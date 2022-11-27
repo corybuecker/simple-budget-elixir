@@ -114,6 +114,57 @@ defmodule SimpleBudget.GoalTest do
     )
   end
 
+  test "amortized_amount for never recurring target started month ago and ending next month" do
+    goal = %Goal{
+      amount: 100,
+      recurrance: :never,
+      target_date: Date.from_iso8601!("2019-12-15"),
+      inserted_at: Date.from_iso8601!("2020-02-15")
+    }
+
+    {:ok, expected} = Decimal.cast(50)
+
+    assert_in_delta(
+      expected |> Decimal.to_float(),
+      Goal.amortized_amount(goal) |> Decimal.to_float(),
+      0.01
+    )
+  end
+
+  test "amortized_amount for never recurring target started month ago and ending next week" do
+    goal = %Goal{
+      amount: 100,
+      recurrance: :never,
+      target_date: Date.from_iso8601!("2020-01-22"),
+      inserted_at: Date.from_iso8601!("2019-12-15")
+    }
+
+    {:ok, expected} = Decimal.cast(81.57)
+
+    assert_in_delta(
+      expected |> Decimal.to_float(),
+      Goal.amortized_amount(goal) |> Decimal.to_float(),
+      0.01
+    )
+  end
+
+  test "amortized_amount for never recurring target started month ago and ended yesterday" do
+    goal = %Goal{
+      amount: 100,
+      recurrance: :never,
+      target_date: Date.from_iso8601!("2020-01-14"),
+      inserted_at: Date.from_iso8601!("2019-12-15")
+    }
+
+    {:ok, expected} = Decimal.cast(100)
+
+    assert_in_delta(
+      expected |> Decimal.to_float(),
+      Goal.amortized_amount(goal) |> Decimal.to_float(),
+      0.01
+    )
+  end
+
   test "next target date for monthly" do
     goal = %Goal{
       amount: 100,

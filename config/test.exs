@@ -30,10 +30,3 @@ config :logger, level: :warn
 config :phoenix, :plug_init_mode, :runtime
 
 config :simple_budget, SimpleBudget.Goals, date_adapter: SimpleBudget.Utilities.FakeDate
-
-config :libcluster,
-  topologies: [
-    local_epmd: [
-      strategy: Elixir.Cluster.Strategy.Epmd
-    ]
-  ]

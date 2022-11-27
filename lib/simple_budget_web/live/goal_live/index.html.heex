@@ -3,10 +3,11 @@
     <.link navigate="/goals/new">New</.link>
   </SimpleBudgetWeb.Button.render>
 </div>
-<div class="grid grid-cols-5">
+<div class="grid grid-cols-6">
   <div>Goal</div>
   <div>Target amount</div>
   <div>Target date</div>
+  <div>Daily amortized amount</div>
   <div>Amortized amount</div>
   <div></div>
   <%= for goal <- @goals do %>
@@ -15,6 +16,9 @@
     </div>
     <div><%= Number.Currency.number_to_currency(goal.amount) %></div>
     <div><%= goal.target_date %></div>
+    <div>
+      <%= Number.Currency.number_to_currency(SimpleBudget.Goal.daily_amortized_amount(goal)) %>
+    </div>
     <div>
       <%= Number.Currency.number_to_currency(SimpleBudget.Goal.amortized_amount(goal)) %>
     </div>

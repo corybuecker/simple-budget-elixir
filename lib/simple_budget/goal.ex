@@ -21,14 +21,27 @@ defmodule SimpleBudget.Goal do
     |> validate_required([:name, :amount, :recurrance, :target_date])
   end
 
+  def daily_amortized_amount(%SimpleBudget.Goal{} = goal) do
+    Decimal.div(goal.amount, Decimal.new(days_to_amortize_across(goal)))
+  end
+
   @spec amortized_amount(%SimpleBudget.Goal{recurrance: :never}) :: Decimal.t()
   def amortized_amount(%SimpleBudget.Goal{recurrance: :never} = goal) do
-    diff = Date.diff(goal.target_date, today())
-    start_diff = -Date.diff(goal.inserted_at, today())
+    days_to_amortize_across = days_to_amortize_across(goal)
+    days_amortized = Date.diff(today(), goal.inserted_at)
 
-    Decimal.max(
-      0,
-      Decimal.mult(Decimal.div(goal.amount, Decimal.new(diff + 1)), Decimal.new(start_diff))
+    amortized_amount =
+      Decimal.mult(
+        Decimal.div(goal.amount, Decimal.new(days_to_amortize_across)),
+        Decimal.new(days_amortized)
+      )
+
+    Decimal.min(
+      Decimal.max(
+        amortized_amount,
+        0
+      ),
+      goal.amount
     )
   end
 
@@ -36,15 +49,14 @@ defmodule SimpleBudget.Goal do
           :recurrance => :daily | :monthly | :quarterly | :weekly | :yearly
         }) :: Decimal.t()
   def amortized_amount(%SimpleBudget.Goal{} = goal) do
-    Logger.debug(goal)
-    start = Date.add(goal.target_date, -duration_days(goal))
+    start = Date.add(goal.target_date, -days_to_amortize_across(goal))
     start_diff = Date.diff(today(), start)
 
     Decimal.min(
       Decimal.max(
         0,
         Decimal.mult(
-          Decimal.div(goal.amount, Decimal.new(duration_days(goal))),
+          Decimal.div(goal.amount, Decimal.new(days_to_amortize_across(goal))),
           Decimal.new(start_diff)
         )
       ),
@@ -60,16 +72,21 @@ defmodule SimpleBudget.Goal do
   end
 
   def next_target_date(%SimpleBudget.Goal{} = goal) do
-    Date.add(goal.target_date, duration_days(goal))
+    Date.add(goal.target_date, days_to_amortize_across(goal))
   end
 
-  defp duration_days(%Goal{recurrance: recurrance}) do
+  defp days_to_amortize_across(%Goal{
+         recurrance: recurrance,
+         target_date: target_date,
+         inserted_at: inserted_at
+       }) do
     case recurrance do
       :daily -> 1
       :weekly -> 7
       :monthly -> 30
       :quarterly -> 90
       :yearly -> 365
+      :never -> Date.diff(target_date, inserted_at)
     end
   end
 
