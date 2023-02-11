@@ -51,7 +51,7 @@ defmodule SimpleBudget.MixProject do
       {:ecto_sql, "~> 3.6"},
       {:esbuild, "~> 0.6", runtime: Mix.env() == :dev},
       {:floki, ">= 0.30.0", only: :test},
-      {:gettext, "~> 0.18"},
+      {:gettext, "~> 0.22"},
       {:jason, "~> 1.2"},
       {:libcluster, "~> 3.3"},
       {:mint, "~> 1.0"},
