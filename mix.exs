@@ -46,7 +46,7 @@ defmodule SimpleBudget.MixProject do
   defp deps do
     [
       {:assent, "~> 0.2.0"},
-      {:castore, "~> 0.1.0"},
+      {:castore, "~> 1.0.0"},
       {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
       {:ecto_sql, "~> 3.6"},
       {:esbuild, "~> 0.6", runtime: Mix.env() == :dev},
