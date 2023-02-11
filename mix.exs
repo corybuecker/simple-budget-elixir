@@ -49,7 +49,7 @@ defmodule SimpleBudget.MixProject do
       {:castore, "~> 0.1.0"},
       {:dialyxir, "~> 1.0", only: [:dev, :test], runtime: false},
       {:ecto_sql, "~> 3.6"},
-      {:esbuild, "~> 0.4", runtime: Mix.env() == :dev},
+      {:esbuild, "~> 0.6", runtime: Mix.env() == :dev},
       {:floki, ">= 0.30.0", only: :test},
       {:gettext, "~> 0.18"},
       {:jason, "~> 1.2"},
