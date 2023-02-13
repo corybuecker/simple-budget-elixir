@@ -39,3 +39,8 @@ ENV MIX_ENV=prod
 COPY --from=builder /src/_build/prod/rel/simple_budget /app
 
 CMD [ "/app/bin/simple_budget", "start" ]
+
+# Appended by flyctl
+ENV ECTO_IPV6 true
+ENV ERL_AFLAGS "-proto_dist inet6_tcp"
+ENV PHX_SERVER true

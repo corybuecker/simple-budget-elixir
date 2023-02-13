@@ -16,9 +16,7 @@ defmodule SimpleBudget.Application do
       {Phoenix.PubSub, name: SimpleBudget.PubSub},
       # Start the Endpoint (http/https)
       SimpleBudgetWeb.Endpoint,
-      SimpleBudget.GoalConversionServer,
-      {Cluster.Supervisor,
-       [Application.get_env(:libcluster, :topologies), [name: MyApp.ClusterSupervisor]]}
+      SimpleBudget.GoalConversionServer
 
       # Start a worker by calling: SimpleBudget.Worker.start_link(arg)
       # {SimpleBudget.Worker, arg}
