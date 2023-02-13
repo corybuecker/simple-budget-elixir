@@ -4,6 +4,8 @@ defmodule SimpleBudget.Goals do
   import Ecto.{Query}
   require Logger
 
+  @spec spendable(%{required(String.t()) => String.t(), ignore_account_id: integer()}) ::
+          Decimal.t()
   def spendable(%{"identity" => identity, ignore_account_id: ignore_account_id}) do
     spendable_records(identity)
     |> Enum.reject(fn record ->
@@ -12,6 +14,8 @@ defmodule SimpleBudget.Goals do
     |> spendable_total()
   end
 
+  @spec spendable(%{required(String.t()) => String.t(), ignore_saving_id: integer()}) ::
+          Decimal.t()
   def spendable(%{"identity" => identity, ignore_saving_id: ignore_saving_id}) do
     spendable_records(identity)
     |> Enum.reject(fn record ->
@@ -20,6 +24,7 @@ defmodule SimpleBudget.Goals do
     |> spendable_total()
   end
 
+  @spec spendable(%{required(String.t()) => String.t(), ignore_goal_id: integer()}) :: Decimal.t()
   def spendable(%{"identity" => identity, ignore_goal_id: ignore_goal_id}) do
     spendable_records(identity)
     |> Enum.reject(fn record ->
@@ -28,6 +33,7 @@ defmodule SimpleBudget.Goals do
     |> spendable_total()
   end
 
+  @spec spendable(%{required(String.t()) => String.t()}) :: Decimal.t()
   def spendable(%{"identity" => identity}) do
     (Accounts.all(%{"identity" => identity}) ++
        Goals.all(%{"identity" => identity}) ++ Savings.all(%{"identity" => identity}))
@@ -39,6 +45,16 @@ defmodule SimpleBudget.Goals do
       Goals.all(%{"identity" => identity}) ++ Savings.all(%{"identity" => identity})
   end
 
+  def total_daily_amortized(records) do
+    Enum.reduce(
+      records,
+      Decimal.new("0"),
+      fn goal, total -> Decimal.add(total, Goal.daily_amortized_amount(goal)) end
+    )
+  end
+
+  @type spendable_total_records :: %Goal{} | %Account{} | %Saving{}
+  @spec spendable_total([] | [spendable_total_records()]) :: Decimal.t()
   def spendable_total(records) do
     Enum.reduce(
       records,
@@ -59,6 +75,7 @@ defmodule SimpleBudget.Goals do
     )
   end
 
+  @spec spendable_today(%{required(String.t()) => String.t()}) :: Decimal.t()
   def spendable_today(%{"identity" => identity}) do
     total = spendable(%{"identity" => identity})
     days = Date.diff(Date.end_of_month(today()), today())

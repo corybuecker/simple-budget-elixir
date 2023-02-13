@@ -14,4 +14,20 @@ defmodule SimpleBudgetWeb.SavingLive.Index do
 
     {:noreply, socket |> assign(:savings, SimpleBudget.Savings.all(socket.assigns))}
   end
+
+  def handle_event("update_preferences", %{"layout" => value}, socket) do
+    Logger.debug(value)
+
+    with {:ok, identity} <- socket.assigns() |> Map.fetch(:identity),
+         user <- SimpleBudget.Users.get_by_identity(identity) do
+      SimpleBudget.Users.update(user, %{
+        "preferences" => %{"savings_layout" => value}
+      })
+    else
+      anything ->
+        Logger.error(anything)
+    end
+
+    {:noreply, socket}
+  end
 end
