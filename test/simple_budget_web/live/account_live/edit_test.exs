@@ -2,6 +2,7 @@ defmodule SimpleBudgetWeb.AccountLive.EditTest do
   use SimpleBudgetWeb.ConnCase, async: true
   require Logger
   alias SimpleBudget.{User, Account, Repo}
+  import Phoenix.LiveViewTest
 
   setup %{conn: conn} do
     uuid = Ecto.UUID.generate()
@@ -48,7 +49,13 @@ defmodule SimpleBudgetWeb.AccountLive.EditTest do
     conn = get(conn, "/accounts/#{List.first(accounts).id}")
     {:ok, view, _html} = live(conn)
     results = view |> form("form") |> render_change(%{account: %{"debt" => "true"}})
-    assert(String.contains?(results, "name=\"account[debt]\" type=\"checkbox\" value=\"true\""))
+
+    assert(
+      String.contains?(
+        results,
+        "type=\"checkbox\" id=\"account_debt\" name=\"account[debt]\" value=\"true\" checked=\"checked\""
+      )
+    )
   end
 
   test "validate empty debt", %{conn: conn, identity: identity} do

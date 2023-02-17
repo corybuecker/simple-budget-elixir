@@ -1,6 +1,5 @@
 defmodule SimpleBudgetWeb.SavingLive.Edit do
   use SimpleBudgetWeb, :live_view
-  require Logger
 
   def mount(params, session, socket) do
     saving = SimpleBudget.Savings.get(session, params)
@@ -25,7 +24,6 @@ defmodule SimpleBudgetWeb.SavingLive.Edit do
         {:noreply, socket |> assign(:changeset, changeset)}
 
       true ->
-        Logger.info("saving changeset: #{changeset |> inspect()}")
         SimpleBudget.Savings.save(changeset)
         {:noreply, socket |> push_navigate(to: "/savings")}
     end

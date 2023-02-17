@@ -78,21 +78,24 @@ defmodule SimpleBudget.Goals do
   @spec spendable_today(%{required(String.t()) => String.t()}) :: Decimal.t()
   def spendable_today(%{"identity" => identity}) do
     total = spendable(%{"identity" => identity})
-    days = Date.diff(Date.end_of_month(today()), today())
 
-    case Kernel.max(days, 0) do
-      0 -> total
-      _ -> Decimal.div(total, Kernel.max(days, 1))
-    end
+    days_left =
+      case Date.diff(Date.end_of_month(today()), today()) do
+        0 -> Date.diff(Date.end_of_month(tomorrow()), tomorrow())
+        anything_else -> anything_else
+      end
+
+    Decimal.div(total, days_left)
   end
 
   def spendable_today(%{"identity" => _identity}, total) do
-    days = Date.diff(Date.end_of_month(today()), today())
+    days_left =
+      case Date.diff(Date.end_of_month(today()), today()) do
+        0 -> Date.diff(Date.end_of_month(tomorrow()), tomorrow())
+        anything_else -> anything_else
+      end
 
-    case Kernel.max(days, 0) do
-      0 -> total
-      _ -> Decimal.div(total, Kernel.max(days, 1))
-    end
+    Decimal.div(total, days_left)
   end
 
   def all(%{"identity" => identity}) when is_bitstring(identity) do
@@ -139,5 +142,9 @@ defmodule SimpleBudget.Goals do
 
   defp today() do
     Application.get_env(:simple_budget, SimpleBudget.Goals)[:date_adapter].today()
+  end
+
+  defp tomorrow() do
+    Application.get_env(:simple_budget, SimpleBudget.Goals)[:date_adapter].tomorrow()
   end
 end

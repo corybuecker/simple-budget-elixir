@@ -8,9 +8,7 @@ defmodule SimpleBudget.User do
     field :identity, Ecto.UUID
 
     embeds_one :preferences, Preferences, on_replace: :update do
-      field :accounts_layout, Ecto.Enum, values: [:grid, :list]
-      field :goals_layout, Ecto.Enum, values: [:grid, :list]
-      field :savings_layout, Ecto.Enum, values: [:grid, :list]
+      field :layout, Ecto.Enum, values: [:grid, :list, :automatic], default: :automatic
     end
 
     has_many :accounts, SimpleBudget.Account
@@ -31,9 +29,21 @@ defmodule SimpleBudget.User do
 
   defp preferences_changeset(schema, params) do
     schema
-    |> cast(params, [:accounts_layout, :savings_layout, :goals_layout])
-    |> validate_inclusion(:accounts_layout, [:grid, :list])
-    |> validate_inclusion(:savings_layout, [:grid, :list])
-    |> validate_inclusion(:goals_layout, [:grid, :list])
+    |> cast(params, [:layout])
+    |> set_optional_layouts_to_defaults()
+    |> validate_inclusion(:layout, [:grid, :list, :automatic])
+  end
+
+  defp set_optional_layouts_to_defaults(%Ecto.Changeset{} = changeset) do
+    Enum.reduce([:layout], changeset, fn key, changeset ->
+      case changeset |> Ecto.Changeset.get_field(key, nil) do
+        nil ->
+          changeset
+          |> Ecto.Changeset.put_change(key, :automatic)
+
+        _ ->
+          changeset
+      end
+    end)
   end
 end

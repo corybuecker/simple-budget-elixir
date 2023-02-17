@@ -3,31 +3,41 @@ defmodule SimpleBudgetWeb.AccountLive.Index do
   require Logger
 
   def mount(_params, session, socket) do
-    {:ok,
-     socket
-     |> assign(%{page_title: "Accounts"})
-     |> assign(%{accounts: SimpleBudget.Accounts.all(session), identity: session["identity"]})}
+    user = SimpleBudget.Users.get_by_identity(session["identity"])
+
+    {
+      :ok,
+      socket
+      |> assign(%{page_title: "Accounts"})
+      |> assign(%{
+        identity: session["identity"],
+        preferences_layout: user.preferences.layout
+      })
+      |> stream(:accounts, SimpleBudget.Accounts.all(session))
+    }
   end
 
   def handle_event("delete", params, socket) do
-    SimpleBudget.Accounts.delete(socket.assigns, params)
+    account = SimpleBudget.Accounts.delete(socket.assigns, params)
 
-    {:noreply, socket |> assign(:accounts, SimpleBudget.Accounts.all(socket.assigns))}
+    {:noreply, socket |> stream_delete(:accounts, account)}
   end
 
   def handle_event("update_preferences", %{"layout" => value}, socket) do
-    Logger.debug(value)
-
     with {:ok, identity} <- socket.assigns() |> Map.fetch(:identity),
-         user <- SimpleBudget.Users.get_by_identity(identity) do
-      SimpleBudget.Users.update(user, %{
-        "preferences" => %{"accounts_layout" => value}
-      })
+         user <- SimpleBudget.Users.get_by_identity(identity),
+         {:ok, _} <-
+           SimpleBudget.Users.update(user, %{
+             "preferences" => %{"layout" => value}
+           }),
+         user <- SimpleBudget.Users.reload(user) do
+      {:noreply,
+       socket
+       |> assign(:preferences_layout, user.preferences.layout)
+       |> redirect(to: ~p"/accounts")}
     else
-      anything ->
-        Logger.error(anything)
+      error ->
+        {:noreply, socket |> put_flash(:error, error |> inspect())}
     end
-
-    {:noreply, socket}
   end
 end

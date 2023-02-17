@@ -16,12 +16,10 @@ defmodule SimpleBudgetWeb.SavingLive.Index do
   end
 
   def handle_event("update_preferences", %{"layout" => value}, socket) do
-    Logger.debug(value)
-
     with {:ok, identity} <- socket.assigns() |> Map.fetch(:identity),
          user <- SimpleBudget.Users.get_by_identity(identity) do
       SimpleBudget.Users.update(user, %{
-        "preferences" => %{"savings_layout" => value}
+        "preferences" => %{"layout" => value}
       })
     else
       anything ->
