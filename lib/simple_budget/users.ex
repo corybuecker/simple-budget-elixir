@@ -13,4 +13,8 @@ defmodule SimpleBudget.Users do
   def get_by_identity(identity) do
     Repo.one(from u in User, where: u.identity == ^identity, select: u)
   end
+
+  def update(%User{} = user, params) do
+    user |> User.changeset(params) |> Repo.update!()
+  end
 end
