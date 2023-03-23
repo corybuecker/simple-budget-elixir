@@ -8,7 +8,7 @@ defmodule SimpleBudget.User do
     field :identity, Ecto.UUID
 
     embeds_one :preferences, Preferences, on_replace: :update do
-      field :layout, Ecto.Enum, values: [:grid, :list, :automatic], default: :automatic
+      field :layout, Ecto.Enum, values: [:grid, :list], default: :list
     end
 
     has_many :accounts, SimpleBudget.Account
@@ -31,7 +31,7 @@ defmodule SimpleBudget.User do
     schema
     |> cast(params, [:layout])
     |> set_optional_layouts_to_defaults()
-    |> validate_inclusion(:layout, [:grid, :list, :automatic])
+    |> validate_inclusion(:layout, [:grid, :list])
   end
 
   defp set_optional_layouts_to_defaults(%Ecto.Changeset{} = changeset) do
@@ -39,7 +39,7 @@ defmodule SimpleBudget.User do
       case changeset |> Ecto.Changeset.get_field(key, nil) do
         nil ->
           changeset
-          |> Ecto.Changeset.put_change(key, :automatic)
+          |> Ecto.Changeset.put_change(key, :list)
 
         _ ->
           changeset

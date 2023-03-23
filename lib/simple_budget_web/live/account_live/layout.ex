@@ -8,7 +8,6 @@ defmodule SimpleBudgetWeb.Accounts.Layout do
     case assigns.accounts_layout do
       :list -> accounts_list(assigns)
       :grid -> grid(assigns)
-      :automatic -> automatic(assigns)
     end
   end
 
@@ -45,9 +44,5 @@ defmodule SimpleBudgetWeb.Accounts.Layout do
       <% end %>
     </div>
     """
-  end
-
-  def automatic(assigns) do
-    accounts_list(assigns)
   end
 end
