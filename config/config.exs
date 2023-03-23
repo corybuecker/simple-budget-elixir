@@ -7,18 +7,18 @@
 # General application configuration
 import Config
 
-config :tailwind, version: "3.2.2"
-config :esbuild, version: "0.15.13"
-
 config :simple_budget,
   ecto_repos: [SimpleBudget.Repo]
 
 # Configures the endpoint
 config :simple_budget, SimpleBudgetWeb.Endpoint,
   url: [host: "localhost"],
-  render_errors: [view: SimpleBudgetWeb.ErrorView, accepts: ~w(html json), layout: false],
+  render_errors: [
+    formats: [html: SimpleBudgetWeb.ErrorHTML, json: SimpleBudgetWeb.ErrorJSON],
+    layout: false
+  ],
   pubsub_server: SimpleBudget.PubSub,
-  live_view: [signing_salt: "2qLHkL63"]
+  live_view: [signing_salt: "bNUZZGs6"]
 
 # Configures the mailer
 #
@@ -29,21 +29,19 @@ config :simple_budget, SimpleBudgetWeb.Endpoint,
 # at the `config/runtime.exs`.
 config :simple_budget, SimpleBudget.Mailer, adapter: Swoosh.Adapters.Local
 
-config :simple_budget, SimpleBudget.Goals, date_adapter: SimpleBudget.Utilities.Date
-
-# Swoosh API client is needed for adapters other than SMTP.
-config :swoosh, :api_client, false
-
 # Configure esbuild (the version is required)
 config :esbuild,
+  version: "0.14.41",
   default: [
     args:
-      ~w(js/app.js --bundle --splitting --external:topbar --external:vanillajs-datepicker --external:phoenix --external:phoenix_html --external:phoenix_live_view --format=esm --outdir=../priv/static/assets),
+      ~w(js/app.js --bundle --target=es2017 --outdir=../priv/static/assets --external:/fonts/* --external:/images/*),
     cd: Path.expand("../assets", __DIR__),
     env: %{"NODE_PATH" => Path.expand("../deps", __DIR__)}
   ]
 
+# Configure tailwind (the version is required)
 config :tailwind,
+  version: "3.2.4",
   default: [
     args: ~w(
       --config=tailwind.config.js
@@ -60,6 +58,8 @@ config :logger, :console,
 
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
+
+config :simple_budget, SimpleBudget.Goals, date_adapter: SimpleBudget.Utilities.Date
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

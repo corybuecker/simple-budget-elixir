@@ -22,23 +22,35 @@ defmodule SimpleBudgetWeb.Telemetry do
   def metrics do
     [
       # Phoenix Metrics
+      summary("phoenix.endpoint.start.system_time",
+        unit: {:native, :millisecond}
+      ),
       summary("phoenix.endpoint.stop.duration",
+        unit: {:native, :millisecond}
+      ),
+      summary("phoenix.router_dispatch.start.system_time",
+        tags: [:route],
+        unit: {:native, :millisecond}
+      ),
+      summary("phoenix.router_dispatch.exception.duration",
+        tags: [:route],
         unit: {:native, :millisecond}
       ),
       summary("phoenix.router_dispatch.stop.duration",
         tags: [:route],
         unit: {:native, :millisecond}
       ),
-      summary("phoenix.live_view.mount.stop.duration",
-        unit: {:native, :millisecond},
-        tags: [:view],
-        tag_values: &live_view_metric_tag_values/1
+      summary("phoenix.socket_connected.duration",
+        unit: {:native, :millisecond}
       ),
-      summary("phoenix.live_view.handle_event.stop.duration",
-        unit: {:native, :millisecond},
-        tags: [:view],
-        tag_values: &live_view_metric_tag_values/1
+      summary("phoenix.channel_join.duration",
+        unit: {:native, :millisecond}
       ),
+      summary("phoenix.channel_handled_in.duration",
+        tags: [:event],
+        unit: {:native, :millisecond}
+      ),
+
       # Database Metrics
       summary("simple_budget.repo.query.total_time",
         unit: {:native, :millisecond},
@@ -68,10 +80,6 @@ defmodule SimpleBudgetWeb.Telemetry do
       summary("vm.total_run_queue_lengths.cpu"),
       summary("vm.total_run_queue_lengths.io")
     ]
-  end
-
-  defp live_view_metric_tag_values(metadata) do
-    %{view: metadata.socket.view}
   end
 
   defp periodic_measurements do

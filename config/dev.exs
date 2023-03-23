@@ -16,18 +16,15 @@ config :simple_budget, SimpleBudget.Repo,
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we use it
 # with esbuild to bundle .js and .css sources.
-port = String.to_integer(System.get_env("PORT") || "4000")
-
 config :simple_budget, SimpleBudgetWeb.Endpoint,
   # Binding to loopback ipv4 address prevents access from other machines.
   # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
-  http: [ip: {127, 0, 0, 1}, port: port],
+  http: [ip: {127, 0, 0, 1}, port: 4000],
   check_origin: false,
   code_reloader: true,
   debug_errors: true,
-  secret_key_base: "U9BVlDBoAu7pab3jvLG25c1KJ1nU9FomcF6iZV1x2oBVOJs1pb+jTTzY6U7v5yMH",
+  secret_key_base: "qIFUW3QZNEwQbzZbKC219985qIl2Q1g8onKjFliAKi2ANgfxb1GN/Oxe648eNhqC",
   watchers: [
-    # Start the esbuild watcher by calling Esbuild.install_and_run(:default, args)
     esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]},
     tailwind: {Tailwind, :install_and_run, [:default, ~w(--watch)]}
   ]
@@ -40,7 +37,6 @@ config :simple_budget, SimpleBudgetWeb.Endpoint,
 #
 #     mix phx.gen.cert
 #
-# Note that this task requires Erlang/OTP 20 or later.
 # Run `mix help phx.gen.cert` for more information.
 #
 # The `http:` config above can be replaced with:
@@ -62,10 +58,12 @@ config :simple_budget, SimpleBudgetWeb.Endpoint,
     patterns: [
       ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
-      ~r"lib/simple_budget_web/(live|views)/.*(ex)$",
-      ~r"lib/simple_budget_web/templates/.*(eex)$"
+      ~r"lib/simple_budget_web/(controllers|live|components)/.*(ex|heex)$"
     ]
   ]
+
+# Enable dev routes for dashboard and mailbox
+config :simple_budget, dev_routes: true
 
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"
@@ -76,3 +74,6 @@ config :phoenix, :stacktrace_depth, 20
 
 # Initialize plugs at runtime for faster development compilation
 config :phoenix, :plug_init_mode, :runtime
+
+# Disable swoosh api client as it is only required for production adapters.
+config :swoosh, :api_client, false

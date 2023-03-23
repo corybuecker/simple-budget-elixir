@@ -2,18 +2,8 @@
   Editing <%= @saving.name %>
 </h1>
 <%= @changeset |> inspect() %>
-<.form :let={f} for={@changeset} phx-change="validate" phx-submit="save">
-  <div>
-    <%= label(:saving, :name, "Name") %>
-    <%= text_input(f, :name) %>
-  </div>
-
-  <div>
-    <%= label(:saving, :amount, "Amount") %>
-    <%= number_input(f, :amount, step: 0.01) %>
-  </div>
-
-  <div>
-    <%= submit("Save", disabled: !@changeset.valid?) %>
-  </div>
+<.form :let={form} for={@changeset} phx-change="validate" phx-submit="save">
+  <.input field={form[:name]} label="Name"></.input>
+  <.input field={form[:amount]} label="Amount"></.input>
+  <.button type="submit">Save</.button>
 </.form>

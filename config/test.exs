@@ -17,14 +17,17 @@ config :simple_budget, SimpleBudget.Repo,
 # you can enable the server option below.
 config :simple_budget, SimpleBudgetWeb.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: 4002],
-  secret_key_base: "8m7MfLhzsxiTi+urC6lW3ThbmlNX9cElC3h4SdPPCySm9LGEeLQKSK+mpK9sURD6",
+  secret_key_base: "c6wSeiZL8n6xnv3mgETD0rW+bSm5aYvWIT4lB47J0Hdl8z5ySsAPCxOGP8R6Kx5s",
   server: false
 
 # In test we don't send emails.
 config :simple_budget, SimpleBudget.Mailer, adapter: Swoosh.Adapters.Test
 
+# Disable swoosh api client as it is only required for production adapters.
+config :swoosh, :api_client, false
+
 # Print only warnings and errors during test
-config :logger, level: :warn
+config :logger, level: :warning
 
 # Initialize plugs at runtime for faster test compilation
 config :phoenix, :plug_init_mode, :runtime

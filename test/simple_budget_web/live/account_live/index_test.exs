@@ -2,10 +2,15 @@ defmodule SimpleBudgetWeb.AccountLive.IndexTest do
   use SimpleBudgetWeb.ConnCase, async: true
   require Logger
   alias SimpleBudget.{User, Account, Repo}
+  import Phoenix.LiveViewTest
 
   setup %{conn: conn} do
     uuid = Ecto.UUID.generate()
-    user = %User{email: "test@example.com", identity: uuid} |> Repo.insert!()
+
+    user =
+      %User{email: "test@example.com", identity: uuid, preferences: %{layout: :grid}}
+      |> Repo.insert!()
+
     %Account{user: user, name: "test", balance: 100, debt: false} |> Repo.insert!()
 
     %{

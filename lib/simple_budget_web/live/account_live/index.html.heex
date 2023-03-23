@@ -1,19 +1,12 @@
 <div class="flex">
-  <.live_component module={SimpleBudgetWeb.LayoutToggle} id="accounts_layout" />
+  <.link navigate="/accounts/new">New</.link>
 </div>
-<div class="flex">
-  <SimpleBudgetWeb.Button.render>
-    <.link navigate="/accounts/new">New</.link>
-  </SimpleBudgetWeb.Button.render>
+
+<div>
+  <.live_component
+    id="accounts"
+    module={SimpleBudgetWeb.Accounts.Layout}
+    accounts_layout={@preferences_layout}
+    accounts={@streams.accounts}
+  />
 </div>
-<%= for account <- @accounts do %>
-  <div id={"account-#{account.id}"}>
-    <%= account.name %> &nbsp;&mdash;&nbsp; <%= account.balance %>
-    <SimpleBudgetWeb.Button.render>
-      <.link navigate={"/accounts/#{account.id}"}>Edit</.link>
-    </SimpleBudgetWeb.Button.render>
-    <SimpleBudgetWeb.Button.render phx-click="delete" phx-value-id={account.id}>
-      Delete
-    </SimpleBudgetWeb.Button.render>
-  </div>
-<% end %>

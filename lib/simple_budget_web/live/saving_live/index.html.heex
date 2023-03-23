@@ -1,20 +1,13 @@
 <div class="flex">
-  <.live_component module={SimpleBudgetWeb.LayoutToggle} id="savings_layout" />
-</div>
-<div class="flex">
-  <SimpleBudgetWeb.Button.render>
-    <.link navigate="/savings/new">New</.link>
-  </SimpleBudgetWeb.Button.render>
+  <.link navigate="/savings/new">New</.link>
 </div>
 <%= for saving <- @savings do %>
   <div id={"saving-#{saving.id}"}>
     <%= saving.name %> &nbsp;&mdash;&nbsp; <%= saving.amount %>
-    <SimpleBudgetWeb.Button.render>
-      <.link navigate={"/savings/#{saving.id}"}>Edit</.link>
-    </SimpleBudgetWeb.Button.render>
+    <.link navigate={"/savings/#{saving.id}"}>Edit</.link>
 
-    <SimpleBudgetWeb.Button.render phx-click="delete" phx-value-id={saving.id}>
+    <.button phx-click="delete" phx-value-id={saving.id}>
       Delete
-    </SimpleBudgetWeb.Button.render>
+    </.button>
   </div>
 <% end %>

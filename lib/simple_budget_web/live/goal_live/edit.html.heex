@@ -1,35 +1,13 @@
 <%= @changeset |> inspect() %>
 <div><%= @spendable_today %></div>
 
-<.form :let={f} for={@changeset} phx-change="validate" phx-submit="save">
+<.form :let={form} for={@changeset} phx-change="validate" phx-submit="save">
   <div>
-    <%= label(:goal, :name, "Name") %>
-    <%= text_input(f, :name,
-      class:
-        "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-    ) %>
-  </div>
+    <.input field={form[:name]} label="Name" />
+    <.input field={form[:amount]} label="Amount" />
+    <.input field={form[:recurrance]} label="Recurrance" />
+    <.input field={form[:target_date]} label="Target date" />
 
-  <div>
-    <%= label(:goal, :amount, "Amount") %>
-    <%= number_input(f, :amount,
-      step: 0.01,
-      class:
-        "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-    ) %>
+    <.button type="submit">Save</.button>
   </div>
-
-  <div>
-    <%= label(:goal, :recurrance, "Recurrance") %>
-    <%= select(f, :recurrance, @recurrance_mappings) %>
-  </div>
-
-  <div>
-    <%= label(:goal, :target_date, "Target date") %>
-    <%= text_input(f, :target_date, "phx-hook": "DatePicker") %>
-  </div>
-
-  <SimpleBudgetWeb.Button.render>
-    <%= submit("Save", disabled: !@changeset.valid?) %>
-  </SimpleBudgetWeb.Button.render>
 </.form>

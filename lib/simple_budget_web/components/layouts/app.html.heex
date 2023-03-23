@@ -1,18 +1,18 @@
-<nav class="bg-slate-800">
-  <div class="flex h-14 items-center space-x-4 px-4">
+<nav class="flex bg-slate-800">
+  <div class="flex">
     <.link href="/" class={navigation_class("Dashboard", assigns)}>Dashboard</.link>
     <.link navigate="/accounts" class={navigation_class("Accounts", assigns)}>Accounts</.link>
     <.link navigate="/savings" class={navigation_class("Savings", assigns)}>Savings</.link>
     <.link navigate="/goals" class={navigation_class("Goals", assigns)}>Goals</.link>
   </div>
+  <%= if assigns |> Map.has_key?(:preferences_layout) do %>
+    <div class="flex bg-white">
+      <SimpleBudgetWeb.Toggle.render current={@preferences_layout} />
+    </div>
+  <% end %>
 </nav>
 
-<p class="alert alert-info" role="alert" phx-click="lv:clear-flash" phx-value-key="info">
-  <%= live_flash(@flash, :info) %>
-</p>
-
-<p class="alert alert-danger" role="alert" phx-click="lv:clear-flash" phx-value-key="error">
-  <%= live_flash(@flash, :error) %>
-</p>
-
-<%= @inner_content %>
+<main>
+  <.flash_group flash={@flash} />
+  <%= @inner_content %>
+</main>

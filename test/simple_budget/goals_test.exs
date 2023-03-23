@@ -180,11 +180,11 @@ defmodule SimpleBudget.GoalsTest do
     |> SimpleBudget.Account.changeset()
     |> SimpleBudget.Accounts.save()
 
-    SimpleBudget.Utilities.FakeDate.set_today("2020-01-30")
+    SimpleBudget.Utilities.FakeDate.set_today("2020-01-31")
 
     assert_in_delta(
       Decimal.to_float(Goals.spendable_today(%{"identity" => identity})),
-      100.0,
+      3.57,
       0.01
     )
 

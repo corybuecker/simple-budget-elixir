@@ -8,18 +8,19 @@ defmodule SimpleBudget.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      # Start the Ecto repository
-      SimpleBudget.Repo,
       # Start the Telemetry supervisor
       SimpleBudgetWeb.Telemetry,
+      # Start the Ecto repository
+      SimpleBudget.Repo,
       # Start the PubSub system
       {Phoenix.PubSub, name: SimpleBudget.PubSub},
+      # Start Finch
+      {Finch, name: SimpleBudget.Finch},
       # Start the Endpoint (http/https)
       SimpleBudgetWeb.Endpoint,
-      SimpleBudget.GoalConversionServer
-
       # Start a worker by calling: SimpleBudget.Worker.start_link(arg)
       # {SimpleBudget.Worker, arg}
+      SimpleBudget.GoalConversionServer
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

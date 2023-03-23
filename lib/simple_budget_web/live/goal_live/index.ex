@@ -10,7 +10,7 @@ defmodule SimpleBudgetWeb.GoalLive.Index do
      socket
      |> assign(%{page_title: "Goals"})
      |> assign(%{goals: goals, identity: session["identity"]})
-     |> assign(%{total_daily_amortized: Goals.total_daily_amortized(goals)})}
+     |> assign(%{total_daily_amortized: Goals.total_daily_amortized(goals) |> Decimal.round(2)})}
   end
 
   def handle_event("delete", params, socket) do
@@ -20,7 +20,7 @@ defmodule SimpleBudgetWeb.GoalLive.Index do
     {:noreply,
      socket
      |> assign(:goals, Goals.all(socket.assigns))
-     |> assign(:total_daily_amortized, Goals.total_daily_amortized(goals))}
+     |> assign(:total_daily_amortized, Goals.total_daily_amortized(goals) |> Decimal.round(2))}
   end
 
   def handle_event("update_preferences", %{"layout" => value}, socket) do
@@ -29,7 +29,7 @@ defmodule SimpleBudgetWeb.GoalLive.Index do
     with {:ok, identity} <- socket.assigns() |> Map.fetch(:identity),
          user <- SimpleBudget.Users.get_by_identity(identity) do
       SimpleBudget.Users.update(user, %{
-        "preferences" => %{"goals_layout" => value}
+        "preferences" => %{"layout" => value}
       })
     else
       anything ->

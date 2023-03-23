@@ -10,11 +10,19 @@ defmodule SimpleBudget.Users do
     Repo.one(from u in User, where: u.email == ^email, select: u)
   end
 
+  def get_by_identity(%{"identity" => identity}) do
+    Repo.one(from u in User, where: u.identity == ^identity, select: u)
+  end
+
   def get_by_identity(identity) do
     Repo.one(from u in User, where: u.identity == ^identity, select: u)
   end
 
   def update(%User{} = user, params) do
-    user |> User.changeset(params) |> Repo.update!()
+    user |> User.changeset(params) |> Repo.update()
+  end
+
+  def reload(%User{id: id} = user) when not is_nil(id) do
+    user |> Repo.reload()
   end
 end

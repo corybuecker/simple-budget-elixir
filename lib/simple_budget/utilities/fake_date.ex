@@ -17,4 +17,9 @@ defmodule SimpleBudget.Utilities.FakeDate do
   def today() do
     Agent.get(SimpleBudget.Utilities.FakeDate, fn val -> val end)
   end
+
+  @spec tomorrow :: Date.t()
+  def tomorrow() do
+    Agent.get(SimpleBudget.Utilities.FakeDate, fn val -> val |> Date.add(1) end)
+  end
 end

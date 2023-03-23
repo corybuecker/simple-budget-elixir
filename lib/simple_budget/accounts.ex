@@ -10,11 +10,16 @@ defmodule SimpleBudget.Accounts do
         join: u in User,
         on: u.id == a.user_id,
         where: u.identity == ^identity,
-        select: a
+        select: a,
+        order_by: a.name
     )
   end
 
   def all(%{identity: identity}) when is_bitstring(identity) do
+    all(%{"identity" => identity})
+  end
+
+  def all(identity) when is_bitstring(identity) do
     all(%{"identity" => identity})
   end
 
