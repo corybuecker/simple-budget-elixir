@@ -36,7 +36,7 @@ defmodule SimpleBudget.MixProject do
       {:castore, "~> 0.1"},
       {:certifi, "~> 2.4"},
       {:ecto_sql, "~> 3.6"},
-      {:esbuild, "~> 0.5", runtime: Mix.env() == :dev},
+      {:esbuild, "~> 0.7", runtime: Mix.env() == :dev},
       {:finch, "~> 0.13"},
       {:floki, ">= 0.30.0", only: :test},
       {:gettext, "~> 0.20"},
