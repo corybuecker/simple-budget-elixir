@@ -10,10 +10,6 @@ defmodule SimpleBudgetWeb.Router do
     plug :put_secure_browser_headers
   end
 
-  pipeline :api do
-    plug :accepts, ["json"]
-  end
-
   pipeline :authorized do
     plug SimpleBudgetWeb.Plugs.AuthenticatedUser
   end

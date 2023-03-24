@@ -23,6 +23,10 @@ defmodule SimpleBudget.Accounts do
     all(%{"identity" => identity})
   end
 
+  def all(%User{identity: identity}) do
+    all(%{"identity" => identity})
+  end
+
   def delete(%{identity: identity}, %{"id" => id}) when is_bitstring(identity) do
     get(%{"identity" => identity}, %{"id" => id}) |> Repo.delete!()
   end

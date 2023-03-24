@@ -1,18 +1,16 @@
-<nav class="flex bg-slate-800">
-  <div class="flex">
+<nav class="flex items-center bg-slate-800 justify-between p-1 lg:p-2">
+  <div class="flex gap-2 lg:gap-4">
     <.link href="/" class={navigation_class("Dashboard", assigns)}>Dashboard</.link>
     <.link navigate="/accounts" class={navigation_class("Accounts", assigns)}>Accounts</.link>
     <.link navigate="/savings" class={navigation_class("Savings", assigns)}>Savings</.link>
     <.link navigate="/goals" class={navigation_class("Goals", assigns)}>Goals</.link>
   </div>
   <%= if assigns |> Map.has_key?(:preferences_layout) do %>
-    <div class="flex bg-white">
-      <SimpleBudgetWeb.Toggle.render current={@preferences_layout} />
-    </div>
+    <SimpleBudgetWeb.Toggle.render current={@preferences_layout} />
   <% end %>
 </nav>
 
-<main>
+<main class="px-2 pt-2">
   <.flash_group flash={@flash} />
   <%= @inner_content %>
 </main>

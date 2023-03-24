@@ -8,7 +8,7 @@ defmodule SimpleBudget.UserTest do
 
   test "processes a changeset" do
     user =
-      %User{email: "test@example.com", preferences: %{layout: :automatic}}
+      %User{email: "test@example.com", preferences: %{layout: :list}}
       |> Repo.insert!()
 
     assert(
@@ -24,13 +24,13 @@ defmodule SimpleBudget.UserTest do
     assert({:ok, _changeset} = User.changeset(user) |> Repo.update())
   end
 
-  test "changing a layout to nil sets it to automatic (effectively unsetting)" do
+  test "changing a layout to nil sets it to list (effectively unsetting)" do
     user =
       %User{email: "test@example.com", preferences: %{layout: :grid}}
       |> Repo.insert!()
 
     assert({:ok, user} = User.changeset(user, %{preferences: %{layout: nil}}) |> Repo.update())
 
-    assert(user.preferences.layout == :automatic)
+    assert(user.preferences.layout == :list)
   end
 end

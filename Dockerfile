@@ -27,9 +27,7 @@ RUN mix local.rebar --force
 WORKDIR /src
 
 RUN mix compile
-RUN mix esbuild default
-RUN mix tailwind default
-RUN mix phx.digest
+RUN mix assets.deploy
 RUN mix release
 
 FROM elixir:1.14.3-alpine
