@@ -33,7 +33,7 @@ defmodule SimpleBudget.MixProject do
   defp deps do
     [
       {:assent, "~> 0.2.2"},
-      {:castore, "~> 0.1"},
+      {:castore, "~> 1.0"},
       {:certifi, "~> 2.4"},
       {:ecto_sql, "~> 3.6"},
       {:esbuild, "~> 0.7", runtime: Mix.env() == :dev},
