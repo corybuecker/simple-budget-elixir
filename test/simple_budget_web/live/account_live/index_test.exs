@@ -1,8 +1,6 @@
 defmodule SimpleBudgetWeb.AccountLive.IndexTest do
-  use SimpleBudgetWeb.ConnCase, async: true
-  require Logger
   alias SimpleBudget.{User, Account, Repo}
-  import Phoenix.LiveViewTest
+  use SimpleBudgetWeb.ConnCase, async: true
 
   setup %{conn: conn} do
     uuid = Ecto.UUID.generate()
