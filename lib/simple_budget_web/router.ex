@@ -18,6 +18,7 @@ defmodule SimpleBudgetWeb.Router do
     pipe_through [:browser, :authorized]
 
     get "/", DashboardController, :show
+    get "/transactions", DashboardController, :reset_transactions
 
     live "/accounts", AccountLive.Index
     live "/accounts/new", AccountLive.Edit
@@ -30,6 +31,8 @@ defmodule SimpleBudgetWeb.Router do
     live "/savings", SavingLive.Index
     live "/savings/new", SavingLive.Edit
     live "/savings/:id", SavingLive.Edit
+
+    live "/transactions/new", TransactionsLive.Edit
   end
 
   scope "/login", SimpleBudgetWeb do

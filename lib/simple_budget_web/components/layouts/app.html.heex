@@ -8,8 +8,11 @@
   <%= if assigns |> Map.has_key?(:preferences_layout) do %>
     <SimpleBudgetWeb.Toggle.render current={@preferences_layout} />
   <% end %>
-</nav>
 
+  <%= if assigns |> Map.has_key?(:transactions_toggle) do %>
+    <SimpleBudgetWeb.TransactionsToggle.render />
+  <% end %>
+</nav>
 <main class="px-2 pt-2">
   <.flash_group flash={@flash} />
   <%= @inner_content %>
