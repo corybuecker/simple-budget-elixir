@@ -3,7 +3,7 @@
 <.form :let={form} for={@changeset} phx-change="validate" phx-submit="save">
   <div>
     <.input field={form[:name]} label="Name"></.input>
-    <.input field={form[:balance]} label="Balance"></.input>
+    <.input field={form[:balance]} label="Balance" type="number" inputmode="numeric"></.input>
     <.input type="checkbox" field={form[:debt]} label="Debt"></.input>
     <.button type="submit">Save</.button>
     <.link navigate="/accounts">Cancel</.link>

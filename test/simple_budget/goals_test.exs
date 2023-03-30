@@ -1,7 +1,6 @@
 defmodule SimpleBudget.GoalsTest do
   use ExUnit.Case, async: true
   alias SimpleBudget.{User, Goal, Goals, Repo}
-  require Logger
 
   setup _context do
     :ok = Ecto.Adapters.SQL.Sandbox.checkout(Repo)
