@@ -14,6 +14,7 @@ defmodule SimpleBudget.User do
     has_many :accounts, SimpleBudget.Account
     has_many :goals, SimpleBudget.Goal
     has_many :savings, SimpleBudget.Saving
+    has_many :transactions, SimpleBudget.Transaction
 
     timestamps()
   end
