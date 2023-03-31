@@ -10,21 +10,22 @@ defmodule SimpleBudget.Transactions do
         on: u.id == t.user_id,
         where:
           u.identity == ^identity and
-            fragment("date(?)", t.inserted_at) == fragment("date(now())"),
+            fragment("date(?)", t.inserted_at) == fragment("date(now())") and t.archived == false,
         select: t
     )
   end
 
   def clear_today(%{"identity" => identity}) when is_bitstring(identity) do
-    Repo.delete_all(
-      from t in Transaction,
-        join: u in User,
-        on: u.id == t.user_id,
-        where:
-          u.identity == ^identity and
-            fragment("date(?)", t.inserted_at) == fragment("date(now())"),
-        select: t
+    from(t in Transaction,
+      join: u in User,
+      on: u.id == t.user_id,
+      where:
+        u.identity == ^identity and
+          fragment("date(?)", t.inserted_at) == fragment("date(now())"),
+      select: t,
+      update: [set: [archived: true]]
     )
+    |> Repo.update_all([])
   end
 
   def get(%{"identity" => identity}) when is_bitstring(identity) do
