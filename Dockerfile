@@ -1,4 +1,4 @@
-FROM elixir:1.14.3-alpine as deps
+FROM elixir:1.14.4-alpine as deps
 
 ENV MIX_ENV=prod
 COPY mix.lock mix.exs /src/
@@ -14,7 +14,7 @@ COPY config /src/config
 RUN mix esbuild.install
 RUN mix tailwind.install
 
-FROM elixir:1.14.3-alpine as builder
+FROM elixir:1.14.4-alpine as builder
 
 ENV MIX_ENV=prod
 
@@ -30,7 +30,7 @@ RUN mix compile
 RUN mix assets.deploy
 RUN mix release
 
-FROM elixir:1.14.3-alpine
+FROM elixir:1.14.4-alpine
 
 ENV MIX_ENV=prod
 
