@@ -218,4 +218,36 @@ defmodule SimpleBudget.GoalsTest do
       0.01
     )
   end
+
+  test "increment target date for a recurring goal", %{user: user} do
+    goal =
+      %Goal{
+        user: user,
+        name: "test",
+        recurrance: :monthly,
+        amount: 10,
+        target_date: Date.from_iso8601!("2020-02-15")
+      }
+      |> Repo.insert!()
+
+    goal = goal |> Goals.increment_target_date()
+
+    assert(goal.target_date == Date.from_iso8601!("2020-03-16"))
+  end
+
+  test "increment target date for a non-recurring goal", %{user: user} do
+    goal =
+      %Goal{
+        user: user,
+        name: "test",
+        recurrance: :never,
+        amount: 10,
+        target_date: Date.from_iso8601!("2020-02-15")
+      }
+      |> Repo.insert!()
+
+    goal |> Goals.increment_target_date()
+
+    assert(Enum.empty?(Goals.all(user)))
+  end
 end

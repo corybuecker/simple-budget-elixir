@@ -9,7 +9,8 @@ defmodule SimpleBudget.MixProject do
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      test_coverage: test_coverage()
     ]
   end
 
@@ -26,6 +27,21 @@ defmodule SimpleBudget.MixProject do
   # Specifies which paths to compile per environment.
   defp elixirc_paths(:test), do: ["lib", "test/support"]
   defp elixirc_paths(_), do: ["lib"]
+
+  defp test_coverage do
+    [
+      ignore_modules: [
+        SimpleBudget.Application,
+        SimpleBudget.DataCase,
+        SimpleBudget.Release,
+        SimpleBudget.Repo,
+        SimpleBudgetWeb.CoreComponents,
+        SimpleBudgetWeb.ErrorHTML,
+        SimpleBudgetWeb.Telemetry,
+        SimpleBudgetWeb.Gettext
+      ]
+    ]
+  end
 
   # Specifies your project dependencies.
   #
