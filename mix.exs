@@ -37,7 +37,7 @@ defmodule SimpleBudget.MixProject do
       {:certifi, "~> 2.4"},
       {:ecto_sql, "~> 3.6"},
       {:esbuild, "~> 0.7", runtime: Mix.env() == :dev},
-      {:finch, "~> 0.15"},
+      {:finch, "~> 0.16"},
       {:floki, ">= 0.30.0", only: :test},
       {:gettext, "~> 0.22"},
       {:heroicons, "~> 0.5"},
