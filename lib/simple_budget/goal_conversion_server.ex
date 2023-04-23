@@ -1,5 +1,5 @@
 defmodule SimpleBudget.GoalConversionServer do
-  alias SimpleBudget.{Goal, Repo, Saving}
+  alias SimpleBudget.{Goal, Goals, Repo, Saving}
   require Logger
   use GenServer
 
@@ -35,9 +35,7 @@ defmodule SimpleBudget.GoalConversionServer do
 
       goal
     end)
-    |> Enum.each(fn goal ->
-      goal |> Goal.changeset(%{target_date: Goal.next_target_date(goal)}) |> Repo.update!()
-    end)
+    |> Enum.each(fn goal -> goal |> Goals.increment_target_date() end)
 
     Process.send_after(self(), :work, :timer.minutes(5))
   end

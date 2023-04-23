@@ -140,6 +140,16 @@ defmodule SimpleBudget.Goals do
     Repo.update!(changeset)
   end
 
+  def increment_target_date(%Goal{recurrance: :never} = goal) do
+    goal |> Repo.delete!()
+  end
+
+  def increment_target_date(%Goal{} = goal) do
+    with next_target_date <- Goal.next_target_date(goal) do
+      Goal.changeset(goal, %{target_date: next_target_date}) |> save()
+    end
+  end
+
   defp today() do
     Application.get_env(:simple_budget, SimpleBudget.Goals)[:date_adapter].today()
   end
