@@ -61,7 +61,7 @@ defmodule SimpleBudget.MixProject do
       {:mint, "~> 1.0"},
       {:phoenix_ecto, "~> 4.4"},
       {:phoenix_html, "~> 3.3"},
-      {:phoenix_live_dashboard, "~> 0.7.2"},
+      {:phoenix_live_dashboard, "~> 0.8.0"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_view, "~> 0.18.16"},
       {:phoenix, "~> 1.7.0"},
