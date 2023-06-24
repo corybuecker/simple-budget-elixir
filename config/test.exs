@@ -17,7 +17,7 @@ config :simple_budget, SimpleBudget.Repo,
 # you can enable the server option below.
 config :simple_budget, SimpleBudgetWeb.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: 4002],
-  secret_key_base: "c6wSeiZL8n6xnv3mgETD0rW+bSm5aYvWIT4lB47J0Hdl8z5ySsAPCxOGP8R6Kx5s",
+  secret_key_base: "43+dg5LGeuEJHH1/850aJc9BgqZc+uE8UYFFEtblwlRfuGAF9ceS+PKSH9wLDWSV",
   server: false
 
 # In test we don't send emails.

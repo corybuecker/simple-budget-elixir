@@ -14,8 +14,8 @@ config :simple_budget, SimpleBudget.Repo,
 # debugging and code reloading.
 #
 # The watchers configuration can be used to run external
-# watchers to your application. For example, we use it
-# with esbuild to bundle .js and .css sources.
+# watchers to your application. For example, we can use it
+# to bundle .js and .css sources.
 config :simple_budget, SimpleBudgetWeb.Endpoint,
   # Binding to loopback ipv4 address prevents access from other machines.
   # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
@@ -23,7 +23,7 @@ config :simple_budget, SimpleBudgetWeb.Endpoint,
   check_origin: false,
   code_reloader: true,
   debug_errors: true,
-  secret_key_base: "qIFUW3QZNEwQbzZbKC219985qIl2Q1g8onKjFliAKi2ANgfxb1GN/Oxe648eNhqC",
+  secret_key_base: "bRyTzfF1dDN1cDQGxkFOAW9Um0cmxkmDQdVOleuR1gUHAkzEcO6aRodRkeFYfxCP",
   watchers: [
     esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]},
     tailwind: {Tailwind, :install_and_run, [:default, ~w(--watch)]}
