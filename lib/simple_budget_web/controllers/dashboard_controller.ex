@@ -15,10 +15,11 @@ defmodule SimpleBudgetWeb.DashboardController do
 
     conn
     |> render("show.html", %{
-      total: Goals.spendable(get_session(conn)),
       daily: daily,
-      spent_today: spent_today,
       page_title: "Dashboard",
+      spendable_today: Decimal.sub(daily, spent_today),
+      spent_today: spent_today,
+      total: Goals.spendable(get_session(conn)),
       transactions_toggle: true
     })
   end

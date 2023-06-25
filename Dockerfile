@@ -1,4 +1,4 @@
-FROM elixir:1.15.0-alpine as deps
+FROM elixir:1.15.0-slim as deps
 
 ENV MIX_ENV=prod
 COPY mix.lock mix.exs /src/
@@ -14,7 +14,7 @@ COPY config /src/config
 RUN mix esbuild.install
 RUN mix tailwind.install
 
-FROM elixir:1.15.0-alpine as builder
+FROM elixir:1.15.0-slim as builder
 
 ENV MIX_ENV=prod
 
@@ -30,15 +30,12 @@ RUN mix compile
 RUN mix assets.deploy
 RUN mix release
 
-FROM elixir:1.15.0-alpine
+FROM elixir:1.15.0-slim
 
 ENV MIX_ENV=prod
 
 COPY --from=builder /src/_build/prod/rel/simple_budget /app
 
-CMD [ "/app/bin/simple_budget", "start" ]
+COPY bin/start.sh /app/start.sh
 
-# Appended by flyctl
-ENV ECTO_IPV6 true
-ENV ERL_AFLAGS "-proto_dist inet6_tcp"
-ENV PHX_SERVER true
+CMD [ "/app/start.sh" ]
