@@ -55,7 +55,7 @@ defmodule SimpleBudget.MixProject do
       {:esbuild, "~> 0.7", runtime: Mix.env() == :dev},
       {:finch, "~> 0.13"},
       {:floki, ">= 0.30.0", only: :test},
-      {:gettext, "~> 0.20"},
+      {:gettext, "~> 0.22"},
       {:heroicons, "~> 0.5"},
       {:jason, "~> 1.2"},
       {:mint, "~> 1.0"},
