@@ -4,35 +4,6 @@ defmodule SimpleBudget.Goals do
   import Ecto.{Query}
   require Logger
 
-  @spec spendable(%{required(String.t()) => String.t(), ignore_account_id: integer()}) ::
-          Decimal.t()
-  def spendable(%{"identity" => identity, ignore_account_id: ignore_account_id}) do
-    spendable_records(identity)
-    |> Enum.reject(fn record ->
-      match?(%Account{id: ^ignore_account_id} when is_number(ignore_account_id), record)
-    end)
-    |> spendable_total()
-  end
-
-  @spec spendable(%{required(String.t()) => String.t(), ignore_saving_id: integer()}) ::
-          Decimal.t()
-  def spendable(%{"identity" => identity, ignore_saving_id: ignore_saving_id}) do
-    spendable_records(identity)
-    |> Enum.reject(fn record ->
-      match?(%Saving{id: ^ignore_saving_id} when is_number(ignore_saving_id), record)
-    end)
-    |> spendable_total()
-  end
-
-  @spec spendable(%{required(String.t()) => String.t(), ignore_goal_id: integer()}) :: Decimal.t()
-  def spendable(%{"identity" => identity, ignore_goal_id: ignore_goal_id}) do
-    spendable_records(identity)
-    |> Enum.reject(fn record ->
-      match?(%Goal{id: ^ignore_goal_id} when is_number(ignore_goal_id), record)
-    end)
-    |> spendable_total()
-  end
-
   @spec spendable(%{required(String.t()) => String.t()}) :: Decimal.t()
   def spendable(%{"identity" => identity}) do
     (Accounts.all(%{"identity" => identity}) ++
