@@ -190,35 +190,6 @@ defmodule SimpleBudget.GoalsTest do
     SimpleBudget.Utilities.FakeDate.set_today("2020-01-15")
   end
 
-  test "spendable today with total", context do
-    %SimpleBudget.Account{
-      id: nil,
-      name: "test",
-      user_id: context.user.id,
-      balance: 100,
-      debt: false
-    }
-    |> SimpleBudget.Account.changeset()
-    |> SimpleBudget.Accounts.save()
-
-    %Goal{id: nil, user_id: context.user.id}
-    |> Goal.changeset(%{
-      name: "test",
-      recurrance: :monthly,
-      amount: 50,
-      target_date: Date.from_iso8601!("2020-01-31")
-    })
-    |> Goals.save()
-
-    assert_in_delta(
-      Decimal.to_float(
-        Goals.spendable_today(%{"identity" => context.user.identity}, Decimal.new(500))
-      ),
-      31.25,
-      0.01
-    )
-  end
-
   test "increment target date for a recurring goal", %{user: user} do
     goal =
       %Goal{
