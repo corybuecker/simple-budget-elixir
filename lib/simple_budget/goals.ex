@@ -6,11 +6,10 @@ defmodule SimpleBudget.Goals do
 
   @spec spendable(%{required(String.t()) => String.t()}) :: Decimal.t()
   def spendable(%{"identity" => identity}) do
-    (Accounts.all(%{"identity" => identity}) ++
-       Goals.all(%{"identity" => identity}) ++ Savings.all(%{"identity" => identity}))
-    |> spendable_total()
+    spendable_records(identity) |> spendable_total()
   end
 
+  @spec spendable_records(String.t()) :: [spendable_total_records()]
   def spendable_records(identity) do
     Accounts.all(%{"identity" => identity}) ++
       Goals.all(%{"identity" => identity}) ++ Savings.all(%{"identity" => identity})
@@ -50,16 +49,6 @@ defmodule SimpleBudget.Goals do
   def spendable_today(%{"identity" => identity}) do
     total = spendable(%{"identity" => identity})
 
-    days_left =
-      case Date.diff(Date.end_of_month(today()), today()) do
-        0 -> Date.diff(Date.end_of_month(tomorrow()), tomorrow())
-        anything_else -> anything_else
-      end
-
-    Decimal.div(total, days_left)
-  end
-
-  def spendable_today(%{"identity" => _identity}, total) do
     days_left =
       case Date.diff(Date.end_of_month(today()), today()) do
         0 -> Date.diff(Date.end_of_month(tomorrow()), tomorrow())
