@@ -2,8 +2,8 @@ import Config
 
 # Configure your database
 config :simple_budget, SimpleBudget.Repo,
-  username: "postgres",
-  password: "postgres",
+  username: "simple_budget",
+  password: "",
   hostname: "localhost",
   database: "simple_budget_dev",
   stacktrace: true,

@@ -1,4 +1,4 @@
-FROM elixir:1.15.0-slim as deps
+FROM elixir:1.15.4-slim as deps
 
 ENV MIX_ENV=prod
 COPY mix.lock mix.exs /src/
@@ -14,7 +14,7 @@ COPY config /src/config
 RUN mix esbuild.install
 RUN mix tailwind.install
 
-FROM elixir:1.15.0-slim as builder
+FROM elixir:1.15.4-slim as builder
 
 ENV MIX_ENV=prod
 
@@ -30,12 +30,10 @@ RUN mix compile
 RUN mix assets.deploy
 RUN mix release
 
-FROM elixir:1.15.0-slim
+FROM elixir:1.15.4-slim
 
 ENV MIX_ENV=prod
-
+ENV PHX_SERVER=true
 COPY --from=builder /src/_build/prod/rel/simple_budget /app
 
-COPY bin/start.sh /app/start.sh
-
-CMD [ "/app/start.sh" ]
+CMD [ "/app/bin/simple_budget", "start" ]

@@ -3,6 +3,10 @@ defmodule SimpleBudget.User do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @type t :: %SimpleBudget.User{
+          email: String.t()
+        }
+
   schema "users" do
     field :email, :string
     field :identity, Ecto.UUID

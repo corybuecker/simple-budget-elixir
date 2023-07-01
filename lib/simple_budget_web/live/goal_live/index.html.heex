@@ -1,32 +1,12 @@
 <div class="flex">
   <.link navigate="/goals/new">New</.link>
 </div>
-<div class="grid grid-cols-6">
-  <div>Goal</div>
-  <div>Target amount</div>
-  <div>Target date</div>
-  <div>Daily amortized amount</div>
-  <div>Amortized amount</div>
-  <div></div>
-  <%= for goal <- @goals do %>
-    <div>
-      <%= goal.name %>
-    </div>
-    <div>$<%= goal.amount |> Decimal.round(2) %></div>
-    <div><%= goal.target_date %></div>
-    <div>
-      $<%= SimpleBudget.Goal.daily_amortized_amount(goal) |> Decimal.round(2) %>
-    </div>
-    <div>
-      $<%= SimpleBudget.Goal.amortized_amount(goal) |> Decimal.round(2) %>
-    </div>
-    <div class="text-center">
-      <.link navigate={"/goals/#{goal.id}"}>Edit</.link>
-      <.button phx-click="delete" phx-value-id={goal.id}>
-        Delete
-      </.button>
-    </div>
-  <% end %>
+<div>
+  <.live_component
+    id="goals"
+    module={SimpleBudgetWeb.Goals.Layout}
+    goals_layout={@preferences_layout}
+    goals={@streams.goals}
+  />
 </div>
-
 <div><%= @total_daily_amortized %></div>

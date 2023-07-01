@@ -38,7 +38,7 @@ defmodule SimpleBudget.AccountsTest do
   test "create", context do
     assert(Accounts.all(%{"identity" => context.user.identity}) == [])
 
-    account =
+    {:ok, account} =
       %Account{id: nil, user_id: context.user.id}
       |> Account.changeset(%{name: "test", balance: 1, debt: false})
       |> Accounts.save()
@@ -47,14 +47,14 @@ defmodule SimpleBudget.AccountsTest do
   end
 
   test "upsert", context do
-    account =
+    {:ok, account} =
       %Account{id: nil, user_id: context.user.id}
       |> Account.changeset(%{name: "test", balance: 1, debt: false})
       |> Accounts.save()
 
     assert(Accounts.all(%{"identity" => context.user.identity}) == [account])
 
-    account = account |> Account.changeset() |> Accounts.save()
+    {:ok, account} = account |> Account.changeset() |> Accounts.save()
 
     assert(Accounts.all(%{"identity" => context.user.identity}) == [account])
   end

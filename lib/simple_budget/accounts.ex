@@ -4,6 +4,13 @@ defmodule SimpleBudget.Accounts do
   import Ecto.{Query}
   require Logger
 
+  @spec all(
+          %{required(String.t()) => String.t()}
+          | %{required(:atom) => String.t()}
+          | String.t()
+          | User.t()
+        ) ::
+          list(Account.t())
   def all(%{"identity" => identity}) when is_bitstring(identity) do
     Repo.all(
       from a in Account,
@@ -47,10 +54,10 @@ defmodule SimpleBudget.Accounts do
   end
 
   def save(%Ecto.Changeset{data: %{id: nil}} = changeset) do
-    Repo.insert!(changeset)
+    Repo.insert(changeset)
   end
 
   def save(%Ecto.Changeset{} = changeset) do
-    Repo.update!(changeset)
+    Repo.update(changeset)
   end
 end

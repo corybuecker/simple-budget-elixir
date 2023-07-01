@@ -4,12 +4,14 @@ defmodule SimpleBudget.Goals do
   import Ecto.{Query}
   require Logger
 
+  @type combined_records :: Account.t() | Saving.t() | Goal.t()
+
   @spec spendable(%{required(String.t()) => String.t()}) :: Decimal.t()
   def spendable(%{"identity" => identity}) do
     spendable_records(identity) |> spendable_total()
   end
 
-  @spec spendable_records(String.t()) :: [spendable_total_records()]
+  @spec spendable_records(String.t()) :: list(combined_records())
   def spendable_records(identity) do
     Accounts.all(%{"identity" => identity}) ++
       Goals.all(%{"identity" => identity}) ++ Savings.all(%{"identity" => identity})
@@ -23,8 +25,7 @@ defmodule SimpleBudget.Goals do
     )
   end
 
-  @type spendable_total_records :: %Goal{} | %Account{} | %Saving{}
-  @spec spendable_total([] | [spendable_total_records()]) :: Decimal.t()
+  @spec spendable_total(list(Goal.t())) :: Decimal.t()
   def spendable_total(records) do
     Enum.reduce(
       records,
@@ -58,6 +59,7 @@ defmodule SimpleBudget.Goals do
     Decimal.div(total, days_left)
   end
 
+  @spec all(%{required(String.t()) => String.t()}) :: list(Goal.t())
   def all(%{"identity" => identity}) when is_bitstring(identity) do
     Repo.all(
       from g in Goal,

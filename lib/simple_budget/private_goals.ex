@@ -3,7 +3,7 @@ defmodule SimpleBudget.PrivateGoals do
   import Ecto.{Query}
   require Logger
 
-  def expired() do
+  def expired do
     today = Date.utc_today()
 
     Repo.all(
