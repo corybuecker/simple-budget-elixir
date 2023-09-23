@@ -4,6 +4,7 @@ defmodule SimpleBudget.Savings do
   import Ecto.{Query}
   require Logger
 
+  @spec all(%{required(String.t()) => String.t()}) :: list(Saving.t())
   def all(%{"identity" => identity}) when is_bitstring(identity) do
     Repo.all(
       from a in Saving,

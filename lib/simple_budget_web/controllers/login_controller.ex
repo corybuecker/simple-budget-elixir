@@ -16,7 +16,7 @@ defmodule SimpleBudgetWeb.LoginController do
     |> halt()
   end
 
-  defp config() do
+  defp config do
     [
       authorization_params: [scope: "openid email"],
       client_id: System.get_env("GOOGLE_CLIENT_ID"),

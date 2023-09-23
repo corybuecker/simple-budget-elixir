@@ -2,6 +2,10 @@ defmodule SimpleBudget.Saving do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @type t :: %SimpleBudget.Saving{
+          name: String.t()
+        }
+
   schema "savings" do
     field :name, :string
     field :amount, :decimal

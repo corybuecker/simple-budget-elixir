@@ -1,5 +1,5 @@
 defmodule SimpleBudgetWeb.GoalLive.Edit do
-  alias SimpleBudget.{Goal}
+  alias SimpleBudget.Goal
   import Ecto.Enum, only: [mappings: 2]
   require Logger
   use SimpleBudgetWeb, :live_view

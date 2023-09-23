@@ -1,5 +1,11 @@
 defmodule SimpleBudget.Transactions do
-  alias SimpleBudget.{Repo, Users, User, Transaction}
+  alias SimpleBudget.{
+    Repo,
+    Transaction,
+    User,
+    Users
+  }
+
   import Ecto, only: [build_assoc: 3]
   import Ecto.{Query}
 

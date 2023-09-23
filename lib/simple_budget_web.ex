@@ -85,6 +85,7 @@ defmodule SimpleBudgetWeb do
       import Phoenix.HTML
       # Core UI components and translation
       import SimpleBudgetWeb.CoreComponents
+      import SimpleBudgetWeb.CustomComponents
       import SimpleBudgetWeb.Gettext
 
       # Shortcut for generating JS commands

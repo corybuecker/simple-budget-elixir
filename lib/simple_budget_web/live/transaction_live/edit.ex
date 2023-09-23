@@ -11,6 +11,8 @@ defmodule SimpleBudgetWeb.TransactionsLive.Edit do
      |> assign(%{changeset: changeset, transaction: transaction, identity: session["identity"]})}
   end
 
+  @spec handle_event(String.t(), %{required(String.t()) => map()}, Phoenix.LiveView.Socket.t()) ::
+          {:noreply, Phoenix.LiveView.Socket.t()}
   def handle_event("save", %{"transaction" => params}, socket) do
     changeset = SimpleBudget.Transaction.changeset(socket.assigns.transaction, params)
 

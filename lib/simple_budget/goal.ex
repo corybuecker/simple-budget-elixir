@@ -4,6 +4,12 @@ defmodule SimpleBudget.Goal do
   import Ecto.Changeset
   require Logger
 
+  @type t :: %SimpleBudget.Goal{
+          name: String.t(),
+          amount: non_neg_integer(),
+          recurrance: :weekly | :daily | :monthly | :quarterly | :yearly | :never
+        }
+
   schema "goals" do
     field :name, :string
     field :amount, :decimal
@@ -25,7 +31,7 @@ defmodule SimpleBudget.Goal do
     Decimal.div(goal.amount, Decimal.new(days_to_amortize_across(goal)))
   end
 
-  @spec amortized_amount(%SimpleBudget.Goal{recurrance: :never}) :: Decimal.t()
+  @spec amortized_amount(Goal.t()) :: Decimal.t()
   def amortized_amount(%SimpleBudget.Goal{recurrance: :never} = goal) do
     days_to_amortize_across = days_to_amortize_across(goal)
     days_amortized = Date.diff(today(), goal.inserted_at)
@@ -45,9 +51,6 @@ defmodule SimpleBudget.Goal do
     )
   end
 
-  @spec amortized_amount(%SimpleBudget.Goal{
-          :recurrance => :daily | :monthly | :quarterly | :weekly | :yearly
-        }) :: Decimal.t()
   def amortized_amount(%SimpleBudget.Goal{} = goal) do
     start = Date.add(goal.target_date, -days_to_amortize_across(goal))
     start_diff = Date.diff(today(), start)
@@ -64,9 +67,7 @@ defmodule SimpleBudget.Goal do
     )
   end
 
-  @spec next_target_date(%SimpleBudget.Goal{
-          :recurrance => :never
-        }) :: Date.t()
+  @spec next_target_date(Goal.t()) :: Date.t()
   def next_target_date(%SimpleBudget.Goal{recurrance: :never} = goal) do
     goal.target_date
   end

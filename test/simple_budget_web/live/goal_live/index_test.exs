@@ -4,7 +4,10 @@ defmodule SimpleBudgetWeb.GoalLive.IndexTest do
 
   setup %{conn: conn} do
     uuid = Ecto.UUID.generate()
-    user = %User{email: "test@example.com", identity: uuid} |> Repo.insert!()
+
+    user =
+      %User{email: "test@example.com", identity: uuid, preferences: %{id: uuid, layout: :grid}}
+      |> Repo.insert!()
 
     %Goal{
       user: user,

@@ -13,7 +13,9 @@ defmodule SimpleBudgetWeb.AccountLive.Edit do
   end
 
   def handle_event("validate", %{"account" => params}, socket) do
-    changeset = SimpleBudget.Account.changeset(socket.assigns.account, params)
+    changeset =
+      SimpleBudget.Account.changeset(socket.assigns.account, params)
+      |> Map.put(:action, :validate)
 
     {:noreply,
      socket
@@ -21,15 +23,15 @@ defmodule SimpleBudgetWeb.AccountLive.Edit do
   end
 
   def handle_event("save", %{"account" => params}, socket) do
-    changeset = SimpleBudget.Account.changeset(socket.assigns.account, params)
+    result =
+      SimpleBudget.Account.changeset(socket.assigns.account, params)
+      |> SimpleBudget.Accounts.save()
 
-    case changeset.valid? do
-      false ->
+    case result do
+      {:error, changeset} ->
         {:noreply, socket |> assign(:changeset, changeset)}
 
-      true ->
-        Logger.info("saving changeset: #{changeset |> inspect()}")
-        SimpleBudget.Accounts.save(changeset)
+      {:ok, _} ->
         {:noreply, socket |> push_navigate(to: "/accounts")}
     end
   end
