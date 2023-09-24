@@ -1,8 +1,9 @@
 defmodule SimpleBudget.Goal do
   alias SimpleBudget.{Goal}
-  use Ecto.Schema
+
   import Ecto.Changeset
   require Logger
+  use Ecto.Schema
 
   @type t :: %SimpleBudget.Goal{
           name: String.t(),
@@ -33,12 +34,12 @@ defmodule SimpleBudget.Goal do
 
   @spec amortized_amount(Goal.t()) :: Decimal.t()
   def amortized_amount(%SimpleBudget.Goal{recurrance: :never} = goal) do
-    days_to_amortize_across = days_to_amortize_across(goal)
-    days_amortized = Date.diff(today(), goal.inserted_at)
+    seconds_to_amortize_across = seconds_to_amortize_across(goal)
+    days_amortized = DateTime.diff(today(), goal.inserted_at)
 
     amortized_amount =
       Decimal.mult(
-        Decimal.div(goal.amount, Decimal.new(days_to_amortize_across)),
+        Decimal.div(goal.amount, Decimal.new(seconds_to_amortize_across)),
         Decimal.new(days_amortized)
       )
 
@@ -52,14 +53,18 @@ defmodule SimpleBudget.Goal do
   end
 
   def amortized_amount(%SimpleBudget.Goal{} = goal) do
-    start = Date.add(goal.target_date, -days_to_amortize_across(goal))
-    start_diff = Date.diff(today(), start)
+    start =
+      goal.target_date
+      |> DateTime.new!(~T[00:00:00])
+      |> DateTime.add(-seconds_to_amortize_across(goal))
+
+    start_diff = DateTime.diff(today(), start)
 
     Decimal.min(
       Decimal.max(
         0,
         Decimal.mult(
-          Decimal.div(goal.amount, Decimal.new(days_to_amortize_across(goal))),
+          Decimal.div(goal.amount, Decimal.new(seconds_to_amortize_across(goal))),
           Decimal.new(start_diff)
         )
       ),
@@ -74,6 +79,10 @@ defmodule SimpleBudget.Goal do
 
   def next_target_date(%SimpleBudget.Goal{} = goal) do
     Date.add(goal.target_date, days_to_amortize_across(goal))
+  end
+
+  defp seconds_to_amortize_across(%Goal{} = goal) do
+    days_to_amortize_across(goal) * 86400
   end
 
   defp days_to_amortize_across(%Goal{
@@ -92,6 +101,6 @@ defmodule SimpleBudget.Goal do
   end
 
   defp today() do
-    Application.get_env(:simple_budget, SimpleBudget.Goals)[:date_adapter].today()
+    Application.get_env(:simple_budget, SimpleBudget.Goals)[:datetime_adapter].today()
   end
 end

@@ -22,15 +22,20 @@ defmodule SimpleBudget.GoalTest do
     assert({:ok, _changeset} = Goal.changeset(goal) |> Repo.update())
   end
 
-  test "amortized_amount for daily target tomorrow" do
+  test "amortized_amount for daily target tomorrow at midnight" do
     goal = %Goal{
       amount: 100,
       recurrance: :daily,
       target_date: Date.from_iso8601!("2020-01-16")
     }
 
-    {:ok, expected} = Decimal.cast(0)
-    assert(^expected = Goal.amortized_amount(goal))
+    {:ok, expected} = Decimal.cast(49.99)
+
+    assert_in_delta(
+      expected |> Decimal.to_float(),
+      Goal.amortized_amount(goal) |> Decimal.to_float(),
+      0.01
+    )
   end
 
   test "amortized_amount for weekly target tomorrow" do
@@ -40,7 +45,7 @@ defmodule SimpleBudget.GoalTest do
       target_date: Date.from_iso8601!("2020-01-16")
     }
 
-    {:ok, expected} = Decimal.cast(85.71428)
+    {:ok, expected} = Decimal.cast(92.85)
 
     assert_in_delta(
       expected |> Decimal.to_float(),
@@ -56,7 +61,7 @@ defmodule SimpleBudget.GoalTest do
       target_date: Date.from_iso8601!("2020-01-16")
     }
 
-    {:ok, expected} = Decimal.cast(96.66667)
+    {:ok, expected} = Decimal.cast(98.33)
 
     assert_in_delta(
       expected |> Decimal.to_float(),
@@ -72,7 +77,7 @@ defmodule SimpleBudget.GoalTest do
       target_date: Date.from_iso8601!("2020-02-16")
     }
 
-    {:ok, expected} = Decimal.cast(64.444)
+    {:ok, expected} = Decimal.cast(65.0)
 
     assert_in_delta(
       expected |> Decimal.to_float(),
@@ -88,7 +93,7 @@ defmodule SimpleBudget.GoalTest do
       target_date: Date.from_iso8601!("2020-02-16")
     }
 
-    {:ok, expected} = Decimal.cast(91.2328)
+    {:ok, expected} = Decimal.cast(91.369)
 
     assert_in_delta(
       expected |> Decimal.to_float(),
@@ -102,10 +107,10 @@ defmodule SimpleBudget.GoalTest do
       amount: 100,
       recurrance: :never,
       target_date: Date.from_iso8601!("2020-01-16"),
-      inserted_at: Date.from_iso8601!("2020-01-14")
+      inserted_at: Date.from_iso8601!("2020-01-14") |> DateTime.new!(~T[00:00:00])
     }
 
-    {:ok, expected} = Decimal.cast(50)
+    {:ok, expected} = Decimal.cast(75.0)
 
     assert_in_delta(
       expected |> Decimal.to_float(),
@@ -118,11 +123,11 @@ defmodule SimpleBudget.GoalTest do
     goal = %Goal{
       amount: 100,
       recurrance: :never,
-      target_date: Date.from_iso8601!("2019-12-15"),
-      inserted_at: Date.from_iso8601!("2020-02-15")
+      target_date: Date.from_iso8601!("2020-02-15"),
+      inserted_at: Date.from_iso8601!("2019-12-15") |> DateTime.new!(~T[00:00:00])
     }
 
-    {:ok, expected} = Decimal.cast(50)
+    {:ok, expected} = Decimal.cast(50.806)
 
     assert_in_delta(
       expected |> Decimal.to_float(),
@@ -136,10 +141,10 @@ defmodule SimpleBudget.GoalTest do
       amount: 100,
       recurrance: :never,
       target_date: Date.from_iso8601!("2020-01-22"),
-      inserted_at: Date.from_iso8601!("2019-12-15")
+      inserted_at: Date.from_iso8601!("2019-12-15") |> DateTime.new!(~T[00:00:00])
     }
 
-    {:ok, expected} = Decimal.cast(81.57)
+    {:ok, expected} = Decimal.cast(82.8947)
 
     assert_in_delta(
       expected |> Decimal.to_float(),
@@ -153,7 +158,7 @@ defmodule SimpleBudget.GoalTest do
       amount: 100,
       recurrance: :never,
       target_date: Date.from_iso8601!("2020-01-14"),
-      inserted_at: Date.from_iso8601!("2019-12-15")
+      inserted_at: Date.from_iso8601!("2019-12-15") |> DateTime.new!(~T[00:00:00])
     }
 
     {:ok, expected} = Decimal.cast(100)

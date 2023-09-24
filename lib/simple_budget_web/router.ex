@@ -1,8 +1,6 @@
 defmodule SimpleBudgetWeb.Router do
   use SimpleBudgetWeb, :router
 
-  @content_security_policy "default-src 'self'"
-
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
