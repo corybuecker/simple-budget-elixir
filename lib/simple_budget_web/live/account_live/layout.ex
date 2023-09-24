@@ -2,27 +2,27 @@ defmodule SimpleBudgetWeb.Accounts.Layout do
   use SimpleBudgetWeb, :live_component
 
   attr(:accounts, :list, required: true)
-  attr(:accounts_layout, :atom, required: true)
+  attr(:preferences, SimpleBudget.User.Preferences, required: true)
 
   def render(assigns) do
-    case assigns.accounts_layout do
-      :list -> accounts_list(assigns)
-      :grid -> grid(assigns)
+    case assigns.preferences.layout do
+      :list -> list_view(assigns)
+      :grid -> grid_view(assigns)
     end
   end
 
-  defp grid(assigns) do
+  defp list_view(assigns) do
     ~H"""
-    <div phx-update="stream" id="accounts-layout" class="flex flex-wrap gap-2">
+    <div phx-update="stream" id="accounts-layout" class="flex">
       <%= for {id, account} <- @accounts do %>
-        <div class="flex flex-col border rounded" id={id} }>
+        <div id={id}>
           <div><%= account.name %> &nbsp;&mdash;&nbsp; <%= account.balance %></div>
           <div>
             <.link navigate={"/accounts/#{account.id}"}>Edit</.link>
 
-            <.button phx-click="delete" phx-value-id={account.id}>
+            <.custom_button data-confirm="Sure?" phx-click="delete" phx-value-id={account.id}>
               sDelete
-            </.button>
+            </.custom_button>
           </div>
         </div>
       <% end %>
@@ -30,16 +30,16 @@ defmodule SimpleBudgetWeb.Accounts.Layout do
     """
   end
 
-  defp accounts_list(assigns) do
+  defp grid_view(assigns) do
     ~H"""
     <div phx-update="stream" id="accounts-layout" class="flex flex-col gap-2">
       <%= for {id, account} <- @accounts do %>
         <div id={id}>
           <%= account.name %> &nbsp;&mdash;&nbsp; <%= account.balance %>
           <.link navigate={"/accounts/#{account.id}"}>Edit</.link>
-          <button phx-click="delete" phx-value-id={account.id}>
+          <.custom_button data-confirm="Sure?" phx-click="delete" phx-value-id={account.id}>
             Delete
-          </button>
+          </.custom_button>
         </div>
       <% end %>
     </div>

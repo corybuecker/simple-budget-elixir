@@ -1,9 +1,10 @@
 defmodule SimpleBudget.UsersTest do
   use ExUnit.Case, async: true
   alias SimpleBudget.{User, Users, Repo}
+  alias Ecto.Adapters.SQL.Sandbox
 
   setup _context do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Repo)
+    :ok = Sandbox.checkout(Repo)
   end
 
   test "#existing_identity?" do

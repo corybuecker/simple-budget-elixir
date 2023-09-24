@@ -71,7 +71,8 @@ defmodule SimpleBudget.Goals do
     )
   end
 
-  def all(%{identity: identity}) when is_bitstring(identity) do
+  @spec all(SimpleBudget.User.t()) :: list(Goal.t())
+  def all(%SimpleBudget.User{identity: identity}) when is_bitstring(identity) do
     all(%{"identity" => identity})
   end
 

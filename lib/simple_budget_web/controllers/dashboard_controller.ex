@@ -20,6 +20,7 @@ defmodule SimpleBudgetWeb.DashboardController do
       spendable_today: Decimal.sub(daily, spent_today),
       spent_today: spent_today,
       total: Goals.spendable(get_session(conn)),
+      days: Date.diff(Date.end_of_month(Date.utc_today()), Date.utc_today()),
       transactions_toggle: true
     })
   end

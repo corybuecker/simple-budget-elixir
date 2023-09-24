@@ -2,43 +2,43 @@ defmodule SimpleBudgetWeb.Savings.Layout do
   use SimpleBudgetWeb, :live_component
 
   attr(:savings, :list, required: true)
-  attr(:savings_layout, :atom, required: true)
+  attr(:preferences, SimpleBudget.User.Preferences, required: true)
 
   def render(assigns) do
-    case assigns.savings_layout do
-      :list -> savings_list(assigns)
-      :grid -> grid(assigns)
+    case assigns.preferences.layout do
+      :list -> list_view(assigns)
+      :grid -> grid_view(assigns)
     end
   end
 
-  defp grid(assigns) do
+  defp grid_view(assigns) do
     ~H"""
-    <div phx-update="stream" id="savings-layout" class="flex flex-wrap gap-2">
+    <div phx-update="stream" id="savings-layout" class="flex gap-2">
       <%= for {id, saving} <- @savings do %>
         <div id={id}>
           <%= saving.name %> &nbsp;&mdash;&nbsp; <%= saving.amount %>
           <.link navigate={"/savings/#{saving.id}"}>Edit</.link>
 
-          <.button phx-click="delete" phx-value-id={saving.id}>
+          <.custom_button data-confirm="Sure?" phx-click="delete" phx-value-id={saving.id}>
             Delete
-          </.button>
+          </.custom_button>
         </div>
       <% end %>
     </div>
     """
   end
 
-  defp savings_list(assigns) do
+  defp list_view(assigns) do
     ~H"""
-    <div phx-update="stream" id="saving-layout" class="flex flex-col gap-2">
+    <div phx-update="stream" id="saving-layout" class="flex flex-col">
       <%= for {id, saving} <- @savings do %>
         <div id={id}>
           <%= saving.name %> &nbsp;&mdash;&nbsp; <%= saving.amount %>
           <.link navigate={"/savings/#{saving.id}"}>Edit</.link>
 
-          <.button phx-click="delete" phx-value-id={saving.id}>
+          <.custom_button data-confirm="Sure?" phx-click="delete" phx-value-id={saving.id}>
             Delete
-          </.button>
+          </.custom_button>
         </div>
       <% end %>
     </div>

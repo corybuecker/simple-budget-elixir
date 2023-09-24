@@ -3,7 +3,7 @@ defmodule SimpleBudgetWeb.DashboardHTML do
 
   embed_templates "dashboard_html/*"
 
-  def number_format(number, places \\ 5) do
+  def number_format(number, places \\ 2) do
     "$#{number |> Decimal.round(places)}"
   end
 end

@@ -2,18 +2,18 @@ defmodule SimpleBudgetWeb.Goals.Layout do
   use SimpleBudgetWeb, :live_component
 
   attr(:goals, :list, required: true)
-  attr(:goals_layout, :atom, required: true)
+  attr(:preferences, SimpleBudget.User.Preferences, required: true)
 
   def render(assigns) do
-    case assigns.goals_layout do
-      :list -> goals_list(assigns)
-      :grid -> grid(assigns)
+    case assigns.preferences.layout do
+      :list -> list_view(assigns)
+      :grid -> grid_view(assigns)
     end
   end
 
-  defp grid(assigns) do
+  defp grid_view(assigns) do
     ~H"""
-    <div phx-update="stream" id="goals-layout" class="flex flex-wrap gap-2">
+    <div phx-update="stream" id="goals-layout" class="flex">
       <%= for {id, goal} <- @goals do %>
         <div id={id}>
           <div>
@@ -29,9 +29,9 @@ defmodule SimpleBudgetWeb.Goals.Layout do
           </div>
           <div class="text-center">
             <.link navigate={"/goals/#{goal.id}"}>Edit</.link>
-            <.button phx-click="delete" phx-value-id={goal.id}>
+            <.custom_button data-confirm="Sure?" phx-click="delete" phx-value-id={goal.id}>
               Delete
-            </.button>
+            </.custom_button>
           </div>
         </div>
       <% end %>
@@ -39,11 +39,11 @@ defmodule SimpleBudgetWeb.Goals.Layout do
     """
   end
 
-  defp goals_list(assigns) do
+  defp list_view(assigns) do
     ~H"""
-    <div phx-update="stream" id="goal-layout" class="flex flex-col gap-2">
+    <div phx-update="stream" id="goal-layout" class="flex flex-col">
       <%= for {id, goal} <- @goals do %>
-        <div id={id}>
+        <div class="flex gap-2" id={id}>
           <div>
             <%= goal.name %>
           </div>
@@ -55,11 +55,11 @@ defmodule SimpleBudgetWeb.Goals.Layout do
           <div>
             $<%= SimpleBudget.Goal.amortized_amount(goal) |> Decimal.round(2) %>
           </div>
-          <div class="text-center">
+          <div>
             <.link navigate={"/goals/#{goal.id}"}>Edit</.link>
-            <.button phx-click="delete" phx-value-id={goal.id}>
+            <.custom_button data-confirm="Sure?" phx-click="delete" phx-value-id={goal.id}>
               Delete
-            </.button>
+            </.custom_button>
           </div>
         </div>
       <% end %>
