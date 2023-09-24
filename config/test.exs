@@ -32,4 +32,4 @@ config :logger, level: :warning
 # Initialize plugs at runtime for faster test compilation
 config :phoenix, :plug_init_mode, :runtime
 
-config :simple_budget, SimpleBudget.Goals, date_adapter: SimpleBudget.Utilities.FakeDate
+config :simple_budget, SimpleBudget.Goals, datetime_adapter: SimpleBudget.Utilities.FakeDateTime

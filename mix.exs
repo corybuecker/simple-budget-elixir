@@ -37,8 +37,8 @@ defmodule SimpleBudget.MixProject do
         SimpleBudget.Repo,
         SimpleBudgetWeb.CoreComponents,
         SimpleBudgetWeb.ErrorHTML,
-        SimpleBudgetWeb.Telemetry,
-        SimpleBudgetWeb.Gettext
+        SimpleBudgetWeb.Gettext,
+        SimpleBudgetWeb.Telemetry
       ]
     ]
   end

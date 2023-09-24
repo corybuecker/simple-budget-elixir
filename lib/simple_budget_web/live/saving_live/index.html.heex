@@ -1,13 +1,11 @@
 <div class="flex">
   <.link navigate="/savings/new">New</.link>
 </div>
-<%= for saving <- @savings do %>
-  <div id={"saving-#{saving.id}"}>
-    <%= saving.name %> &nbsp;&mdash;&nbsp; <%= saving.amount %>
-    <.link navigate={"/savings/#{saving.id}"}>Edit</.link>
-
-    <.button phx-click="delete" phx-value-id={saving.id}>
-      Delete
-    </.button>
-  </div>
-<% end %>
+<div>
+  <.live_component
+    id="savings"
+    module={SimpleBudgetWeb.Savings.Layout}
+    savings_layout={@preferences_layout}
+    savings={@streams.savings}
+  />
+</div>

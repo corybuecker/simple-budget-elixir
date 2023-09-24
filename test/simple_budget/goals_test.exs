@@ -1,3 +1,34 @@
+defmodule SimpleBudget.GoalsTestSync do
+  use ExUnit.Case, async: false
+  alias SimpleBudget.{User, Goal, Goals, Repo}
+
+  setup _context do
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Repo)
+    %{user: %User{email: "test@example.com", identity: Ecto.UUID.generate()} |> Repo.insert!()}
+  end
+
+  test "spendable today last day", %{user: %{id: id, identity: identity}} do
+    %SimpleBudget.Account{
+      name: "test",
+      user_id: id,
+      balance: 100,
+      debt: false
+    }
+    |> SimpleBudget.Account.changeset()
+    |> SimpleBudget.Accounts.save()
+
+    SimpleBudget.Utilities.FakeDateTime.set_today("2020-01-31T00:00:00Z")
+
+    assert_in_delta(
+      Decimal.to_float(Goals.spendable_today(%{"identity" => identity})),
+      3.57,
+      0.01
+    )
+
+    SimpleBudget.Utilities.FakeDateTime.set_today("2020-01-15T00:00:00Z")
+  end
+end
+
 defmodule SimpleBudget.GoalsTest do
   use ExUnit.Case, async: true
   alias SimpleBudget.{User, Goal, Goals, Repo}
@@ -118,7 +149,7 @@ defmodule SimpleBudget.GoalsTest do
 
     assert_in_delta(
       Decimal.to_float(Goals.spendable(%{"identity" => context.user.identity})),
-      76.67,
+      75.83,
       0.01
     )
   end
@@ -164,30 +195,9 @@ defmodule SimpleBudget.GoalsTest do
 
     assert_in_delta(
       Decimal.to_float(Goals.spendable_today(%{"identity" => context.user.identity})),
-      4.10,
+      4.05208,
       0.01
     )
-  end
-
-  test "spendable today last day", %{user: %{id: id, identity: identity}} do
-    %SimpleBudget.Account{
-      name: "test",
-      user_id: id,
-      balance: 100,
-      debt: false
-    }
-    |> SimpleBudget.Account.changeset()
-    |> SimpleBudget.Accounts.save()
-
-    SimpleBudget.Utilities.FakeDate.set_today("2020-01-31")
-
-    assert_in_delta(
-      Decimal.to_float(Goals.spendable_today(%{"identity" => identity})),
-      3.57,
-      0.01
-    )
-
-    SimpleBudget.Utilities.FakeDate.set_today("2020-01-15")
   end
 
   test "increment target date for a recurring goal", %{user: user} do

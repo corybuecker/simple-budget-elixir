@@ -113,10 +113,10 @@ defmodule SimpleBudget.Goals do
   end
 
   defp today() do
-    Application.get_env(:simple_budget, SimpleBudget.Goals)[:date_adapter].today()
+    Application.get_env(:simple_budget, SimpleBudget.Goals)[:datetime_adapter].today()
   end
 
   defp tomorrow() do
-    Application.get_env(:simple_budget, SimpleBudget.Goals)[:date_adapter].tomorrow()
+    Application.get_env(:simple_budget, SimpleBudget.Goals)[:datetime_adapter].tomorrow()
   end
 end
