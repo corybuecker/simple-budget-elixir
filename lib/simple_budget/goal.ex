@@ -35,7 +35,7 @@ defmodule SimpleBudget.Goal do
   @spec amortized_amount(Goal.t()) :: Decimal.t()
   def amortized_amount(%SimpleBudget.Goal{recurrance: :never} = goal) do
     seconds_to_amortize_across = seconds_to_amortize_across(goal)
-    days_amortized = DateTime.diff(today(), goal.inserted_at)
+    days_amortized = DateTime.diff(today(), DateTime.from_naive!(goal.inserted_at, "Etc/UTC"))
 
     amortized_amount =
       Decimal.mult(
@@ -82,7 +82,7 @@ defmodule SimpleBudget.Goal do
   end
 
   defp seconds_to_amortize_across(%Goal{} = goal) do
-    days_to_amortize_across(goal) * 86400
+    days_to_amortize_across(goal) * 86_400
   end
 
   defp days_to_amortize_across(%Goal{

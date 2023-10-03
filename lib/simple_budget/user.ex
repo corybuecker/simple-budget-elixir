@@ -4,7 +4,8 @@ defmodule SimpleBudget.User do
   import Ecto.Changeset
 
   @type t :: %SimpleBudget.User{
-          email: String.t()
+          email: String.t(),
+          identity: Ecto.UUID.t()
         }
 
   schema "users" do

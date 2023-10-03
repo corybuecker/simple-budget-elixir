@@ -1,6 +1,12 @@
 defmodule SimpleBudget.SavingsTest do
   use ExUnit.Case, async: true
-  alias SimpleBudget.{User, Repo, Savings, Saving}
+
+  alias SimpleBudget.{
+    Repo,
+    Saving,
+    Savings,
+    User
+  }
 
   setup _context do
     :ok = Ecto.Adapters.SQL.Sandbox.checkout(Repo)

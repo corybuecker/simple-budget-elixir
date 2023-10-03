@@ -2,6 +2,8 @@
 <br />
 <%= @daily |> number_format %>
 <br />
+<%= @days %>
+<br />
 <%= @spent_today |> number_format %>
 <br />
-<%= @spendable_today |> number_format %>
+<%= @spendable_today |> number_format(5) %>

@@ -10,6 +10,7 @@ defmodule SimpleBudget.Users do
     Repo.one(from u in User, where: u.email == ^email, select: u)
   end
 
+  @spec get_by_identity(%{required(String.t()) => String.t()}) :: nil | SimpleBudget.User.t()
   def get_by_identity(%{"identity" => identity}) do
     Repo.one(from u in User, where: u.identity == ^identity, select: u)
   end

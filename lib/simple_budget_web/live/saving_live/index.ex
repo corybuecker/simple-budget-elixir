@@ -10,7 +10,7 @@ defmodule SimpleBudgetWeb.SavingLive.Index do
      socket
      |> assign(%{page_title: "Savings"})
      |> assign(%{identity: session["identity"]})
-     |> assign(%{preferences_layout: user.preferences.layout})
+     |> assign(%{preferences: user.preferences})
      |> stream(:savings, Savings.all(session), identity: session["identity"])}
   end
 
@@ -22,15 +22,38 @@ defmodule SimpleBudgetWeb.SavingLive.Index do
 
   def handle_event("update_preferences", %{"layout" => value}, socket) do
     with {:ok, identity} <- socket.assigns() |> Map.fetch(:identity),
-         user <- Users.get_by_identity(identity) do
-      Users.update(user, %{
+         user <- SimpleBudget.Users.get_by_identity(identity) do
+      SimpleBudget.Users.update(user, %{
         "preferences" => %{"layout" => value}
       })
+
+      user = SimpleBudget.Users.get_by_identity(identity)
+      savings = SimpleBudget.Savings.all(user)
+
+      {:noreply,
+       socket
+       |> assign(:preferences, user.preferences)
+       |> stream(:savings, savings, reset: true)}
     else
       anything ->
         Logger.error(anything)
+        {:noreply, socket}
     end
+  end
 
-    {:noreply, socket}
+  def render(assigns) do
+    ~H"""
+    <div class="flex">
+      <.link navigate="/savings/new">New</.link>
+    </div>
+    <div>
+      <.live_component
+        id="savings"
+        module={SimpleBudgetWeb.Savings.Layout}
+        preferences={@preferences}
+        savings={@streams.savings}
+      />
+    </div>
+    """
   end
 end

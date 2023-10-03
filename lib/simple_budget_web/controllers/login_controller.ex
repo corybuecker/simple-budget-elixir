@@ -1,14 +1,15 @@
 defmodule SimpleBudgetWeb.LoginController do
   use SimpleBudgetWeb, :controller
   require Logger
+  alias Assent.Strategy.{Google}
 
   def new(conn, _params) do
     config =
-      Assent.Strategy.Google.default_config([])
+      Google.default_config([])
       |> Assent.Config.merge(config())
 
     {:ok, %{session_params: session_params, url: url}} =
-      Assent.Strategy.Google.authorize_url(config)
+      Google.authorize_url(config)
 
     conn
     |> put_session(:google_session_params, session_params)

@@ -66,7 +66,7 @@ defmodule SimpleBudget.GoalsTest do
       }
       |> Repo.insert!()
 
-    goals = Goals.all(%{identity: context.user.identity})
+    goals = Goals.all(context.user)
 
     assert(goals |> length() == 1)
     assert(goals |> Enum.map(fn v -> v.id end) == [goal.id])

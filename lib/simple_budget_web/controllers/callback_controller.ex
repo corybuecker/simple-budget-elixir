@@ -1,6 +1,7 @@
 defmodule SimpleBudgetWeb.CallbackController do
   use SimpleBudgetWeb, :controller
   require Logger
+  alias Assent.Strategy.{Google}
 
   def new(conn, params) do
     with {:ok, %{user: %{"email" => email, "email_verified" => true}}} <- callback(conn, params),
@@ -16,10 +17,10 @@ defmodule SimpleBudgetWeb.CallbackController do
   end
 
   defp callback(conn, params) do
-    Assent.Strategy.Google.default_config([])
+    Google.default_config([])
     |> Assent.Config.merge(config())
     |> Assent.Config.put(:session_params, conn |> get_session(:google_session_params))
-    |> Assent.Strategy.Google.callback(params)
+    |> Google.callback(params)
     |> log_passthrough()
   end
 

@@ -5,8 +5,8 @@
     <.link navigate="/savings" class={navigation_class("Savings", assigns)}>Savings</.link>
     <.link navigate="/goals" class={navigation_class("Goals", assigns)}>Goals</.link>
   </div>
-  <%= if assigns |> Map.has_key?(:preferences_layout) do %>
-    <SimpleBudgetWeb.Toggle.render current={@preferences_layout} />
+  <%= if assigns |> Map.has_key?(:preferences) do %>
+    <SimpleBudgetWeb.Toggle.render current={@preferences.layout} />
   <% end %>
 
   <%= if assigns |> Map.has_key?(:transactions_toggle) do %>

@@ -6,7 +6,12 @@
     <.input field={form[:name]} label="Name" />
     <.input field={form[:amount]} label="Amount" />
     <.input field={form[:recurrance]} label="Recurrance" />
-    <.input field={form[:target_date]} label="Target date" />
+    <.input
+      id="goal-datepicker"
+      phx-hook="DatePicker"
+      field={form[:target_date]}
+      label="Target date"
+    />
 
     <.button type="submit">Save</.button>
   </div>
