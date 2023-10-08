@@ -1,4 +1,5 @@
 defmodule SimpleBudgetWeb.CustomComponents do
+  require Logger
   use Phoenix.Component
 
   attr :field, Phoenix.HTML.FormField
@@ -35,6 +36,29 @@ defmodule SimpleBudgetWeb.CustomComponents do
     <button type={@type} {@rest}>
       <%= render_slot(@inner_block) %>
     </button>
+    """
+  end
+
+  attr :field, Phoenix.HTML.FormField
+  attr :label, :string, required: true
+
+  def toggle(%{field: %Phoenix.HTML.FormField{}} = assigns) do
+    Logger.info(assigns)
+
+    ~H"""
+    <label class="cursor-pointer flex">
+      <input
+        value="true"
+        name={@field.name}
+        type="checkbox"
+        checked={@field.value == true}
+        class="peer sr-only"
+      />
+      <div class="border border-zinc-800 bg-slate-400 px-px py-px w-11 inline-flex peer-checked:justify-end rounded-full">
+        <div class="bg-white w-5 h-5 rounded-full"></div>
+      </div>
+      <%= @label %>
+    </label>
     """
   end
 end

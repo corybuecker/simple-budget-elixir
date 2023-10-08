@@ -57,7 +57,7 @@ defmodule SimpleBudgetWeb.AccountLive.Edit do
           step="0.01"
           type="number"
         />
-        <.input type="checkbox" field={@form[:debt]} label="Debt"></.input>
+        <.toggle field={@form[:debt]} label="Debt" />
         <div>
           <.custom_button type="submit">Save</.custom_button>
           <.link navigate="/accounts">Cancel</.link>

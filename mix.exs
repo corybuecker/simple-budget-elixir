@@ -60,6 +60,7 @@ defmodule SimpleBudget.MixProject do
       {:gettext, "~> 0.22"},
       {:heroicons, "~> 0.5"},
       {:jason, "~> 1.2"},
+      {:libcluster, "~> 3.3"},
       {:mint, "~> 1.0"},
       {:phoenix_ecto, "~> 4.4"},
       {:phoenix_html, "~> 3.3"},
