@@ -3,15 +3,24 @@ defmodule SimpleBudgetWeb.CustomComponents do
 
   attr :field, Phoenix.HTML.FormField
   attr :label, :string, required: true
+  attr :error, :string
   attr :rest, :global
 
   def text_input(%{field: %Phoenix.HTML.FormField{}} = assigns) do
+    error =
+      case assigns.field.errors do
+        [{error, _} | _] -> error
+        _ -> nil
+      end
+
+    assigns = assign(assigns, :error, error)
+
     ~H"""
-    <div class="flex flex-col">
+    <div phx-feedback-for={@field.name} class="flex flex-col">
       <label for={@field.name}><%= @label %></label>
       <input type="text" id={@field.name} name={@field.name} value={@field.value} {@rest} />
-      <%= for {error, _} <- @field.errors do %>
-        <div class="text-sm"><%= error %></div>
+      <%= if @error do %>
+        <div class="phx-no-feedback:hidden text-sm"><%= @error %></div>
       <% end %>
     </div>
     """
