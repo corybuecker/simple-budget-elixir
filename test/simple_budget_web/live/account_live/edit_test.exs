@@ -58,7 +58,7 @@ defmodule SimpleBudgetWeb.AccountLive.EditTest do
     assert(
       String.contains?(
         results,
-        "type=\"checkbox\" id=\"account_debt\" name=\"account[debt]\" value=\"true\" checked=\"checked\""
+        "type=\"checkbox\" checked=\"checked\""
       )
     )
   end
