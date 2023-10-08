@@ -14,6 +14,7 @@ defmodule SimpleBudget.User do
 
     embeds_one :preferences, Preferences, on_replace: :update do
       field :layout, Ecto.Enum, values: [:grid, :list], default: :list
+      field :show_changeset, :boolean, default: false
     end
 
     has_many :accounts, SimpleBudget.Account

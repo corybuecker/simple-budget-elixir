@@ -4,7 +4,14 @@ defmodule SimpleBudgetWeb.AccountLive.EditTest do
 
   setup %{conn: conn} do
     uuid = Ecto.UUID.generate()
-    user = %User{email: "test@example.com", identity: uuid} |> Repo.insert!()
+
+    user =
+      %User{
+        email: "test@example.com",
+        identity: uuid,
+        preferences: %{layout: :grid, show_changeset: true}
+      }
+      |> Repo.insert!()
 
     %Account{
       user: user,
