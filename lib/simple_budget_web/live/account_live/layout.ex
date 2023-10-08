@@ -11,7 +11,7 @@ defmodule SimpleBudgetWeb.Accounts.Layout do
     end
   end
 
-  defp list_view(assigns) do
+  defp grid_view(assigns) do
     ~H"""
     <div phx-update="stream" id="accounts-layout" class="flex">
       <%= for {id, account} <- @accounts do %>
@@ -30,7 +30,7 @@ defmodule SimpleBudgetWeb.Accounts.Layout do
     """
   end
 
-  defp grid_view(assigns) do
+  defp list_view(assigns) do
     ~H"""
     <div phx-update="stream" id="accounts-layout" class="flex flex-col gap-2">
       <%= for {id, account} <- @accounts do %>

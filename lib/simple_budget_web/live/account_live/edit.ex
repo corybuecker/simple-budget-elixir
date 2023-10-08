@@ -17,6 +17,8 @@ defmodule SimpleBudgetWeb.AccountLive.Edit do
       SimpleBudget.Account.changeset(socket.assigns.account, params)
       |> Map.put(:action, :validate)
 
+    Logger.debug(changeset)
+
     {:noreply,
      socket
      |> assign(:changeset, changeset)}
