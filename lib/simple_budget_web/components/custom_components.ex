@@ -2,9 +2,9 @@ defmodule SimpleBudgetWeb.CustomComponents do
   require Logger
   use Phoenix.Component
 
+  attr :error, :string
   attr :field, Phoenix.HTML.FormField
   attr :label, :string, required: true
-  attr :error, :string
   attr :rest, :global, include: ~w(inputmode min step)
 
   def text_input(%{field: %Phoenix.HTML.FormField{}} = assigns) do
