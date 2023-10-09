@@ -26,6 +26,7 @@ defmodule SimpleBudget.Goal do
     goal
     |> cast(params, [:name, :amount, :recurrance, :target_date])
     |> validate_required([:name, :amount, :recurrance, :target_date])
+    |> validate_number(:amount, greater_than: 0, message: "must be greater than zero")
   end
 
   def daily_amortized_amount(%SimpleBudget.Goal{} = goal) do

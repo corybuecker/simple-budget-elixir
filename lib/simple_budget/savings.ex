@@ -39,10 +39,10 @@ defmodule SimpleBudget.Savings do
   end
 
   def save(%Ecto.Changeset{data: %{id: nil}} = changeset) do
-    Repo.insert!(changeset)
+    Repo.insert(changeset)
   end
 
   def save(%Ecto.Changeset{} = changeset) do
-    Repo.update!(changeset)
+    Repo.update(changeset)
   end
 end
