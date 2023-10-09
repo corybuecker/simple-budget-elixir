@@ -5,7 +5,7 @@ defmodule SimpleBudgetWeb.CustomComponents do
   attr :field, Phoenix.HTML.FormField
   attr :label, :string, required: true
   attr :error, :string
-  attr :rest, :global
+  attr :rest, :global, include: ~w(inputmode min step)
 
   def text_input(%{field: %Phoenix.HTML.FormField{}} = assigns) do
     error =
@@ -18,7 +18,7 @@ defmodule SimpleBudgetWeb.CustomComponents do
 
     ~H"""
     <div phx-feedback-for={@field.name} class="flex flex-col">
-      <label for={@field.name}><%= @label %></label>
+      <label class="leading-none pb-1" for={@field.name}><%= @label %></label>
       <input type="text" id={@field.name} name={@field.name} value={@field.value} {@rest} />
       <%= if @error do %>
         <div class="phx-no-feedback:hidden text-sm"><%= @error %></div>
@@ -43,10 +43,8 @@ defmodule SimpleBudgetWeb.CustomComponents do
   attr :label, :string, required: true
 
   def toggle(%{field: %Phoenix.HTML.FormField{}} = assigns) do
-    Logger.info(assigns)
-
     ~H"""
-    <label class="cursor-pointer flex">
+    <label class="cursor-pointer flex gap-2">
       <input
         value="true"
         name={@field.name}

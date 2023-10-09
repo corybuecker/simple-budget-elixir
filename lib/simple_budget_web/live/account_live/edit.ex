@@ -46,22 +46,20 @@ defmodule SimpleBudgetWeb.AccountLive.Edit do
       <%= @form |> inspect() %>
     <% end %>
 
-    <.form for={@form} phx-change="validate" phx-submit="save">
+    <.form class="flex flex-col gap-2" for={@form} phx-change="validate" phx-submit="save">
+      <.text_input label="Name" field={@form[:name]} />
+      <.text_input
+        field={@form[:balance]}
+        inputmode="decimal"
+        label="Balance"
+        min="0"
+        step="0.01"
+        type="number"
+      />
+      <.toggle field={@form[:debt]} label="Debt" />
       <div>
-        <.text_input label="Name" field={@form[:name]} />
-        <.text_input
-          field={@form[:balance]}
-          inputmode="decimal"
-          label="Balance"
-          min="0"
-          step="0.01"
-          type="number"
-        />
-        <.toggle field={@form[:debt]} label="Debt" />
-        <div>
-          <.custom_button type="submit">Save</.custom_button>
-          <.link navigate="/accounts">Cancel</.link>
-        </div>
+        <.custom_button type="submit">Save</.custom_button>
+        <.link navigate="/accounts">Cancel</.link>
       </div>
     </.form>
     """
