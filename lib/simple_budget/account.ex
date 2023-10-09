@@ -22,5 +22,6 @@ defmodule SimpleBudget.Account do
     account
     |> cast(params, [:name, :balance, :debt])
     |> validate_required([:name, :balance, :debt])
+    |> validate_number(:balance, greater_than: 0, message: "must be greater than zero")
   end
 end

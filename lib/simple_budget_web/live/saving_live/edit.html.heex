@@ -1,9 +1,0 @@
-<h1>
-  Editing <%= @saving.name %>
-</h1>
-<%= @changeset |> inspect() %>
-<.form :let={form} for={@changeset} phx-change="validate" phx-submit="save">
-  <.input field={form[:name]} label="Name"></.input>
-  <.input field={form[:amount]} label="Amount"></.input>
-  <.button type="submit">Save</.button>
-</.form>

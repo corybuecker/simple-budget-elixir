@@ -18,5 +18,6 @@ defmodule SimpleBudget.Saving do
     saving
     |> cast(params, [:name, :amount])
     |> validate_required([:name, :amount])
+    |> validate_number(:amount, greater_than: 0, message: "must be greater than zero")
   end
 end
