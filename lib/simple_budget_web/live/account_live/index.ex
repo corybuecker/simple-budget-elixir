@@ -45,7 +45,7 @@ defmodule SimpleBudgetWeb.AccountLive.Index do
   def render(assigns) do
     ~H"""
     <div class="flex">
-      <.link navigate="/accounts/new">New</.link>
+      <.link navigate="/accounts/new" class="p-1 border border-slate-400 rounded">New</.link>
     </div>
     <div>
       <.live_component

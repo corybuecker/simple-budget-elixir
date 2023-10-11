@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simple-budget
+  namespace: simple-budget
+  labels:
+    app.kubernetes.io/name: simple-budget
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: simple-budget
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: simple-budget
+      annotations:
+        lastDeployed: "2023-10-07:12:49Z"
+    spec:
+      containers:
+        - name: simple-budget
+          image: simple-budget:latest
+          imagePullPolicy: Never
+          env:
+            - name: DATABASE_URL
+              value: ecto://postgres@postgresql.simple-budget:5432/simple_budget
+            - name: SECRET_KEY_BASE
+              value: not_secure_not_secure_not_secure_not_secure_not_secure_not_secure_not_secure_not_secure
+            - name: PHX_HOST
+              value: simple-budget.localhost
+            - name: NODE_COOKIE
+              value: not_secure_not_secure_not_secure_not_secure_not_secure_not_secure_not_secure_not_secure
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+          ports:
+            - containerPort: 4000
