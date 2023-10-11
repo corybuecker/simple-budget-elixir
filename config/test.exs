@@ -33,3 +33,5 @@ config :logger, level: :warning
 config :phoenix, :plug_init_mode, :runtime
 
 config :simple_budget, SimpleBudget.Goals, datetime_adapter: SimpleBudget.Utilities.FakeDateTime
+
+config :simple_budget, :cluster, false

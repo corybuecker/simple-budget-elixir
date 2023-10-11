@@ -53,6 +53,7 @@ defmodule SimpleBudget.MixProject do
       {:certifi, "~> 2.4"},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.3", only: [:dev], runtime: false},
+      {:ecto_psql_extras, "~> 0.6"},
       {:ecto_sql, "~> 3.10"},
       {:esbuild, "~> 0.7.1", runtime: Mix.env() == :dev},
       {:finch, "~> 0.16"},

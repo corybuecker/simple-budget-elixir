@@ -1,4 +1,6 @@
-FROM elixir:1.15.4-slim as deps
+FROM elixir:1.15.4-alpine as deps
+
+RUN apk add --no-cache ca-certificates
 
 ENV MIX_ENV=prod
 COPY mix.lock mix.exs /src/
@@ -14,26 +16,22 @@ COPY config /src/config
 RUN mix esbuild.install
 RUN mix tailwind.install
 
-FROM elixir:1.15.4-slim as builder
-
-ENV MIX_ENV=prod
-
-COPY . /src
-COPY --from=deps /src/deps /src/deps
-COPY --from=deps /src/_build /src/_build
-RUN mix local.hex --force
-RUN mix local.rebar --force
-
-WORKDIR /src
-
-RUN mix compile
-RUN mix assets.deploy
-RUN mix release
-
-FROM elixir:1.15.4-slim
+FROM elixir:1.15.4-alpine as builder
 
 ENV MIX_ENV=prod
 ENV PHX_SERVER=true
-COPY --from=builder /src/_build/prod/rel/simple_budget /app
 
-CMD [ "/app/bin/simple_budget", "start" ]
+COPY . /app
+COPY --from=deps /src/deps /app/deps
+COPY --from=deps /src/_build /app/_build
+RUN mix local.hex --force
+RUN mix local.rebar --force
+
+WORKDIR /app
+
+RUN mix compile
+RUN mix assets.deploy
+
+COPY ./bin/start.sh /app/start.sh
+
+CMD [ "/app/start.sh" ]

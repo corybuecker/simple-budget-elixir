@@ -1,21 +1,20 @@
 defmodule SimpleBudgetWeb.SavingLive.Index do
   use SimpleBudgetWeb, :live_view
   require Logger
-  alias SimpleBudget.{Savings, Users}
 
   def mount(_params, session, socket) do
     user = SimpleBudget.Users.get_by_identity(session["identity"])
 
     {:ok,
      socket
-     |> assign(%{page_title: "Savings"})
-     |> assign(%{identity: session["identity"]})
-     |> assign(%{preferences: user.preferences})
-     |> stream(:savings, Savings.all(session), identity: session["identity"])}
+     |> assign(page_title: "Savings")
+     |> assign(identity: user.identity)
+     |> assign(preferences: user.preferences)
+     |> stream(:savings, SimpleBudget.Savings.all(session))}
   end
 
   def handle_event("delete", params, socket) do
-    deleted_saving = Savings.delete(socket.assigns, params)
+    deleted_saving = SimpleBudget.Savings.delete(socket.assigns, params)
 
     {:noreply, socket |> stream_delete(:savings, deleted_saving)}
   end
@@ -43,7 +42,7 @@ defmodule SimpleBudgetWeb.SavingLive.Index do
 
   def render(assigns) do
     ~H"""
-    <div class="flex">
+    <div>
       <.link navigate="/savings/new">New</.link>
     </div>
     <div>

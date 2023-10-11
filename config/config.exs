@@ -61,6 +61,8 @@ config :phoenix, :json_library, Jason
 
 config :simple_budget, SimpleBudget.Goals, datetime_adapter: SimpleBudget.Utilities.DateTime
 
+config :simple_budget, :cluster, true
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"

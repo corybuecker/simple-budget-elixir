@@ -7,7 +7,22 @@ defmodule SimpleBudget.Application do
 
   @impl true
   def start(_type, _args) do
-    children = [
+    cluster_configuration =
+      {Cluster.Supervisor,
+       [
+         [
+           erlang_nodes_in_k8s: [
+             strategy: Elixir.Cluster.Strategy.Kubernetes.DNS,
+             config: [
+               service: "simple-budget-headless",
+               application_name: "simple-budget"
+             ]
+           ]
+         ],
+         [name: SimpleBudget.ClusterSupervisor]
+       ]}
+
+    base_children = [
       # Start the Telemetry supervisor
       SimpleBudgetWeb.Telemetry,
       # Start the Ecto repository
@@ -22,6 +37,13 @@ defmodule SimpleBudget.Application do
       # {SimpleBudget.Worker, arg}
       SimpleBudget.GoalConversionServer
     ]
+
+    children =
+      if Application.get_env(:simple_budget, :cluster) do
+        base_children ++ [cluster_configuration]
+      else
+        base_children
+      end
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
