@@ -1,3 +1,3 @@
 #!/bin/sh
 
-elixir --cookie ${NODE_COOKIE} --name "simple-budget@${POD_IP}" -S mix phx.server
+elixir --cookie "${NODE_COOKIE}" --name "simple-budget@${POD_IP}" -S mix phx.server
