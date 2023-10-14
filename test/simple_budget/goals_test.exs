@@ -96,7 +96,7 @@ defmodule SimpleBudget.GoalsTest do
   test "create", context do
     assert(Goals.all(%{"identity" => context.user.identity}) == [])
 
-    goal =
+    {:ok, goal} =
       %Goal{id: nil, user_id: context.user.id}
       |> Goal.changeset(%{
         name: "test",
@@ -110,7 +110,7 @@ defmodule SimpleBudget.GoalsTest do
   end
 
   test "upsert", context do
-    goal =
+    {:ok, goal} =
       %Goal{id: nil, user_id: context.user.id}
       |> Goal.changeset(%{
         name: "test",
@@ -122,7 +122,7 @@ defmodule SimpleBudget.GoalsTest do
 
     assert(Goals.all(%{"identity" => context.user.identity}) == [goal])
 
-    goal = goal |> Goal.changeset() |> Goals.save()
+    {:ok, goal} = goal |> Goal.changeset() |> Goals.save()
 
     assert(Goals.all(%{"identity" => context.user.identity}) == [goal])
   end
@@ -211,7 +211,7 @@ defmodule SimpleBudget.GoalsTest do
       }
       |> Repo.insert!()
 
-    goal = goal |> Goals.increment_target_date()
+    {:ok, goal} = goal |> Goals.increment_target_date()
 
     assert(goal.target_date == Date.from_iso8601!("2020-03-16"))
   end
