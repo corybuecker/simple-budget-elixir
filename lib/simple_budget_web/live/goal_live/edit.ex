@@ -44,8 +44,6 @@ defmodule SimpleBudgetWeb.GoalLive.Edit do
 
   def render(assigns) do
     ~H"""
-    <div><%= @spendable_today %></div>
-
     <.form for={@form} phx-change="validate" phx-submit="save">
       <div>
         <.text_input field={@form[:name]} label="Name" />
