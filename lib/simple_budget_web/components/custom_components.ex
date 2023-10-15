@@ -43,15 +43,15 @@ defmodule SimpleBudgetWeb.CustomComponents do
   attr :label, :string, required: true
 
   def toggle(%{field: %Phoenix.HTML.FormField{}} = assigns) do
+    assigns =
+      assign_new(assigns, :checked, fn ->
+        Phoenix.HTML.Form.normalize_value("checkbox", assigns[:field].value)
+      end)
+
     ~H"""
     <label class="cursor-pointer flex gap-2">
-      <input
-        value="true"
-        name={@field.name}
-        type="checkbox"
-        checked={@field.value == true}
-        class="peer sr-only"
-      />
+      <input type="hidden" name={@field.name} value="false" />
+      <input value="true" name={@field.name} type="checkbox" checked={@checked} class="peer sr-only" />
       <div class="border border-zinc-800 bg-slate-400 px-px py-px w-11 inline-flex peer-checked:justify-end rounded-full">
         <div class="bg-white w-5 h-5 rounded-full"></div>
       </div>

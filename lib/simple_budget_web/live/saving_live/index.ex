@@ -42,8 +42,8 @@ defmodule SimpleBudgetWeb.SavingLive.Index do
 
   def render(assigns) do
     ~H"""
-    <div>
-      <.link navigate="/savings/new">New</.link>
+    <div class="flex">
+      <.link class="p-1 border border-slate-400 rounded" navigate="/savings/new">New</.link>
     </div>
     <div>
       <.live_component

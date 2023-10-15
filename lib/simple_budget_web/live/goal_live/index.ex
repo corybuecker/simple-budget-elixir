@@ -51,7 +51,7 @@ defmodule SimpleBudgetWeb.GoalLive.Index do
   def render(assigns) do
     ~H"""
     <div class="flex">
-      <.link navigate="/goals/new">New</.link>
+      <.link class="p-1 border border-slate-400 rounded" navigate="/goals/new">New</.link>
     </div>
     <div>
       <.live_component

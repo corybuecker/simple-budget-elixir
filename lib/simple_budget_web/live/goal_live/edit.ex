@@ -49,7 +49,7 @@ defmodule SimpleBudgetWeb.GoalLive.Edit do
         <.text_input field={@form[:name]} label="Name" />
         <.text_input field={@form[:amount]} label="Amount" />
         <.text_input field={@form[:recurrance]} label="Recurrance" />
-        <.input
+        <.text_input
           id="goal-datepicker"
           phx-hook="DatePicker"
           field={@form[:target_date]}
