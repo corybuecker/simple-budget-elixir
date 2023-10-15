@@ -41,21 +41,21 @@ defmodule SimpleBudgetWeb.Goals.Layout do
 
   defp list_view(assigns) do
     ~H"""
-    <div phx-update="stream" id="goal-layout" class="flex flex-col">
+    <div phx-update="stream" id="goals-layout" class="flex flex-col">
       <%= for {id, goal} <- @goals do %>
         <div class="flex gap-2" id={id}>
-          <div>
+          <div class="basis-1/6">
             <%= goal.name %>
           </div>
-          <div>$<%= goal.amount |> Decimal.round(2) %></div>
-          <div><%= goal.target_date %></div>
-          <div>
+          <div class="basis-1/6">$<%= goal.amount |> Decimal.round(2) %></div>
+          <div class="basis-1/6"><%= goal.target_date %></div>
+          <div class="basis-1/6">
             $<%= SimpleBudget.Goal.daily_amortized_amount(goal) |> Decimal.round(2) %>
           </div>
-          <div>
+          <div class="basis-1/6">
             $<%= SimpleBudget.Goal.amortized_amount(goal) |> Decimal.round(2) %>
           </div>
-          <div>
+          <div class="basis-1/6">
             <.link navigate={"/goals/#{goal.id}"}>Edit</.link>
             <.custom_button data-confirm="Sure?" phx-click="delete" phx-value-id={goal.id}>
               Delete
