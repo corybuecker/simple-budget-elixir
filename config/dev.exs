@@ -79,3 +79,5 @@ config :phoenix, :plug_init_mode, :runtime
 config :swoosh, :api_client, false
 
 config :simple_budget, :cluster, false
+
+config :rollbax, enabled: false

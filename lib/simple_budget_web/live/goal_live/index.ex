@@ -12,8 +12,7 @@ defmodule SimpleBudgetWeb.GoalLive.Index do
      |> assign(%{
        page_title: "Goals",
        identity: user.identity,
-       preferences: user.preferences,
-       total_daily_amortized: Goals.total_daily_amortized(goals) |> Decimal.round(2)
+       preferences: user.preferences
      })
      |> stream(:goals, goals)}
   end
@@ -25,7 +24,6 @@ defmodule SimpleBudgetWeb.GoalLive.Index do
     {:noreply,
      socket
      |> assign(:goals, goals)
-     |> assign(:total_daily_amortized, Goals.total_daily_amortized(goals) |> Decimal.round(2))
      |> stream_delete(:goals, deleted_goal)}
   end
 
@@ -61,7 +59,6 @@ defmodule SimpleBudgetWeb.GoalLive.Index do
         goals={@streams.goals}
       />
     </div>
-    <div><%= @total_daily_amortized %></div>
     """
   end
 end
