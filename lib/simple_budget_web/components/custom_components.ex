@@ -33,7 +33,7 @@ defmodule SimpleBudgetWeb.CustomComponents do
 
   def custom_button(assigns) do
     ~H"""
-    <button type={@type} {@rest}>
+    <button class="border border-black px-2" type={@type} {@rest}>
       <%= render_slot(@inner_block) %>
     </button>
     """

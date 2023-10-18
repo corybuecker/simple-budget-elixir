@@ -71,6 +71,7 @@ defmodule SimpleBudget.MixProject do
       {:phoenix, "~> 1.7.6"},
       {:plug_cowboy, "~> 2.5"},
       {:postgrex, ">= 0.0.0"},
+      {:rollbax, ">= 0.0.0"},
       {:sobelow, "~> 0.12", only: [:dev, :test], runtime: false},
       {:swoosh, "~> 1.3"},
       {:tailwind, "~> 0.2.1", runtime: Mix.env() == :dev},

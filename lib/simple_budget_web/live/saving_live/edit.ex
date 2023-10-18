@@ -56,7 +56,7 @@ defmodule SimpleBudgetWeb.SavingLive.Edit do
       />
       <div>
         <.custom_button type="submit">Save</.custom_button>
-        <.link navigate="/accounts">Cancel</.link>
+        <.link class="underline" navigate="/accounts">Cancel</.link>
       </div>
     </.form>
     """
