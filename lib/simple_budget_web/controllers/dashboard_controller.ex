@@ -13,6 +13,12 @@ defmodule SimpleBudgetWeb.DashboardController do
         fn transaction, total -> Decimal.add(total, transaction.amount) end
       )
 
+    days_left =
+      case Date.diff(Date.end_of_month(today()), today()) do
+        0 -> Date.diff(Date.end_of_month(tomorrow()), tomorrow())
+        anything_else -> anything_else
+      end
+
     conn
     |> render("show.html", %{
       daily: daily,
@@ -20,9 +26,17 @@ defmodule SimpleBudgetWeb.DashboardController do
       spendable_today: Decimal.sub(daily, spent_today),
       spent_today: spent_today,
       total: Goals.spendable(get_session(conn)),
-      days: Date.diff(Date.end_of_month(Date.utc_today()), Date.utc_today()),
+      days: days_left,
       transactions_toggle: true
     })
+  end
+
+  defp today() do
+    Application.get_env(:simple_budget, SimpleBudget.Goals)[:datetime_adapter].today()
+  end
+
+  defp tomorrow() do
+    Application.get_env(:simple_budget, SimpleBudget.Goals)[:datetime_adapter].tomorrow()
   end
 
   def reset_transactions(conn, _params) do
