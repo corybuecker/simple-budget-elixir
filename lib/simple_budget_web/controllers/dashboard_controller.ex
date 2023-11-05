@@ -5,6 +5,7 @@ defmodule SimpleBudgetWeb.DashboardController do
 
   def show(conn, _params) do
     daily = Goals.spendable_today(get_session(conn))
+    daily_added = Goals.total_daily_amortized(Goals.all(get_session(conn)))
 
     spent_today =
       Enum.reduce(
@@ -27,6 +28,7 @@ defmodule SimpleBudgetWeb.DashboardController do
       spent_today: spent_today,
       total: Goals.spendable(get_session(conn)),
       days: days_left,
+      daily_added: daily_added,
       transactions_toggle: true
     })
   end

@@ -55,7 +55,7 @@ defmodule SimpleBudget.MixProject do
       {:dialyxir, "~> 1.3", only: [:dev], runtime: false},
       {:ecto_psql_extras, "~> 0.6"},
       {:ecto_sql, "~> 3.10"},
-      {:esbuild, "~> 0.7.1", runtime: Mix.env() == :dev},
+      {:esbuild, "~> 0.8", runtime: Mix.env() == :dev},
       {:finch, "~> 0.16"},
       {:floki, ">= 0.30.0", only: :test},
       {:gettext, "~> 0.22"},
