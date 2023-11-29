@@ -9,7 +9,7 @@ defmodule SimpleBudgetWeb.AccountLive.Index do
       :ok,
       socket
       |> assign(:page_title, "Accounts")
-      |> assign(:preferences, user.preferences)
+      |> assign(:preferences, user.preferences || %{"layout" => "grid"})
       |> assign(:identity, user.identity)
       |> stream(:accounts, SimpleBudget.Accounts.all(user))
     }

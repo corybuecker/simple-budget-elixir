@@ -40,3 +40,13 @@ liveSocket.connect()
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket
 
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("/static/sw.js").then(
+    (registration) => {
+      console.log("Service worker registration succeeded:", registration);
+    },
+    (error) => {
+      console.error(`Service worker registration failed: ${error}`);
+    },
+  );
+}
