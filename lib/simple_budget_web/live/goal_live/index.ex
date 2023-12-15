@@ -1,7 +1,7 @@
 defmodule SimpleBudgetWeb.GoalLive.Index do
-  use SimpleBudgetWeb, :live_view
   alias SimpleBudget.Goals
   require Logger
+  use SimpleBudgetWeb, :live_view
 
   def mount(_params, session, socket) do
     user = SimpleBudget.Users.get_by_identity(session["identity"])

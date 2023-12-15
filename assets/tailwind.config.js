@@ -19,7 +19,6 @@ module.exports = {
     },
   },
   plugins: [
-    require('@tailwindcss/container-queries'),
     require("@tailwindcss/forms"),
     // Allows prefixing tailwind classes with LiveView classes to add rules
     // only when LiveView classes are applied, for example:
@@ -43,7 +42,7 @@ module.exports = {
         ["-mini", "/20/solid"]
       ]
       icons.forEach(([suffix, dir]) => {
-        fs.readdirSync(path.join(iconsDir, dir)).map(file => {
+        fs.readdirSync(path.join(iconsDir, dir)).forEach(file => {
           let name = path.basename(file, ".svg") + suffix
           values[name] = {name, fullPath: path.join(iconsDir, dir, file)}
         })

@@ -33,6 +33,8 @@ defmodule SimpleBudgetWeb.Router do
     live "/savings/:id", SavingLive.Edit
 
     live "/transactions/new", TransactionsLive.Edit
+
+    live "/dashboard", DashboardLive.Index
   end
 
   scope "/login", SimpleBudgetWeb do

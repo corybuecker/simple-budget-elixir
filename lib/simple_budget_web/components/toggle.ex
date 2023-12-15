@@ -1,7 +1,7 @@
 defmodule SimpleBudgetWeb.Toggle do
   use SimpleBudgetWeb, :html
 
-  attr :current, :atom, required: true
+  attr :current, :atom, default: :grid
 
   def render(assigns) do
     ~H"""
