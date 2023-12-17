@@ -7,7 +7,7 @@ defmodule SimpleBudgetWeb.Endpoint do
   @session_options [
     store: :cookie,
     key: "_simple_budget_key",
-    signing_salt: "1Kq/78fb",
+    signing_salt: "tg7Olpql",
     same_site: "Lax"
   ]
 

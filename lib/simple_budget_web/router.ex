@@ -10,44 +10,26 @@ defmodule SimpleBudgetWeb.Router do
     plug :put_secure_browser_headers
   end
 
-  pipeline :authorized do
+  pipeline :authenticated_user do
     plug SimpleBudgetWeb.Plugs.AuthenticatedUser
   end
 
   scope "/", SimpleBudgetWeb do
-    pipe_through [:browser, :authorized]
+    pipe_through [:browser, :authenticated_user]
 
-    get "/", DashboardController, :show
-    get "/transactions", DashboardController, :reset_transactions
+    get "/", PageController, :home
 
-    live "/accounts", AccountLive.Index
-    live "/accounts/new", AccountLive.Edit
-    live "/accounts/:id", AccountLive.Edit
-
-    live "/goals", GoalLive.Index
-    live "/goals/new", GoalLive.Edit
-    live "/goals/:id", GoalLive.Edit
-
-    live "/savings", SavingLive.Index
-    live "/savings/new", SavingLive.Edit
-    live "/savings/:id", SavingLive.Edit
-
-    live "/transactions/new", TransactionsLive.Edit
-
-    live "/dashboard", DashboardLive.Index
+    resources "/accounts", AccountsController
+    resources "/savings", SavingsController
+    resources "/goals", GoalsController
   end
 
   scope "/login", SimpleBudgetWeb do
-    pipe_through [:browser]
+    pipe_through :browser
 
     get "/", LoginController, :new
     get "/callback", CallbackController, :new
   end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", SimpleBudgetWeb do
-  #   pipe_through :api
-  # end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:simple_budget, :dev_routes) do
@@ -64,9 +46,5 @@ defmodule SimpleBudgetWeb.Router do
       live_dashboard "/dashboard", metrics: SimpleBudgetWeb.Telemetry
       forward "/mailbox", Plug.Swoosh.MailboxPreview
     end
-  end
-
-  def handle_errors(_conn, %{kind: kind, reason: reason, stack: stacktrace}) do
-    Rollbax.report(kind, reason, stacktrace)
   end
 end

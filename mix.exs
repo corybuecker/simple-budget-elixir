@@ -5,12 +5,11 @@ defmodule SimpleBudget.MixProject do
     [
       app: :simple_budget,
       version: "0.1.0",
-      elixir: ">= 1.15.4",
+      elixir: "~> 1.14",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps(),
-      test_coverage: test_coverage()
+      deps: deps()
     ]
   end
 
@@ -28,53 +27,30 @@ defmodule SimpleBudget.MixProject do
   defp elixirc_paths(:test), do: ["lib", "test/support"]
   defp elixirc_paths(_), do: ["lib"]
 
-  defp test_coverage do
-    [
-      ignore_modules: [
-        SimpleBudget.Application,
-        SimpleBudget.DataCase,
-        SimpleBudget.Release,
-        SimpleBudget.Repo,
-        SimpleBudgetWeb.CoreComponents,
-        SimpleBudgetWeb.ErrorHTML,
-        SimpleBudgetWeb.Gettext,
-        SimpleBudgetWeb.Telemetry
-      ]
-    ]
-  end
-
   # Specifies your project dependencies.
   #
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:assent, "~> 0.2.2"},
-      {:castore, "~> 1.0"},
-      {:certifi, "~> 2.4"},
+      {:assent, "~> 0.2.9"},
+      {:bandit, ">= 0.0.0"},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
-      {:dialyxir, "~> 1.3", only: [:dev], runtime: false},
-      {:ecto_psql_extras, "~> 0.6"},
+      {:dns_cluster, "~> 0.1.1"},
       {:ecto_sql, "~> 3.10"},
       {:esbuild, "~> 0.8", runtime: Mix.env() == :dev},
-      {:finch, "~> 0.16"},
+      {:finch, "~> 0.13"},
       {:floki, ">= 0.30.0", only: :test},
-      {:gettext, "~> 0.22"},
-      {:heroicons, "~> 0.5"},
+      {:gettext, "~> 0.20"},
       {:jason, "~> 1.2"},
-      {:libcluster, "~> 3.3"},
-      {:mint, "~> 1.0"},
+      {:phoenix, "~> 1.7.10"},
       {:phoenix_ecto, "~> 4.4"},
       {:phoenix_html, "~> 3.3"},
       {:phoenix_live_dashboard, "~> 0.8.2"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
-      {:phoenix_live_view, "~> 0.20.0"},
-      {:phoenix, "~> 1.7.6"},
-      {:plug_cowboy, "~> 2.5"},
+      {:phoenix_live_view, "~> 0.20.1"},
       {:postgrex, ">= 0.0.0"},
-      {:rollbax, ">= 0.0.0"},
-      {:sobelow, "~> 0.12", only: [:dev, :test], runtime: false},
       {:swoosh, "~> 1.3"},
-      {:tailwind, "~> 0.2.1", runtime: Mix.env() == :dev},
+      {:tailwind, "~> 0.2.0", runtime: Mix.env() == :dev},
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 1.0"}
     ]
@@ -88,13 +64,13 @@ defmodule SimpleBudget.MixProject do
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
     [
-      "assets.build": ["tailwind default", "esbuild default"],
-      "assets.deploy": ["tailwind default --minify", "esbuild default --minify", "phx.digest"],
-      "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
-      "ecto.reset": ["ecto.drop", "ecto.setup"],
-      "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       setup: ["deps.get", "ecto.setup", "assets.setup", "assets.build"],
-      test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"]
+      "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
+      "ecto.reset": ["ecto.drop", "ecto.setup"],
+      test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
+      "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
+      "assets.build": ["tailwind default", "esbuild default"],
+      "assets.deploy": ["tailwind default --minify", "esbuild default --minify", "phx.digest"]
     ]
   end
 end

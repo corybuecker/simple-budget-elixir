@@ -4,28 +4,18 @@ defmodule SimpleBudget.Goals do
   import Ecto.{Query}
   require Logger
 
-  @type combined_records :: Account.t() | Saving.t() | Goal.t()
-
-  @spec spendable(%{required(String.t()) => String.t()}) :: Decimal.t()
-  def spendable(%{"identity" => identity}) do
-    spendable_records(identity) |> spendable_total()
-  end
-
-  @spec spendable_records(String.t()) :: list(combined_records())
-  def spendable_records(identity) do
-    Accounts.all(%{"identity" => identity}) ++
-      Goals.all(%{"identity" => identity}) ++ Savings.all(%{"identity" => identity})
-  end
-
   def total_daily_amortized(records) do
     Enum.reduce(
       records,
       Decimal.new("0"),
-      fn goal, total -> Decimal.add(total, Goal.daily_amortized_amount(goal)) end
+      fn goal, total -> Decimal.add(total, daily_amortized_amount(goal)) end
     )
   end
 
-  @spec spendable_total(list(Goal.t())) :: Decimal.t()
+  def daily_amortized_amount(%SimpleBudget.Goal{} = goal) do
+    Decimal.div(goal.amount, Decimal.new(days_to_amortize_across(goal)))
+  end
+
   def spendable_total(records) do
     Enum.reduce(
       records,
@@ -38,17 +28,17 @@ defmodule SimpleBudget.Goals do
           Decimal.sub(acc, account.balance)
 
         %Goal{} = goal, acc ->
-          Decimal.sub(acc, Goal.amortized_amount(goal))
+          Decimal.sub(acc, amortized_amount(goal))
 
         %Saving{} = saving, acc ->
-          Decimal.sub(acc, saving.amount)
+          Decimal.sub(acc, saving.total)
       end
     )
   end
 
   @spec spendable_today(%{required(String.t()) => String.t()}) :: Decimal.t()
-  def spendable_today(%{"identity" => identity}) do
-    total = spendable(%{"identity" => identity})
+  def spendable_today(records) do
+    total = spendable_total(records)
 
     days_left =
       case Date.diff(Date.end_of_month(today()), today()) do
@@ -59,57 +49,70 @@ defmodule SimpleBudget.Goals do
     Decimal.div(total, days_left)
   end
 
-  @spec all(%{required(String.t()) => String.t()}) :: list(Goal.t())
-  def all(%{"identity" => identity}) when is_bitstring(identity) do
-    Repo.all(
-      from g in Goal,
-        join: u in User,
-        on: u.id == g.user_id,
-        where: u.identity == ^identity,
-        select: g,
-        order_by: g.name
+  @spec amortized_amount(Goal.t()) :: Decimal.t()
+  def amortized_amount(%SimpleBudget.Goal{recurrance: :never} = goal) do
+    seconds_to_amortize_across = seconds_to_amortize_across(goal)
+    days_amortized = DateTime.diff(today(), DateTime.from_naive!(goal.inserted_at, "Etc/UTC"))
+
+    amortized_amount =
+      Decimal.mult(
+        Decimal.div(goal.amount, Decimal.new(seconds_to_amortize_across)),
+        Decimal.new(days_amortized)
+      )
+
+    Decimal.min(
+      Decimal.max(
+        amortized_amount,
+        0
+      ),
+      goal.amount
     )
   end
 
-  @spec all(SimpleBudget.User.t()) :: list(Goal.t())
-  def all(%SimpleBudget.User{identity: identity}) when is_bitstring(identity) do
-    all(%{"identity" => identity})
-  end
+  def amortized_amount(%SimpleBudget.Goal{} = goal) do
+    start =
+      goal.target_date
+      |> DateTime.new!(~T[00:00:00])
+      |> DateTime.add(-seconds_to_amortize_across(goal))
 
-  def delete(%{identity: identity}, %{"id" => id}) when is_bitstring(identity) do
-    get(%{"identity" => identity}, %{"id" => id}) |> Repo.delete!()
-  end
+    start_diff = DateTime.diff(today(), start)
 
-  def get(%{"identity" => identity}, %{"id" => id})
-      when is_bitstring(identity) and is_bitstring(id) do
-    Repo.one(
-      from a in Goal,
-        join: u in User,
-        on: u.id == a.user_id,
-        where: u.identity == ^identity and a.id == ^id,
-        select: a
+    Decimal.min(
+      Decimal.max(
+        0,
+        Decimal.mult(
+          Decimal.div(goal.amount, Decimal.new(seconds_to_amortize_across(goal))),
+          Decimal.new(start_diff)
+        )
+      ),
+      goal.amount
     )
   end
 
-  def get(%{"identity" => identity}, %{}) when is_bitstring(identity) do
-    Users.get_by_identity(identity) |> build_assoc(:goals, %{recurrance: :monthly})
+  @spec next_target_date(Goal.t()) :: Date.t()
+  def next_target_date(%SimpleBudget.Goal{recurrance: :never} = goal) do
+    goal.target_date
   end
 
-  def save(%Ecto.Changeset{data: %{id: nil}} = changeset) do
-    Repo.insert(changeset)
+  def next_target_date(%SimpleBudget.Goal{} = goal) do
+    Date.add(goal.target_date, days_to_amortize_across(goal))
   end
 
-  def save(%Ecto.Changeset{} = changeset) do
-    Repo.update(changeset)
+  defp seconds_to_amortize_across(%Goal{} = goal) do
+    days_to_amortize_across(goal) * 86_400
   end
 
-  def increment_target_date(%Goal{recurrance: :never} = goal) do
-    goal |> Repo.delete!()
-  end
-
-  def increment_target_date(%Goal{} = goal) do
-    with next_target_date <- Goal.next_target_date(goal) do
-      Goal.changeset(goal, %{target_date: next_target_date}) |> save()
+  defp days_to_amortize_across(%Goal{
+         recurrance: recurrance,
+         initial_date: initial_date,
+         target_date: target_date
+       }) do
+    case recurrance do
+      :daily -> 1
+      :weekly -> 7
+      :monthly -> 30
+      :yearly -> 365
+      :never -> Date.diff(target_date, initial_date)
     end
   end
 

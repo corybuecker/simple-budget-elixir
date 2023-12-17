@@ -17,7 +17,7 @@ config :simple_budget, SimpleBudget.Repo,
 # you can enable the server option below.
 config :simple_budget, SimpleBudgetWeb.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: 4002],
-  secret_key_base: "43+dg5LGeuEJHH1/850aJc9BgqZc+uE8UYFFEtblwlRfuGAF9ceS+PKSH9wLDWSV",
+  secret_key_base: "TkcXkfyuhUGwc/cs4ntxZ65uwWRP/sCfebbd8kttoxBBl0Tt2P40vdwa3YVIHHXv",
   server: false
 
 # In test we don't send emails.
@@ -31,9 +31,3 @@ config :logger, level: :warning
 
 # Initialize plugs at runtime for faster test compilation
 config :phoenix, :plug_init_mode, :runtime
-
-config :simple_budget, SimpleBudget.Goals, datetime_adapter: SimpleBudget.Utilities.FakeDateTime
-
-config :simple_budget, :cluster, false
-
-config :rollbax, enabled: false

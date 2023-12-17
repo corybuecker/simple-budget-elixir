@@ -8,17 +8,19 @@
 import Config
 
 config :simple_budget,
-  ecto_repos: [SimpleBudget.Repo]
+  ecto_repos: [SimpleBudget.Repo],
+  generators: [timestamp_type: :utc_datetime]
 
 # Configures the endpoint
 config :simple_budget, SimpleBudgetWeb.Endpoint,
   url: [host: "localhost"],
+  adapter: Bandit.PhoenixAdapter,
   render_errors: [
     formats: [html: SimpleBudgetWeb.ErrorHTML, json: SimpleBudgetWeb.ErrorJSON],
     layout: false
   ],
   pubsub_server: SimpleBudget.PubSub,
-  live_view: [signing_salt: "OjTJ0PMC"]
+  live_view: [signing_salt: "OKGieH45"]
 
 # Configures the mailer
 #
@@ -31,17 +33,17 @@ config :simple_budget, SimpleBudget.Mailer, adapter: Swoosh.Adapters.Local
 
 # Configure esbuild (the version is required)
 config :esbuild,
-  version: "0.18.7",
+  version: "0.17.11",
   default: [
     args:
-      ~w(js/app.js --bundle --target=es2017 --format=esm --outdir=../priv/static/assets --external:/fonts/* --external:/images/* --external:phoenix --external:phoenix_html --external:phoenix_live_view --external:topbar --external:vanillajs-datepicker),
+      ~w(js/app.js --bundle --target=es2017 --outdir=../priv/static/assets --external:/fonts/* --external:/images/*),
     cd: Path.expand("../assets", __DIR__),
     env: %{"NODE_PATH" => Path.expand("../deps", __DIR__)}
   ]
 
 # Configure tailwind (the version is required)
 config :tailwind,
-  version: "3.2.7",
+  version: "3.3.2",
   default: [
     args: ~w(
       --config=tailwind.config.js
@@ -60,12 +62,6 @@ config :logger, :console,
 config :phoenix, :json_library, Jason
 
 config :simple_budget, SimpleBudget.Goals, datetime_adapter: SimpleBudget.Utilities.DateTime
-
-config :simple_budget, :cluster, true
-
-config :rollbax,
-  access_token: System.get_env("ROLLBAR"),
-  enable_crash_reports: true
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

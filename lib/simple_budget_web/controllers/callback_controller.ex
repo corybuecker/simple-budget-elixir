@@ -5,7 +5,7 @@ defmodule SimpleBudgetWeb.CallbackController do
 
   def new(conn, params) do
     with {:ok, %{user: %{"email" => email, "email_verified" => true}}} <- callback(conn, params),
-         %SimpleBudget.User{identity: identity} <- SimpleBudget.Users.get_by_email(email) do
+         %SimpleBudget.User{identity: identity} <- SimpleBudget.User.get_by_email(email) do
       conn
       |> delete_session(:google_session_params)
       |> put_session(:identity, identity)

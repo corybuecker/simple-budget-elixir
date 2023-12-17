@@ -8,7 +8,6 @@ defmodule SimpleBudgetWeb do
       use SimpleBudgetWeb, :controller
       use SimpleBudgetWeb, :html
 
-
   The definitions below will be executed for every controller,
   component, etc, so keep them short and clean, focused
   on imports, uses and aliases.
@@ -17,17 +16,17 @@ defmodule SimpleBudgetWeb do
   below. Instead, define additional modules and import
   those modules here.
   """
-  def static_paths, do: ~w(assets fonts images static)
+
+  def static_paths, do: ~w(assets fonts images favicon.ico robots.txt)
 
   def router do
     quote do
       use Phoenix.Router, helpers: false
 
       # Import common connection and controller functions to use in pipelines
+      import Plug.Conn
       import Phoenix.Controller
       import Phoenix.LiveView.Router
-      import Plug.Conn
-      use Plug.ErrorHandler
     end
   end
 
@@ -86,7 +85,6 @@ defmodule SimpleBudgetWeb do
       import Phoenix.HTML
       # Core UI components and translation
       import SimpleBudgetWeb.CoreComponents
-      import SimpleBudgetWeb.CustomComponents
       import SimpleBudgetWeb.Gettext
 
       # Shortcut for generating JS commands

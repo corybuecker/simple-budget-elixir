@@ -7,43 +7,18 @@ defmodule SimpleBudget.Application do
 
   @impl true
   def start(_type, _args) do
-    cluster_configuration =
-      {Cluster.Supervisor,
-       [
-         [
-           erlang_nodes_in_k8s: [
-             strategy: Elixir.Cluster.Strategy.Kubernetes.DNS,
-             config: [
-               service: "simple-budget-headless",
-               application_name: "simple-budget"
-             ]
-           ]
-         ],
-         [name: SimpleBudget.ClusterSupervisor]
-       ]}
-
-    base_children = [
-      # Start the Telemetry supervisor
+    children = [
       SimpleBudgetWeb.Telemetry,
-      # Start the Ecto repository
       SimpleBudget.Repo,
-      # Start the PubSub system
+      {DNSCluster, query: Application.get_env(:simple_budget, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: SimpleBudget.PubSub},
-      # Start Finch
+      # Start the Finch HTTP client for sending emails
       {Finch, name: SimpleBudget.Finch},
-      # Start the Endpoint (http/https)
-      SimpleBudgetWeb.Endpoint,
       # Start a worker by calling: SimpleBudget.Worker.start_link(arg)
-      # {SimpleBudget.Worker, arg}
-      SimpleBudget.GoalConversionServer
+      # {SimpleBudget.Worker, arg},
+      # Start to serve requests, typically the last entry
+      SimpleBudgetWeb.Endpoint
     ]
-
-    children =
-      if Application.get_env(:simple_budget, :cluster) do
-        base_children ++ [cluster_configuration]
-      else
-        base_children
-      end
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options

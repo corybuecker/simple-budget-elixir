@@ -1,23 +1,27 @@
 defmodule SimpleBudget.Saving do
   use Ecto.Schema
   import Ecto.Changeset
-
-  @type t :: %SimpleBudget.Saving{
-          name: String.t()
-        }
+  import Ecto.Query
+  alias SimpleBudget.{Repo}
 
   schema "savings" do
     field :name, :string
-    field :amount, :decimal
+    field :total, :decimal
     belongs_to :user, SimpleBudget.User
-
-    timestamps()
+    timestamps(type: :utc_datetime)
   end
 
-  def changeset(saving, params \\ %{}) do
+  @doc false
+  def changeset(saving, attrs \\ %{}) do
     saving
-    |> cast(params, [:name, :amount])
-    |> validate_required([:name, :amount])
-    |> validate_number(:amount, greater_than: 0, message: "must be greater than zero")
+    |> cast(attrs, [:name, :total])
+    |> validate_required([:name, :total, :user_id])
+    |> validate_number(:total, greater_than_or_equal_to: 0)
+    |> assoc_constraint(:user)
+  end
+
+  def list_savings do
+    from(s in SimpleBudget.Saving, order_by: [asc: s.name])
+    |> Repo.all()
   end
 end

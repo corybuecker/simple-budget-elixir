@@ -1,7 +1,7 @@
 defmodule SimpleBudgetWeb.LoginController do
   use SimpleBudgetWeb, :controller
   require Logger
-  alias Assent.Strategy.{Google}
+  alias Assent.Strategy.Google
 
   def new(conn, _params) do
     config =
