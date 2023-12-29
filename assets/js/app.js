@@ -40,3 +40,5 @@ liveSocket.connect()
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket
 
+
+import { BridgeComponent } from "@hotwired/strada"
