@@ -34,7 +34,7 @@ config :esbuild,
   version: "0.18.7",
   default: [
     args:
-      ~w(js/app.js --bundle --target=es2017 --format=esm --outdir=../priv/static/assets --external:/fonts/* --external:/images/* --external:phoenix --external:phoenix_html --external:phoenix_live_view --external:topbar --external:vanillajs-datepicker --external:@hotwired/strada --external:@hotwired/stimulus),
+      ~w(js/app.js --bundle --target=es2017 --format=esm --outdir=../priv/static/assets --external:/fonts/* --external:/images/* --external:phoenix --external:phoenix_html --external:phoenix_live_view --external:topbar --external:vanillajs-datepicker --external:@hotwired/strada --external:@hotwired/stimulus --external:@hotwired/turbo),
     cd: Path.expand("../assets", __DIR__),
     env: %{"NODE_PATH" => Path.expand("../deps", __DIR__)}
   ]
