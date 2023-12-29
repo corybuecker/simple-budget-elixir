@@ -1,4 +1,4 @@
-FROM elixir:1.15.4-alpine as deps
+FROM elixir:1.16.0-alpine as deps
 
 RUN apk add --no-cache ca-certificates
 
@@ -16,7 +16,7 @@ COPY config /src/config
 RUN mix esbuild.install
 RUN mix tailwind.install
 
-FROM elixir:1.15.4-alpine as builder
+FROM elixir:1.16.0-alpine as builder
 
 ENV MIX_ENV=prod
 ENV PHX_SERVER=true
