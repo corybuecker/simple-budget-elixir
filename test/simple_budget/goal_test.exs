@@ -33,4 +33,34 @@ defmodule SimpleBudget.GoalTest do
     assert(goal.user_id == context.user.id)
     assert(goal.amount == Decimal.new(200))
   end
+
+  test "validates that the initial date is required when the recurrance is never", context do
+    goal =
+      %SimpleBudget.Goal{
+        user_id: context.user.id,
+        name: "test",
+        amount: 100,
+        recurrance: :never,
+        initial_date: nil,
+        target_date: Date.utc_today()
+      }
+      |> SimpleBudget.Goal.changeset(%{initial_date: nil})
+
+    refute(goal.valid?)
+  end
+
+  test "validates that the initial date is optional when the recurrance is not never", context do
+    goal =
+      %SimpleBudget.Goal{
+        user_id: context.user.id,
+        name: "test",
+        amount: 100,
+        recurrance: :monthly,
+        initial_date: nil,
+        target_date: Date.utc_today()
+      }
+      |> SimpleBudget.Goal.changeset(%{initial_date: nil})
+
+    assert(goal.valid?)
+  end
 end

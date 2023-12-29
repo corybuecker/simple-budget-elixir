@@ -8,10 +8,13 @@ defmodule SimpleBudgetWeb.PageHTML do
 
   def home(assigns) do
     ~H"""
-    <p>Spendable today -> <%= assigns.spendable_today %></p>
-    <p>Total -> <%= assigns.spendable_total %></p>
+    <p>Spendable today -> <%= assigns.spendable_today |> Number.Currency.number_to_currency() %></p>
+    <p>Total -> <%= assigns.spendable_total |> Number.Currency.number_to_currency() %></p>
     <p>Days remaining -> <%= assigns.days_left %></p>
-    <p>Total daily amortized -> <%= assigns.total_daily_amortized %></p>
+    <p>
+      Total daily amortized -> <%= assigns.total_daily_amortized
+      |> Number.Currency.number_to_currency() %>
+    </p>
     """
   end
 end

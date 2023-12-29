@@ -1,7 +1,5 @@
 defmodule SimpleBudget.Goals do
-  alias SimpleBudget.{User, Users, Goal, Repo, Account, Saving, Accounts, Goals, Savings}
-  import Ecto, only: [build_assoc: 3]
-  import Ecto.{Query}
+  alias SimpleBudget.{Goal, Account, Saving}
   require Logger
 
   def total_daily_amortized(records) do

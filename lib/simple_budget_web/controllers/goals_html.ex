@@ -12,11 +12,11 @@ defmodule SimpleBudgetWeb.GoalsHTML do
         <:item title="Name">
           <.link href={~p"/goals/#{goal.id}"}><%= goal.name %></.link>
         </:item>
-        <:item title="Amount"><%= goal.amount %></:item>
+        <:item title="Amount"><%= goal.amount |> Number.Currency.number_to_currency() %></:item>
         <:item title="Recurrance"><%= goal.recurrance %></:item>
         <:item title="Initial Date"><%= goal.initial_date %></:item>
         <:item title="Target Date"><%= goal.target_date %></:item>
-        <:item title="Amortized"><%= goal.amortized %></:item>
+        <:item title="Amortized"><%= goal.amortized |> Number.Currency.number_to_currency() %></:item>
         <:item title="Delete">
           <.link data-confirm="Are you sure?" href={~p"/goals/#{goal.id}"} method="delete">
             Delete
@@ -61,16 +61,17 @@ defmodule SimpleBudgetWeb.GoalsHTML do
   defp goal_form(assigns) do
     ~H"""
     <.simple_form for={assigns.for} action={assigns.action} method={assigns.method}>
-      <.input field={@for[:name]} label="Name" />
-      <.input field={@for[:amount]} label="Amount" />
+      <.input required field={@for[:name]} label="Name" />
+      <.input required field={@for[:amount]} label="Amount" />
       <.input
+        required
         type="select"
         field={@for[:recurrance]}
         label="Recurrance"
         options={["daily", "weekly", "monthly", "yearly"]}
       />
       <.input type="date" field={@for[:initial_date]} label="Initial Date" />
-      <.input type="date" field={@for[:target_date]} label="Target Date" />
+      <.input required type="date" field={@for[:target_date]} label="Target Date" />
       <:actions>
         <.button type="submit">Save</.button>
       </:actions>
