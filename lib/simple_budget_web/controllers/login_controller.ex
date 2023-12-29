@@ -13,8 +13,8 @@ defmodule SimpleBudgetWeb.LoginController do
 
     conn
     |> put_session(:google_session_params, session_params)
-    |> redirect(external: url)
-    |> halt()
+
+    redirect(conn, external: url)
   end
 
   defp config do
