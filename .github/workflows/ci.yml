@@ -38,8 +38,7 @@ jobs:
       - uses: erlef/setup-beam@v1
         with:
           otp-version: 25
-          elixir-version: 1.15.5
+          elixir-version: 1.16.0
       - run: mix deps.get
-      - run: mix ecto.setup
       - run: mix test
       - run: mix format --check-formatted

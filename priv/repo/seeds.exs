@@ -9,3 +9,10 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+
+%SimpleBudget.User{
+  email: System.get_env("ADMIN_EMAIL"),
+  identity: Ecto.UUID.generate(),
+  preferences: %{}
+}
+|> SimpleBudget.Repo.insert!()
